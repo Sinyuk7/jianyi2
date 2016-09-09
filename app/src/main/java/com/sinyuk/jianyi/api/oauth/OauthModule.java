@@ -1,11 +1,9 @@
 package com.sinyuk.jianyi.api.oauth;
 
-import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.google.gson.Gson;
-import com.sinyuk.yuk.BuildConfig;
-import com.sinyuk.yuk.api.AccountManager;
-import com.sinyuk.yuk.api.DribbleApi;
-import com.sinyuk.yuk.api.DribbleService;
+import com.sinyuk.jianyi.BuildConfig;
+import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.api.JianyiApi;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -42,7 +40,7 @@ public class OauthModule {
     @Named("OAuth")
     Retrofit provideRetrofitForAuthorization(Gson gson, @Named("NoCached") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl(DribbleApi.OAUTH_END_POINT)
+                .baseUrl(JianyiApi.OAUTH_END_POINT)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
@@ -57,7 +55,7 @@ public class OauthModule {
 
     @Provides
     @Singleton
-    public AccountManager provideAccountManager(DribbleService dribbleService, OauthService oauthservice, RxSharedPreferences rxSharedPreferences) {
-        return new AccountManager(dribbleService, oauthservice, rxSharedPreferences);
+    public AccountManger provideAccountManager() {
+        return new AccountManger();
     }
 }

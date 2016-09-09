@@ -6,9 +6,8 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.sinyuk.yuk.App;
-import com.sinyuk.yuk.ShotsListDemo;
-import com.sinyuk.yuk.ui.BrowserActivity;
+import com.sinyuk.jianyi.App;
+import com.sinyuk.jianyi.ui.home.HomeActivity;
 
 import timber.log.Timber;
 
@@ -34,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startMainActivity() {
         Timber.d("Splash Finish");
-        Intent starter = new Intent(SplashActivity.this, ShotsListDemo.class);
+        Intent starter = new Intent(SplashActivity.this, HomeActivity.class);
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //        starter.setData(Uri.parse("http://weibo.com/163music?refer_flag=0000015010_&from=feed&loc=nickname"));
         startActivity(starter);

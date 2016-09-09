@@ -1,13 +1,13 @@
 ext {
-    dribbleClient = [
+    jianyiClient = [
             id         : "c9a49d76fdded3a1d51a55396268081d12af093401bcc2730453d7a4c0f511b4",
             secret     : "f31fa45f06cfdd3e447f5d7398e3e1693ae81ee3b2d48d4b3ce88f9134351b95",
             accessToken: "a860827f0ea38c1db7d5512d93366499d55424dae8be1f1e0b4065ec6fbeb948"
     ]
     android = [
             compileSdkVersion: 24,
-            buildToolsVersion: "24.0.1",
-            applicationId    : "com.sinyuk.yuk",
+            buildToolsVersion: "24.0.2",
+            applicationId    : "com.sinyuk.jianyi",
             minSdkVersion    : 16,
             targetSdkVersion : 24,
             versionCode      : 1,

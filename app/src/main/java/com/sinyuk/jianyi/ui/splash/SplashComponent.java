@@ -1,6 +1,7 @@
 package com.sinyuk.jianyi.ui.splash;
 
-import com.sinyuk.yuk.utils.dagger2.PerActivity;
+
+import com.sinyuk.jianyi.utils.dagger.PerActivity;
 
 import dagger.Subcomponent;
 

@@ -1,8 +1,9 @@
 package com.sinyuk.jianyi.api.oauth;
 
+import android.util.Base64;
+
 import com.f2prateek.rx.preferences.Preference;
-import com.sinyuk.yuk.BuildConfig;
-import com.sinyuk.yuk.api.DribbleApi;
+import com.sinyuk.jianyi.api.JianyiApi;
 
 import java.io.IOException;
 
@@ -27,10 +28,12 @@ public final class OauthInterceptor implements Interceptor {
         Request.Builder builder = chain.request().newBuilder();
         if (mAccessToken.isSet()) {
             Timber.d("Add access token : %s", mAccessToken.get());
-            builder.header("Authorization", DribbleApi.ACCESS_TYPE + " " + mAccessToken.get());
+//            builder.header("Authorization", DribbleApi.ACCESS_TYPE + " " + mAccessToken.get());
         } else {
             Timber.d("Default access token ");
-            builder.header("Authorization", DribbleApi.ACCESS_TYPE + " " + BuildConfig.DRIBBBLE_CLIENT_ACCESS_TOKEN);
+            final String credentials = "1202072324:1202072322";
+            final String encodedCredentials = Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+            builder.header("Authorization", JianyiApi.ACCESS_TYPE_BASIC + " " + encodedCredentials);
         }
 
         return chain.proceed(builder.build());

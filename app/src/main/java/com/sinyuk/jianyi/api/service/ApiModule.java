@@ -6,11 +6,12 @@ import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sinyuk.yuk.BuildConfig;
-import com.sinyuk.yuk.api.oauth.OauthInterceptor;
-import com.sinyuk.yuk.api.oauth.Token;
-import com.sinyuk.yuk.utils.NetWorkUtils;
-import com.sinyuk.yuk.utils.PrefsKeySet;
+import com.sinyuk.jianyi.BuildConfig;
+import com.sinyuk.jianyi.api.JianyiApi;
+import com.sinyuk.jianyi.api.oauth.OauthInterceptor;
+import com.sinyuk.jianyi.api.oauth.Token;
+import com.sinyuk.jianyi.utils.NetWorkUtils;
+import com.sinyuk.jianyi.utils.PrefsKeySet;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +38,7 @@ import timber.log.Timber;
 @Module
 public class ApiModule {
 
-    private static final long MAX_OKHTTP_CACHE = 1024 * 1024 * 50;
+    private static final long MAX_OKHTTP_CACHE = 1024 * 1024 * 100;
 
     @Provides
     @Singleton
@@ -99,7 +100,7 @@ public class ApiModule {
 
             if (!NetWorkUtils.isNetworkConnection(application)) {
                 Timber.d("Offline Rewriting Request");
-                int maxStale = 60 * 60 * 24 * 3;
+                int maxStale = 60 * 60 * 24 * 5;
                 request = request.newBuilder()
                         .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)
                         .build();
@@ -126,7 +127,7 @@ public class ApiModule {
     @Named("Api")
     Retrofit provideRetrofit(Gson gson, @Named("Cached") OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
-                .baseUrl(DribbleApi.END_POINT)
+                .baseUrl(JianyiApi.END_POINT)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
@@ -136,8 +137,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public DribbleService provideDribbleService(@Named("Api") Retrofit retrofit) {
-        return retrofit.create(DribbleService.class);
+    public JianyiService provideDribbleService(@Named("Api") Retrofit retrofit) {
+        return retrofit.create(JianyiService.class);
     }
 
 }
