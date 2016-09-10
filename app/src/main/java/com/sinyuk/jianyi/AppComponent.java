@@ -22,6 +22,4 @@ public interface AppComponent {
     SplashComponent plus(SplashModule module);
 
     OauthComponent plus(OauthModule module);
-
-    void inject(MainActivity target);
 }
