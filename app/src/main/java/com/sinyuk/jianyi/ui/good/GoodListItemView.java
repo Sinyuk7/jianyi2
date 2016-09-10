@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Sinyuk on 16/9/10.
  */
-public class GoodListItemView extends FrameLayout {
+public class GoodListItemView extends LinearLayout {
     @BindView(R.id.shot_iv)
     RatioImageView mShotIv;
     @BindView(R.id.price_label_view)

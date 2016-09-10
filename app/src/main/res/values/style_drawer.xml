@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_all">全部类别</string>
+    <string name="category_clothes">鞋服配饰</string>
+    <string name="category_stationery">文具娱乐</string>
+    <string name="category_daily">生活用品</string>
+    <string name="category_makeup">个人护理</string>
+    <string name="category_sports">体育用品</string>
+    <string name="category_vehicle">代步工具</string>
+    <string name="category_digital">数码外设</string>
+    <string name="category_book">图书音像</string>
+    <string name="category_ticket">卡劵转让</string>
+    <string name="category_bag">旅行箱包</string>
+    <string name="category_food">食品专区</string>
+    <string name="category_free">捐赠专区</string>
+    <string name="category_recommended">编辑推荐</string>
+    <string name="category_latest">最新结果</string>
+
+    <style name="drawer_radio_button">
+        <item name="android:layout_marginLeft">@dimen/content_space_8</item>
+        <item name="android:layout_marginRight">@dimen/content_space_8</item>
+        <!--<item name="android:paddingEnd">@dimen/content_space_16</item>-->
+        <!--<item name="android:paddingRight">@dimen/content_space_16</item>-->
+        <item name="android:paddingLeft">@dimen/content_space_8</item>
+        <item name="android:paddingStart">@dimen/content_space_8</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/material_text_menu</item>
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
+
+    <style name="drawer_radio_button.big">
+        <item name="android:layout_height">40dp</item>
+    </style>
+</resources>
