@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="good_list_card">
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="cardCornerRadius">@dimen/cardView_default_corner_radius</item>
+        <item name="cardElevation">@dimen/cardView_default_elevation</item>
+        <item name="contentPaddingTop">@dimen/content_space_8</item>
+        <item name="android:clickable">true</item>
+        <!-- <item name="contentPaddingLeft">@dimen/content_space_8</item>
+         <item name="contentPaddingRight">@dimen/content_space_8</item>-->
+        <item name="android:layout_marginLeft">@dimen/content_space_8</item>
+        <item name="android:layout_marginRight">@dimen/content_space_8</item>
+    </style>
+</resources>

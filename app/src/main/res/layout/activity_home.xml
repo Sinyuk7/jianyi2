@@ -17,16 +17,6 @@
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-        android:id="@+id/progress_bar"
-        style="@style/IrisProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:visibility="invisible"
-        app:layout_anchor="@id/app_bar_layout"
-        app:layout_anchorGravity="bottom"
-        app:spb_colors="@array/iris_color"/>
-
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -44,5 +34,15 @@
             app:navigationIcon="@mipmap/ic_launcher">
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/IrisProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:visibility="invisible"
+        app:layout_anchor="@id/app_bar_layout"
+        app:layout_anchorGravity="bottom"
+        app:spb_colors="@array/iris_color"/>
 
 </android.support.design.widget.CoordinatorLayout>

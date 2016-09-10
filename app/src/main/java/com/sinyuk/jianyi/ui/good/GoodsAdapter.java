@@ -1,0 +1,71 @@
+package com.sinyuk.jianyi.ui.good;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import com.bumptech.glide.DrawableRequestBuilder;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.data.good.Good;
+import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import timber.log.Timber;
+
+/**
+ * Created by Sinyuk on 16/9/10.
+ */
+public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemViewHolder>{
+    private final static int CROSS_FADE_DURATION = 1500;
+    private final DrawableRequestBuilder<String> avatarBuilder;
+    private final DrawableRequestBuilder<String> shotBuilder;
+    private List<Good> mDataSet = new ArrayList<>();
+
+    public GoodsAdapter(Context context, RequestManager requestManager) {
+        Timber.tag("FeedsAdapter");
+        shotBuilder = requestManager.fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).crossFade(CROSS_FADE_DURATION).centerCrop();
+        avatarBuilder = requestManager.fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).dontAnimate().centerCrop().bitmapTransform(new CropCircleTransformation(context));
+    }
+
+    @Override
+    public GoodItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new GoodItemViewHolder((GoodListItemView) LayoutInflater.from(parent.getContext()).inflate(R.layout.good_list_item, parent, false));
+    }
+
+    @Override
+    public void onBindViewHolder(GoodItemViewHolder holder, int position) {
+
+    }
+
+    public void appendAll(List<Good> items) {
+        int startPosition = mDataSet.size();
+        mDataSet.addAll(items);
+        notifyItemRangeInserted(startPosition,items.size());
+    }
+
+    public void addAll(List<Good> items) {
+        mDataSet.clear();
+        mDataSet.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemCount() {
+        return mDataSet.size();
+    }
+
+    public class GoodItemViewHolder extends RecyclerView.ViewHolder {
+        private final GoodListItemView goodItemView;
+
+        public GoodItemViewHolder(GoodListItemView goodItemView) {
+            super(goodItemView);
+            this.goodItemView = goodItemView;
+        }
+
+    }
+}

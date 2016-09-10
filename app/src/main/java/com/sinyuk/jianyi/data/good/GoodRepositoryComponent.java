@@ -1,6 +1,7 @@
 package com.sinyuk.jianyi.data.good;
 
 import com.sinyuk.jianyi.MainActivity;
+import com.sinyuk.jianyi.ui.good.GoodListFragment;
 
 import javax.inject.Singleton;
 
@@ -17,4 +18,5 @@ import dagger.Subcomponent;
 )
 public interface GoodRepositoryComponent {
     void inject(MainActivity target);
+    void inject(GoodListFragment target);
 }

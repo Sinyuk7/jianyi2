@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseActivity;
+import com.sinyuk.jianyi.ui.good.GoodListFragment;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 
 /**
@@ -22,6 +23,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
-        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), feedsFragment, R.id.list_view_container);
+        GoodListFragment fragment = new GoodListFragment();
+        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.list_view_container);
     }
 }
