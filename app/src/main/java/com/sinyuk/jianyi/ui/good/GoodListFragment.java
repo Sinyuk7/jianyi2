@@ -12,17 +12,25 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.data.good.Good;
+import com.sinyuk.jianyi.data.good.GoodRepository;
 import com.sinyuk.jianyi.ui.BaseFragment;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import rx.Observer;
 
 /**
  * Created by Sinyuk on 16/9/9.
  */
 public class GoodListFragment extends BaseFragment {
     private static final int PRELOAD_THRESHOLD = 4;
+    private static final int FIRST_PAGE = 1;
     @BindView(R.id.layout_loading)
     FrameLayout mLayoutLoading;
     @BindView(R.id.recycler_view)
@@ -33,10 +41,29 @@ public class GoodListFragment extends BaseFragment {
     RelativeLayout mLayoutError;
     @BindView(R.id.view_animator)
     BetterViewAnimator mViewAnimator;
+    @Inject
+    GoodRepository goodRepository;
     private SmoothProgressBar smoothProgressBar;
     private boolean isLoading = false;
     private int mPage = 1;
     private GoodsAdapter mAdapter;
+
+    private final Observer<List<Good>> refreshObserver = new Observer<List<Good>>() {
+        @Override
+        public void onCompleted() {
+            mPage = FIRST_PAGE + 1;
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            handleError(e);
+        }
+
+        @Override
+        public void onNext(List<Good> items) {
+            mAdapter.addAll(items);
+        }
+    };
 
     @Override
     protected void beforeInflate() {
@@ -72,6 +99,8 @@ public class GoodListFragment extends BaseFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
+
+        mRecyclerView.addItemDecoration(new GoodItemDecoration(getContext()));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -111,7 +140,31 @@ public class GoodListFragment extends BaseFragment {
     }
 
     private void refreshFeeds() {
+        goodRepository.getAll(1, 1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver);
+    }
 
+    /**
+     * 刷新的时候延迟三秒为了完整的展示动画
+     * 临时这么搞搞 有待优化
+     */
+    private void hideRefreshView() {
+
+    }
+
+    /**
+     * 加载错误时
+     *
+     * @param throwable
+     */
+    private void handleError(Throwable throwable) {
+        throwable.printStackTrace();
+//        if (mYukLoadingLayout != null && mYukLoadingLayout.isRefreshing()) {
+//            mYukLoadingLayout.postDelayed(() -> mYukLoadingLayout.finishRefreshing(), 3000);
+//            mYukLoadingLayout.postDelayed(() -> mViewAnimator.setDisplayedChildId(R.id.error_layout), 3500);
+//        } else {
+//            mViewAnimator.setDisplayedChildId(R.id.error_layout);
+//        }
+        mViewAnimator.setDisplayedChildId(R.id.layout_error);
     }
 
     @Override
