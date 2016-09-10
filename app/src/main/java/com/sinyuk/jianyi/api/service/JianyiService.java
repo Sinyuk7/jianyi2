@@ -1,9 +1,35 @@
 package com.sinyuk.jianyi.api.service;
 
 
+import com.sinyuk.jianyi.api.HttpResult;
+import com.sinyuk.jianyi.api.JianyiApi;
+import com.sinyuk.jianyi.data.good.Good;
+import com.sinyuk.jianyi.data.school.School;
+
+import java.util.List;
+
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+import rx.Observable;
+
 /**
  * Created by Sinyuk on 16.9.9.
  */
 public interface JianyiService {
 
+    @GET("goods")
+    Observable<HttpResult<List<Good>>> get(
+            @Query(JianyiApi.PARAM_TITLE) String title,
+            @Query(JianyiApi.PARAM_SORT) String sort,
+            @Query(JianyiApi.PARAM_SCHOOL) int school,
+            @Query(JianyiApi.PARAM_ORDER) String order,
+            @Query(JianyiApi.PARAM_PAGE) int page);
+
+    @GET("goods?title=all")
+    Observable<HttpResult<List<Good>>> getAll(
+            @Query(JianyiApi.PARAM_SCHOOL) int school,
+            @Query(JianyiApi.PARAM_PAGE) int page);
+
+    @GET("school")
+    Observable<HttpResult<List<School>>> getSchools();
 }

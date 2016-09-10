@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
-import com.sinyuk.jianyi.data.GoodRepositoryComponent;
-import com.sinyuk.jianyi.data.GoodRepositoryModule;
+import com.sinyuk.jianyi.data.good.GoodRepositoryComponent;
+import com.sinyuk.jianyi.data.good.GoodRepositoryModule;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.squareup.leakcanary.LeakCanary;
 

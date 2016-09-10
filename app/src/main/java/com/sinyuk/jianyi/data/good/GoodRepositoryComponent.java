@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.data;
+package com.sinyuk.jianyi.data.good;
 
 import javax.inject.Singleton;
 

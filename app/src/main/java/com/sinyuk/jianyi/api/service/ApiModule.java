@@ -10,6 +10,7 @@ import com.sinyuk.jianyi.BuildConfig;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.api.oauth.OauthInterceptor;
 import com.sinyuk.jianyi.api.oauth.Token;
+import com.sinyuk.jianyi.data.school.SchoolManager;
 import com.sinyuk.jianyi.utils.NetWorkUtils;
 import com.sinyuk.jianyi.utils.PrefsKeySet;
 
@@ -139,6 +140,12 @@ public class ApiModule {
     @Singleton
     public JianyiService provideDribbleService(@Named("Api") Retrofit retrofit) {
         return retrofit.create(JianyiService.class);
+    }
+
+    @Provides
+    @Singleton
+    public SchoolManager provideSchoolManager(JianyiService jianyiService) {
+        return new SchoolManager(jianyiService);
     }
 
 }

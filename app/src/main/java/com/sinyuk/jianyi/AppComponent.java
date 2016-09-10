@@ -2,8 +2,8 @@ package com.sinyuk.jianyi;
 import com.sinyuk.jianyi.api.oauth.OauthComponent;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.api.service.ApiModule;
-import com.sinyuk.jianyi.data.GoodRepositoryComponent;
-import com.sinyuk.jianyi.data.GoodRepositoryModule;
+import com.sinyuk.jianyi.data.good.GoodRepositoryComponent;
+import com.sinyuk.jianyi.data.good.GoodRepositoryModule;
 import com.sinyuk.jianyi.ui.splash.SplashComponent;
 import com.sinyuk.jianyi.ui.splash.SplashModule;
 
@@ -22,4 +22,6 @@ public interface AppComponent {
     SplashComponent plus(SplashModule module);
 
     OauthComponent plus(OauthModule module);
+
+    void inject(MainActivity target);
 }
