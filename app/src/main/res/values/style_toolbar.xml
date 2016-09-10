@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="toolbar_button">
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">56dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+</resources>
