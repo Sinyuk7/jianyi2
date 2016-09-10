@@ -19,6 +19,11 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.sinyuk.jianyi.utils.glide.SinyukGlideModule"
+            android:value="GlideModule"/>
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/AppTheme.Splash">

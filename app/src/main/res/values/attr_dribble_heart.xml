@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DribbleHeart">
+        <attr name="ball_radius" format="dimension"/>
+        <attr name="top_padding" format="dimension"/>
+        <attr name="bottom_padding" format="dimension"/>
+        <attr name="ground_width" format="dimension"/>
+        <attr name="ground_height" format="dimension"/>
+        <attr name="interval" format="integer"/>
+        <attr name="is_start_from_top" format="boolean"/>
+    </declare-styleable>
+</resources>

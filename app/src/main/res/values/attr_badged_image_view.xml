@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BadgedFourThreeImageView">
+        <attr name="badgeGravity" format="integer"/>
+        <attr name="badgePadding" format="dimension"/>
+    </declare-styleable>
+</resources>

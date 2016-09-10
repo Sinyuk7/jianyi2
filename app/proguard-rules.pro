@@ -15,3 +15,21 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+-keep class com.facebook.stetho.** {
+  *;
+}
+
+#You have an alternative to keep all possible GlideModule modules:
+-keep public class * implements com.bumptech.glide.module.GlideModule
+
+-keepnames com.sinyuk.yuk.utils.glide.okhttp3.SinyukGlideModule
+# or more generally:
+#-keep public class * implements com.bumptech.glide.module.GlideModule
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule

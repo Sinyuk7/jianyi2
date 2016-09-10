@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="iris_color">
+        <item>@color/official_playbook</item>
+        <item>@color/official_teams</item>
+        <item>@color/official_jobs_hiring</item>
+    </string-array>
+</resources>
