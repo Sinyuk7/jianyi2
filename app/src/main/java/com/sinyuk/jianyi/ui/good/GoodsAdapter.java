@@ -20,10 +20,11 @@ import timber.log.Timber;
 /**
  * Created by Sinyuk on 16/9/10.
  */
-public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemViewHolder>{
+public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemViewHolder> {
     private final static int CROSS_FADE_DURATION = 1500;
     private final DrawableRequestBuilder<String> avatarBuilder;
     private final DrawableRequestBuilder<String> shotBuilder;
+
     private List<Good> mDataSet = new ArrayList<>();
 
     public GoodsAdapter(Context context, RequestManager requestManager) {
@@ -39,13 +40,13 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
 
     @Override
     public void onBindViewHolder(GoodItemViewHolder holder, int position) {
-
+        holder.goodItemView.bindTo(mDataSet.get(position), shotBuilder, avatarBuilder);
     }
 
     public void appendAll(List<Good> items) {
         int startPosition = mDataSet.size();
         mDataSet.addAll(items);
-        notifyItemRangeInserted(startPosition,items.size());
+        notifyItemRangeInserted(startPosition, items.size());
     }
 
     public void addAll(List<Good> items) {
