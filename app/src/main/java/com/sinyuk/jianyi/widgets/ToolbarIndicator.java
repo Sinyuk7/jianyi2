@@ -5,9 +5,9 @@ import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextPaint;
 import android.util.AttributeSet;
@@ -66,7 +66,7 @@ public class ToolbarIndicator extends LinearLayout implements OnPageChangeListen
         setBackgroundColor(0x00000000);
 
         textPaint = new TextPaint();
-        textPaint.setColor(Color.WHITE);
+        textPaint.setColor(ContextCompat.getColor(context, R.color.colorPrimary));
         textPaint.setAntiAlias(true);
         textPaint.setTextSize(dip2px(TEXT_SIZE));
         textPaint.setTextAlign(Paint.Align.CENTER);
@@ -106,19 +106,19 @@ public class ToolbarIndicator extends LinearLayout implements OnPageChangeListen
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         int width = getWidth();
-        int center = width/2;
+        int center = width / 2;
         int x, y;
         int alpha;
         int alphaOffsetXMax = (int) (center * 1.0f);
 
         float ratio = (scrollX * 1.0f) / mViewpager.getWidth();
 
-        for(int i =0; i<title.length; i++) {
+        for (int i = 0; i < title.length; i++) {
             x = (int) (i * width - ratio * width + center);
-            y = (int) (getHeight()*0.5f + dip2px(TEXT_SIZE + 8)*0.25f);
-            int alphaOffsetX = Math.abs(x-center);
+            y = (int) (getHeight() * 0.5f + dip2px(TEXT_SIZE + 8) * 0.25f);
+            int alphaOffsetX = Math.abs(x - center);
 
-            if(alphaOffsetX > alphaOffsetXMax) {
+            if (alphaOffsetX > alphaOffsetXMax) {
                 alpha = 0;
             } else {
                 alpha = (int) ((1.0f - ((alphaOffsetX * 1.0f) / alphaOffsetXMax)) * 255);
@@ -136,14 +136,14 @@ public class ToolbarIndicator extends LinearLayout implements OnPageChangeListen
         onPageSelected(mCurrentPosition);
 
         this.title = new String[viewPager.getAdapter().getCount()];
-        for(int i=0; i<title.length; i++) {
+        for (int i = 0; i < title.length; i++) {
             title[i] = String.valueOf(viewPager.getAdapter().getPageTitle(i));
         }
     }
 
     @Override
     public void onPageScrolled(int position, float positionOffset,
-            int positionOffsetPixels) {
+                               int positionOffsetPixels) {
         scrollX = position * mViewpager.getWidth() + positionOffsetPixels;
         invalidate();
     }
@@ -166,7 +166,8 @@ public class ToolbarIndicator extends LinearLayout implements OnPageChangeListen
         mCurrentPosition = position;
     }
 
-    @Override public void onPageScrollStateChanged(int state) {
+    @Override
+    public void onPageScrollStateChanged(int state) {
     }
 
     private void createIndicators(ViewPager viewPager) {
@@ -198,16 +199,16 @@ public class ToolbarIndicator extends LinearLayout implements OnPageChangeListen
         mAnimationOut.start();
     }
 
+    public int dip2px(float dpValue) {
+        final float scale = getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
     private class ReverseInterpolator implements Interpolator {
         @Override
         public float getInterpolation(float value) {
             return Math.abs(1.0f - value);
         }
-    }
-
-    public int dip2px(float dpValue) {
-        final float scale = getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 
 

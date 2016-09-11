@@ -18,6 +18,7 @@ import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.ActivityUtils;
+import com.sinyuk.jianyi.widgets.ToolbarIndicator;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
 
@@ -43,14 +44,16 @@ public class HomeActivity extends BaseActivity {
     ImageView mNavigationIcon;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    private GuillotineAnimation guillotineAnimation;
-    private boolean isGuillotineOpened;
-
+    @BindView(R.id.indicator)
+    ToolbarIndicator mIndicator;
     @Inject
-    Lazy<GoodsListFragment> goodListFragment;
+    Lazy<GoodsListFragment> goodListFragmentLazy;
     @Inject
     Lazy<DrawerMenu> drawerMenuLazy;
-    private NeedListFragment needListFragment;
+    @Inject
+    Lazy<NeedListFragment> needListFragmentLazy;
+    private GuillotineAnimation guillotineAnimation;
+    private boolean isGuillotineOpened;
 
     @Override
     protected int getContentViewID() {
@@ -64,7 +67,6 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
-        needListFragment = new NeedListFragment();
 
         setupToolbar();
 
@@ -83,9 +85,20 @@ public class HomeActivity extends BaseActivity {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return goodListFragment.get();
+                        return goodListFragmentLazy.get();
                     case 1:
-                        return needListFragment;
+                        return needListFragmentLazy.get();
+                }
+                return null;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case 0:
+                        return "闲置";
+                    case 1:
+                        return "需求";
                 }
                 return null;
             }
@@ -96,6 +109,25 @@ public class HomeActivity extends BaseActivity {
             }
         });
 
+        // attach to
+        mIndicator.setViewPager(mViewPager);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
@@ -134,6 +166,11 @@ public class HomeActivity extends BaseActivity {
         } else {
             mDrawerLayout.openDrawer(GravityCompat.END);
         }
+    }
+
+    @OnClick(R.id.locate_btn)
+    public void toggleSchoolSelector() {
+
     }
 
     @Override
