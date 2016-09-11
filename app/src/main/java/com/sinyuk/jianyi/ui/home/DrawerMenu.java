@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.ui.drawer;
+package com.sinyuk.jianyi.ui.home;
 
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseFragment;
@@ -6,14 +6,14 @@ import com.sinyuk.jianyi.ui.BaseFragment;
 /**
  * Created by Sinyuk on 16/9/10.
  */
-public class DrawerFragment extends BaseFragment {
+public class DrawerMenu extends BaseFragment {
 
-    private static DrawerFragment instance = null;
+    private static DrawerMenu instance = null;
 
-    public static DrawerFragment getInstance() {
-        synchronized (DrawerFragment.class) {
+    public static DrawerMenu getInstance() {
+        synchronized (DrawerMenu.class) {
             if (instance == null) {
-                instance = new DrawerFragment();
+                instance = new DrawerMenu();
             }
         }
         return instance;

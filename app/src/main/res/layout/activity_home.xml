@@ -10,6 +10,7 @@
 
     <!--content-->
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/window_background"
@@ -35,8 +36,12 @@
                 android:layout_height="?actionBarSize"
                 android:background="@android:color/white"
                 app:contentInsetStart="0dp"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:navigationIcon="@mipmap/ic_launcher">
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <ImageView
+                    android:id="@+id/navigation_icon"
+                    style="@style/toolbar_button"
+                    android:src="@drawable/ic_menu_primary_24dp"/>
 
                 <ImageView
                     android:id="@+id/menu_btn"
