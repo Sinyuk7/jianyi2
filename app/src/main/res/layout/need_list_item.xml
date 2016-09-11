@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:foreground="?selectableItemBackground"
+    android:background="@drawable/need_item_background"
+    android:minHeight="?android:listPreferredItemHeight"
+    android:paddingBottom="@dimen/content_space_8"
+    android:paddingLeft="@dimen/content_space_8">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginRight="@dimen/content_space_8"
+        tools:src="@mipmap/ic_launcher"/>
+
+
+    <TextView
+        android:id="@+id/username_tv"
+        style="@style/SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/content_space_4"
+        android:layout_toRightOf="@+id/avatar"
+        android:textColor="@color/text_primary_dark"
+        android:textSize="@dimen/material_text_body1"
+        android:textStyle="bold"
+        tools:text="Sinyuk"/>
+
+    <TextView
+        android:id="@+id/pub_date_tv"
+        style="@style/SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/username_tv"
+        android:layout_marginLeft="@dimen/content_space_8"
+        android:layout_toLeftOf="@+id/price_tv"
+        android:layout_toRightOf="@+id/username_tv"
+        android:textColor="@color/colorPrimaryLt"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="1天前"/>
+
+    <TextView
+        android:id="@+id/price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/username_tv"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/material_text_body1"
+        android:textStyle="bold"
+        tools:text="100"/>
+
+    <!--学校-->
+    <TextView
+        android:id="@+id/school_tv"
+        style="@style/SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/username_tv"
+        android:layout_marginTop="@dimen/content_space_4"
+        android:layout_toRightOf="@+id/avatar"
+        android:textColor="@color/text_secondary_dark"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="浙江传媒学院-下沙校区"/>
+
+    <!--需求正文-->
+    <TextView
+        android:id="@+id/details_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/school_tv"
+        android:layout_marginTop="@dimen/content_space_8"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="@color/text_primary_dark"
+        android:textSize="@dimen/material_text_body1"
+        tools:text="string/dummy_post_main_body"/>
+
+    <LinearLayout
+        android:id="@+id/expand_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/details_tv"
+        android:animateLayoutChanges="true"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/tel_iv"
+            style="@style/need_list_item_button"
+            android:src="@drawable/ic_category_primary_24dp"/>
+
+        <ImageView
+            android:id="@+id/chat_iv"
+            style="@style/need_list_item_button"
+            android:src="@drawable/ic_account_grey600_24dp"
+        />
+    </LinearLayout>
+
+
+</RelativeLayout>

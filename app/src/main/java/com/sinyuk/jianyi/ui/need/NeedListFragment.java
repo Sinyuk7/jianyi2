@@ -5,9 +5,11 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.need.Need;
@@ -30,6 +32,7 @@ import rx.Observer;
 public class NeedListFragment extends LazyFragment {
     private static final int PRELOAD_THRESHOLD = 3;
     private static final int FIRST_PAGE = 1;
+    private static final String TAG = "NeedListFragment";
     @BindView(R.id.layout_loading)
     FrameLayout mLayoutLoading;
     @BindView(R.id.recycler_view)
@@ -47,7 +50,6 @@ public class NeedListFragment extends LazyFragment {
     private boolean isLoading = false;
     private int mPage = 1;
     private NeedAdapter mAdapter;
-
     private final Observer<List<Need>> refreshObserver = new Observer<List<Need>>() {
         @Override
         public void onCompleted() {
@@ -62,6 +64,9 @@ public class NeedListFragment extends LazyFragment {
         @Override
         public void onNext(List<Need> items) {
             mAdapter.addAll(items);
+            for (int i = 0; i < items.size(); i++) {
+                Log.d(TAG, "onNext: " + items.get(i).toString());
+            }
         }
     };
 
@@ -133,7 +138,7 @@ public class NeedListFragment extends LazyFragment {
     }
 
     private void initData() {
-        mAdapter = new NeedAdapter();
+        mAdapter = new NeedAdapter(getContext(), Glide.with(this));
 
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -149,6 +154,14 @@ public class NeedListFragment extends LazyFragment {
     }
 
     private void refreshNeeds() {
+        addSubscription(needRepositoryLazy.get().getAll(1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver));
+    }
+
+    /**
+     * 刷新的时候延迟三秒为了完整的展示动画
+     * 临时这么搞搞 有待优化
+     */
+    private void hideRefreshView() {
 
     }
 

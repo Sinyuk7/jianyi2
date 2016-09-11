@@ -15,8 +15,6 @@ import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
-
 /**
  * Created by Sinyuk on 16/9/10.
  */
@@ -28,7 +26,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
     private List<Goods> mDataSet = new ArrayList<>();
 
     public GoodsAdapter(Context context, RequestManager requestManager) {
-        Timber.tag("FeedsAdapter");
         shotBuilder = requestManager.fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).crossFade(CROSS_FADE_DURATION).centerCrop();
         avatarBuilder = requestManager.fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).dontAnimate().centerCrop().bitmapTransform(new CropCircleTransformation(context));
     }
@@ -57,7 +54,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
 
     @Override
     public int getItemCount() {
-        return mDataSet.size();
+        return mDataSet == null ? 0 :mDataSet.size();
     }
 
     public class GoodItemViewHolder extends RecyclerView.ViewHolder {

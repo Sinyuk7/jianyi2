@@ -2,6 +2,8 @@ package com.sinyuk.jianyi.utils;
 
 import android.text.TextUtils;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by Sinyuk on 16/8/7.
  */
@@ -40,5 +42,41 @@ public class FormatUtils {
             return sb.toString();
         }
         return null;
+    }
+
+
+    public static String formatPrice(String unFormatted) {
+        final String prefix = "";
+
+        String formatted = null;
+        try {
+
+            int price;
+            DecimalFormat formatter = new DecimalFormat("#,###");
+            if (unFormatted.contains(".")) {
+                String[] split = unFormatted.split("\\.", 2);
+                try {
+                    price = Integer.parseInt(split[0]);
+                    formatted = prefix + formatter.format(price);
+
+                } catch (ArrayIndexOutOfBoundsException exception) {
+                    exception.printStackTrace();
+                }
+
+            } else {
+
+                price = Integer.parseInt(unFormatted);
+                formatted = prefix + formatter.format(price);
+
+            }
+            if (formatted == null)
+                formatted = prefix + unFormatted;
+
+
+        } catch (NumberFormatException exception) {
+            exception.printStackTrace();
+
+        }
+        return "¥" + formatted;
     }
 }

@@ -87,4 +87,18 @@ public class Need {
     public void setSchoolName(String schoolName) {
         this.schoolName = schoolName;
     }
+
+    @Override
+    public String toString() {
+        return "Need{" +
+                "id=" + id +
+                ", detail='" + detail + '\'' +
+                ", price='" + price + '\'' +
+                ", tel='" + tel + '\'' +
+                ", time='" + time + '\'' +
+                ", username='" + username + '\'' +
+                ", headImg='" + headImg + '\'' +
+                ", schoolName='" + schoolName + '\'' +
+                '}';
+    }
 }
