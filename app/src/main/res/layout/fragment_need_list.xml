@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<com.sinyuk.jianyi.utils.BetterViewAnimator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_animator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:inAnimation="@android:anim/fade_in"
+    android:outAnimation="@android:anim/fade_out">
 
-</LinearLayout>
+    <include
+        layout="@layout/common_list_loading"/>
+
+    <include
+        layout="@layout/common_list_list_home"/>
+
+    <include
+        layout="@layout/common_list_error"/>
+
+
+</com.sinyuk.jianyi.utils.BetterViewAnimator>

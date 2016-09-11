@@ -4,17 +4,17 @@
     android:id="@+id/view_animator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:inAnimation="@android:anim/slide_in_left"
-    android:outAnimation="@android:anim/slide_out_right">
+    android:inAnimation="@android:anim/fade_in"
+    android:outAnimation="@android:anim/fade_out">
 
     <include
-        layout="@layout/fragment_goods_list_loading"/>
+        layout="@layout/common_list_loading"/>
 
     <include
-        layout="@layout/fragment_goods_list_list"/>
+        layout="@layout/common_list_list_home"/>
 
     <include
-        layout="@layout/fragment_goods_list_error"/>
+        layout="@layout/common_list_error"/>
 
 
 </com.sinyuk.jianyi.utils.BetterViewAnimator>

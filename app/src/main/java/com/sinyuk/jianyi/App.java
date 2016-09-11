@@ -6,6 +6,8 @@ import android.content.Context;
 import com.facebook.stetho.Stetho;
 import com.sinyuk.jianyi.data.goods.GoodsRepositoryComponent;
 import com.sinyuk.jianyi.data.goods.GoodsRepositoryModule;
+import com.sinyuk.jianyi.data.need.NeedRepositoryComponent;
+import com.sinyuk.jianyi.data.need.NeedRepositoryModule;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -18,6 +20,7 @@ public class App extends Application {
 
     private AppComponent appComponent = null;
     private GoodsRepositoryComponent goodsRepositoryComponent = null;
+    private NeedRepositoryComponent needRepositoryComponent = null;
 
     public static App get(Context context) {
         return (App) context.getApplicationContext();
@@ -42,7 +45,7 @@ public class App extends Application {
                 .build();
     }
 
-    public GoodsRepositoryComponent createShotRepositoryComponent() {
+    private GoodsRepositoryComponent createShotRepositoryComponent() {
         Preconditions.checkNotNull(appComponent);
         goodsRepositoryComponent = appComponent.plus(new GoodsRepositoryModule());
         return goodsRepositoryComponent;
@@ -53,6 +56,19 @@ public class App extends Application {
             createShotRepositoryComponent();
         }
         return goodsRepositoryComponent;
+    }
+
+    private NeedRepositoryComponent createNeedRepositoryComponent() {
+        Preconditions.checkNotNull(appComponent);
+        needRepositoryComponent = appComponent.plus(new NeedRepositoryModule());
+        return needRepositoryComponent;
+    }
+
+    public NeedRepositoryComponent getNeedRepositoryComponent() {
+        if (needRepositoryComponent == null) {
+            createNeedRepositoryComponent();
+        }
+        return needRepositoryComponent;
     }
 
     public AppComponent getAppComponent() {

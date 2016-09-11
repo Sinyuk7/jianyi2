@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_loading"
+    android:id="@+id/layout_error"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Loading"
-        android:textSize="24sp"/>
-</FrameLayout>
+        android:layout_centerInParent="true"
+        android:text="服务器大姨妈了"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
+</RelativeLayout>
