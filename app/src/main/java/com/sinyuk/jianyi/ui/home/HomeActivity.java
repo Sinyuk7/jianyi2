@@ -2,7 +2,10 @@ package com.sinyuk.jianyi.ui.home;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,6 +16,7 @@ import android.widget.ImageView;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.good.GoodListFragment;
+import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
@@ -34,8 +38,12 @@ public class HomeActivity extends BaseActivity {
     CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.navigation_icon)
     ImageView mNavigationIcon;
+    @BindView(R.id.view_pager)
+    ViewPager mViewPager;
     private GuillotineAnimation guillotineAnimation;
     private boolean isGuillotineOpened;
+    private GoodListFragment goodListFragment;
+    private NeedListFragment needListFragment;
 
     @Override
     protected int getContentViewID() {
@@ -49,11 +57,8 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
-        GoodListFragment fragment = new GoodListFragment();
-        ActivityUtils.addFragmentToActivity(
-                getSupportFragmentManager(),
-                fragment,
-                R.id.list_view_container);
+        goodListFragment = new GoodListFragment();
+        needListFragment = new NeedListFragment();
 
         ActivityUtils.addFragmentToActivity(
                 getSupportFragmentManager(),
@@ -61,6 +66,29 @@ public class HomeActivity extends BaseActivity {
                 R.id.menu_container);
 
         setupToolbar();
+
+        initViewPager();
+    }
+
+    private void initViewPager() {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        return goodListFragment;
+                    case 1:
+                        return needListFragment;
+                }
+                return null;
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        });
+
 
     }
 
