@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.AppCompatRadioButton
+    android:id="@+id/radio_btn"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/school_list_item"
+    tools:checked="true"
+    tools:text="浙江传媒学院-下沙校区"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

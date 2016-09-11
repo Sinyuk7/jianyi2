@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.f2prateek.rx.preferences.RxSharedPreferences;
+import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.utils.ToastUtils;
 
 import java.io.File;
@@ -63,4 +64,5 @@ public final class AppModule {
     public ToastUtils provideToastUtils() {
         return new ToastUtils(application);
     }
+
 }

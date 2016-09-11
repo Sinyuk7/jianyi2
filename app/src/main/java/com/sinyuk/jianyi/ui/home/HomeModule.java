@@ -2,9 +2,12 @@ package com.sinyuk.jianyi.ui.home;
 
 import android.app.Activity;
 
+import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.dagger.PerActivity;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -42,5 +45,11 @@ public class HomeModule {
     @PerActivity
     NeedListFragment provideNeedListFragment() {
         return new NeedListFragment();
+    }
+
+    @Provides
+    @PerActivity
+    public SchoolSelector provideSchoolSelector() {
+        return new SchoolSelector();
     }
 }

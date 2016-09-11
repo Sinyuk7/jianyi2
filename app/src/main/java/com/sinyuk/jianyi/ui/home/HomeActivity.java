@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseActivity;
+import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.ActivityUtils;
@@ -52,6 +53,8 @@ public class HomeActivity extends BaseActivity {
     Lazy<DrawerMenu> drawerMenuLazy;
     @Inject
     Lazy<NeedListFragment> needListFragmentLazy;
+    @Inject
+    Lazy<SchoolSelector> schoolSelectorLazy;
     private GuillotineAnimation guillotineAnimation;
     private boolean isGuillotineOpened;
 
@@ -170,7 +173,8 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick(R.id.locate_btn)
     public void toggleSchoolSelector() {
-
+        schoolSelectorLazy.get().setCancelable(true);
+        schoolSelectorLazy.get().show(getSupportFragmentManager(), SchoolSelector.TAG);
     }
 
     @Override

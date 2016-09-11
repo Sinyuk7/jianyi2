@@ -4,6 +4,7 @@ import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.api.service.ApiModule;
 import com.sinyuk.jianyi.data.goods.GoodsRepositoryComponent;
 import com.sinyuk.jianyi.data.goods.GoodsRepositoryModule;
+import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.splash.SplashComponent;
 import com.sinyuk.jianyi.ui.splash.SplashModule;
 
@@ -22,4 +23,6 @@ public interface AppComponent {
     SplashComponent plus(SplashModule module);
 
     OauthComponent plus(OauthModule module);
+
+    void inject(SchoolSelector target);
 }
