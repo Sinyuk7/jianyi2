@@ -21,8 +21,11 @@ import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import dagger.Lazy;
 
 /**
  * Created by Sinyuk on 16/9/9.
@@ -42,7 +45,9 @@ public class HomeActivity extends BaseActivity {
     ViewPager mViewPager;
     private GuillotineAnimation guillotineAnimation;
     private boolean isGuillotineOpened;
-    private GoodListFragment goodListFragment;
+
+    @Inject
+    Lazy<GoodListFragment> goodListFragment;
     private NeedListFragment needListFragment;
 
     @Override
@@ -52,12 +57,11 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void beforeInflating() {
-
+        DaggerHomeComponent.builder().homeModule(new HomeModule(this)).build().inject(this);
     }
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
-        goodListFragment = new GoodListFragment();
         needListFragment = new NeedListFragment();
 
         ActivityUtils.addFragmentToActivity(
@@ -76,7 +80,7 @@ public class HomeActivity extends BaseActivity {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return goodListFragment;
+                        return goodListFragment.get();
                     case 1:
                         return needListFragment;
                 }
