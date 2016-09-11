@@ -2,22 +2,21 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:foreground="?selectableItemBackground"
     android:background="@drawable/need_item_background"
+    android:foreground="?selectableItemBackground"
     android:minHeight="?android:listPreferredItemHeight"
     android:paddingBottom="@dimen/content_space_8"
-    android:paddingLeft="@dimen/content_space_8">
+    android:paddingLeft="@dimen/content_space_16"
+    android:paddingTop="@dimen/content_space_8">
 
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginRight="@dimen/content_space_8"
+        android:layout_marginRight="@dimen/content_space_16"
         tools:src="@mipmap/ic_launcher"/>
-
 
     <TextView
         android:id="@+id/username_tv"
@@ -50,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/username_tv"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/content_space_16"
         android:gravity="center_vertical"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/material_text_body1"
@@ -63,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/username_tv"
+        android:layout_marginRight="@dimen/content_space_16"
         android:layout_marginTop="@dimen/content_space_4"
         android:layout_toRightOf="@+id/avatar"
         android:textColor="@color/text_secondary_dark"
@@ -75,11 +76,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/school_tv"
+        android:layout_marginBottom="@dimen/content_space_8"
+        android:layout_marginRight="@dimen/content_space_16"
         android:layout_marginTop="@dimen/content_space_8"
         android:lineSpacingMultiplier="1.1"
         android:textColor="@color/text_primary_dark"
-        android:textSize="@dimen/material_text_body1"
-        tools:text="string/dummy_post_main_body"/>
+        android:textSize="@dimen/material_text_body2"
+        tools:text="balaladasdas /n dsafdsfsfdsfdsfdsfsdasdsadsadsadsadsadsadsadsad"/>
 
     <LinearLayout
         android:id="@+id/expand_view"

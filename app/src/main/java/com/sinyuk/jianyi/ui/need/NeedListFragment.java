@@ -2,6 +2,7 @@ package com.sinyuk.jianyi.ui.need;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.sinyuk.jianyi.data.need.Need;
 import com.sinyuk.jianyi.data.need.NeedRepository;
 import com.sinyuk.jianyi.ui.LazyFragment;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
+import com.sinyuk.jianyi.utils.list.DividerItemDecoration;
 
 import java.util.List;
 
@@ -114,8 +116,6 @@ public class NeedListFragment extends LazyFragment {
         mRecyclerView.setHasFixedSize(true);
 
         mRecyclerView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
-
-//        mRecyclerView.addItemDecoration(new GoodsItemDecoration(getContext()));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

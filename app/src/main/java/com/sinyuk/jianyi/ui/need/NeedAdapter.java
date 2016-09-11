@@ -42,6 +42,7 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
     public NeedAdapter(Context context, RequestManager requestManager) {
         this.context = context;
         avatarBuilder = requestManager.fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).dontAnimate().centerCrop().bitmapTransform(new CropCircleTransformation(context));
+
     }
 
 
@@ -66,7 +67,7 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
     @Override
     public void onBindViewHolder(NeedAdapter.NeedItemViewHolder holder, int position) {
         if (mDataSet.get(position) == null) return;
-
+        
         final Need data = mDataSet.get(position);
 
         setText(holder.mUsernameTv, data.getUsername(), "神秘人");
