@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.data.good;
+package com.sinyuk.jianyi.data.goods;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,16 +8,16 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Sinyuk on 16/9/9.
  */
-public class Good implements Parcelable {
-    public static final Parcelable.Creator<Good> CREATOR = new Parcelable.Creator<Good>() {
+public class Goods implements Parcelable {
+    public static final Parcelable.Creator<Goods> CREATOR = new Parcelable.Creator<Goods>() {
         @Override
-        public Good createFromParcel(Parcel source) {
-            return new Good(source);
+        public Goods createFromParcel(Parcel source) {
+            return new Goods(source);
         }
 
         @Override
-        public Good[] newArray(int size) {
-            return new Good[size];
+        public Goods[] newArray(int size) {
+            return new Goods[size];
         }
     };
     @SerializedName("id")
@@ -41,10 +41,10 @@ public class Good implements Parcelable {
     @SerializedName("schoolname")
     private String schoolName;
 
-    public Good() {
+    public Goods() {
     }
 
-    protected Good(Parcel in) {
+    protected Goods(Parcel in) {
         this.id = in.readInt();
         this.uid = in.readInt();
         this.name = in.readString();
@@ -158,7 +158,7 @@ public class Good implements Parcelable {
 
     @Override
     public String toString() {
-        return "Good{" +
+        return "Goods{" +
                 "id=" + id +
                 ", uid=" + uid +
                 ", name='" + name + '\'' +

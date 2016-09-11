@@ -15,7 +15,7 @@ import android.widget.ImageView;
 
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseActivity;
-import com.sinyuk.jianyi.ui.good.GoodListFragment;
+import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
@@ -47,7 +47,9 @@ public class HomeActivity extends BaseActivity {
     private boolean isGuillotineOpened;
 
     @Inject
-    Lazy<GoodListFragment> goodListFragment;
+    Lazy<GoodsListFragment> goodListFragment;
+    @Inject
+    Lazy<DrawerMenu> drawerMenuLazy;
     private NeedListFragment needListFragment;
 
     @Override
@@ -64,14 +66,15 @@ public class HomeActivity extends BaseActivity {
     protected void finishInflating(Bundle savedInstanceState) {
         needListFragment = new NeedListFragment();
 
-        ActivityUtils.addFragmentToActivity(
-                getSupportFragmentManager(),
-                DrawerMenu.getInstance(),
-                R.id.menu_container);
-
         setupToolbar();
 
         initViewPager();
+
+        setupDrawerLayout();
+    }
+
+    private void setupDrawerLayout() {
+        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), drawerMenuLazy.get(), R.id.menu_container);
     }
 
     private void initViewPager() {

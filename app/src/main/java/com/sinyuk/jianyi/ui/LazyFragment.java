@@ -41,7 +41,7 @@ public abstract class LazyFragment extends Fragment {
         prepareFetchData();
     }
 
-    public abstract void fetchData();
+
 
     public boolean prepareFetchData() {
         return prepareFetchData(false);
@@ -103,6 +103,8 @@ public abstract class LazyFragment extends Fragment {
     }
 
     protected abstract void finishInflate();
+
+    protected abstract void fetchData();
 
     protected void addSubscription(Subscription s) {
         mCompositeSubscription.add(s);

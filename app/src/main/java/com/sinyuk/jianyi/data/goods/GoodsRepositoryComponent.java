@@ -1,7 +1,7 @@
-package com.sinyuk.jianyi.data.good;
+package com.sinyuk.jianyi.data.goods;
 
 import com.sinyuk.jianyi.MainActivity;
-import com.sinyuk.jianyi.ui.good.GoodListFragment;
+import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 
 import javax.inject.Singleton;
 
@@ -13,10 +13,10 @@ import dagger.Subcomponent;
 @Singleton
 @Subcomponent(
         modules = {
-                GoodRepositoryModule.class
+                GoodsRepositoryModule.class
         }
 )
-public interface GoodRepositoryComponent {
+public interface GoodsRepositoryComponent {
     void inject(MainActivity target);
-    void inject(GoodListFragment target);
+    void inject(GoodsListFragment target);
 }

@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
-import com.sinyuk.jianyi.data.good.GoodRepositoryComponent;
-import com.sinyuk.jianyi.data.good.GoodRepositoryModule;
+import com.sinyuk.jianyi.data.goods.GoodsRepositoryComponent;
+import com.sinyuk.jianyi.data.goods.GoodsRepositoryModule;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.squareup.leakcanary.LeakCanary;
 
@@ -17,7 +17,7 @@ import timber.log.Timber;
 public class App extends Application {
 
     private AppComponent appComponent = null;
-    private GoodRepositoryComponent goodRepositoryComponent = null;
+    private GoodsRepositoryComponent goodsRepositoryComponent = null;
 
     public static App get(Context context) {
         return (App) context.getApplicationContext();
@@ -42,17 +42,17 @@ public class App extends Application {
                 .build();
     }
 
-    public GoodRepositoryComponent createShotRepositoryComponent() {
+    public GoodsRepositoryComponent createShotRepositoryComponent() {
         Preconditions.checkNotNull(appComponent);
-        goodRepositoryComponent = appComponent.plus(new GoodRepositoryModule());
-        return goodRepositoryComponent;
+        goodsRepositoryComponent = appComponent.plus(new GoodsRepositoryModule());
+        return goodsRepositoryComponent;
     }
 
-    public GoodRepositoryComponent getGoodRepositoryComponent() {
-        if (goodRepositoryComponent == null) {
+    public GoodsRepositoryComponent getGoodsRepositoryComponent() {
+        if (goodsRepositoryComponent == null) {
             createShotRepositoryComponent();
         }
-        return goodRepositoryComponent;
+        return goodsRepositoryComponent;
     }
 
     public AppComponent getAppComponent() {

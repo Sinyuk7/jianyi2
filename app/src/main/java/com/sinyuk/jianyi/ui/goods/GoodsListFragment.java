@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.ui.good;
+package com.sinyuk.jianyi.ui.goods;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import com.bumptech.glide.Glide;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
-import com.sinyuk.jianyi.data.good.Good;
-import com.sinyuk.jianyi.data.good.GoodRepository;
+import com.sinyuk.jianyi.data.goods.Goods;
+import com.sinyuk.jianyi.data.goods.GoodsRepository;
 import com.sinyuk.jianyi.ui.BaseFragment;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
 
@@ -28,7 +28,7 @@ import rx.Observer;
 /**
  * Created by Sinyuk on 16/9/9.
  */
-public class GoodListFragment extends BaseFragment {
+public class GoodsListFragment extends BaseFragment {
     private static final int PRELOAD_THRESHOLD = 4;
     private static final int FIRST_PAGE = 1;
     @BindView(R.id.layout_loading)
@@ -42,13 +42,13 @@ public class GoodListFragment extends BaseFragment {
     @BindView(R.id.view_animator)
     BetterViewAnimator mViewAnimator;
     @Inject
-    GoodRepository goodRepository;
+    GoodsRepository goodsRepository;
     private SmoothProgressBar smoothProgressBar;
     private boolean isLoading = false;
     private int mPage = 1;
     private GoodsAdapter mAdapter;
 
-    private final Observer<List<Good>> refreshObserver = new Observer<List<Good>>() {
+    private final Observer<List<Goods>> refreshObserver = new Observer<List<Goods>>() {
         @Override
         public void onCompleted() {
             mPage = FIRST_PAGE + 1;
@@ -60,7 +60,7 @@ public class GoodListFragment extends BaseFragment {
         }
 
         @Override
-        public void onNext(List<Good> items) {
+        public void onNext(List<Goods> items) {
             mAdapter.addAll(items);
         }
     };
@@ -72,7 +72,7 @@ public class GoodListFragment extends BaseFragment {
 
     @Override
     protected int getRootViewId() {
-        return R.layout.fragment_good_list;
+        return R.layout.fragment_goods_list;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class GoodListFragment extends BaseFragment {
 
         mRecyclerView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
 
-        mRecyclerView.addItemDecoration(new GoodItemDecoration(getContext()));
+        mRecyclerView.addItemDecoration(new GoodsItemDecoration(getContext()));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -140,7 +140,7 @@ public class GoodListFragment extends BaseFragment {
     }
 
     private void refreshFeeds() {
-        goodRepository.getAll(1, 1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver);
+        goodsRepository.getAll(1, 1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver);
     }
 
     /**
@@ -170,7 +170,7 @@ public class GoodListFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        App.get(context).getGoodRepositoryComponent().inject(this);
+        App.get(context).getGoodsRepositoryComponent().inject(this);
         smoothProgressBar = (SmoothProgressBar) ((Activity) context).findViewById(R.id.progress_bar);
     }
 }

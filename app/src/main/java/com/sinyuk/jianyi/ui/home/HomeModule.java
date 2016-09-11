@@ -2,7 +2,8 @@ package com.sinyuk.jianyi.ui.home;
 
 import android.app.Activity;
 
-import com.sinyuk.jianyi.ui.good.GoodListFragment;
+import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
+import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.dagger.PerActivity;
 
 import dagger.Module;
@@ -27,7 +28,19 @@ public class HomeModule {
 
     @Provides
     @PerActivity
-    GoodListFragment provideGoodListFragment() {
-        return new GoodListFragment();
+    GoodsListFragment provideGoodListFragment() {
+        return new GoodsListFragment();
+    }
+
+    @Provides
+    @PerActivity
+    DrawerMenu provideDrawerMenu() {
+        return new DrawerMenu();
+    }
+
+    @Provides
+    @PerActivity
+    NeedListFragment provideNeedListFragment() {
+        return new NeedListFragment();
     }
 }

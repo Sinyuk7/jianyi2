@@ -8,13 +8,13 @@
     android:outAnimation="@android:anim/slide_out_right">
 
     <include
-        layout="@layout/fragment_good_list_loading"/>
+        layout="@layout/fragment_goods_list_loading"/>
 
     <include
-        layout="@layout/fragment_good_list_list"/>
+        layout="@layout/fragment_goods_list_list"/>
 
     <include
-        layout="@layout/fragment_good_list_error"/>
+        layout="@layout/fragment_goods_list_error"/>
 
 
 </com.sinyuk.jianyi.utils.BetterViewAnimator>

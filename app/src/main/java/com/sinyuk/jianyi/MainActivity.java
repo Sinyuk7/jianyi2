@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.sinyuk.jianyi.data.good.Good;
-import com.sinyuk.jianyi.data.good.GoodRepository;
-import com.sinyuk.jianyi.data.good.GoodRepositoryModule;
+import com.sinyuk.jianyi.data.goods.Goods;
+import com.sinyuk.jianyi.data.goods.GoodsRepository;
+import com.sinyuk.jianyi.data.goods.GoodsRepositoryModule;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     @Inject
-    GoodRepository goodRepository;
+    GoodsRepository goodsRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        App.get(this).getAppComponent().plus(new GoodRepositoryModule()).inject(this);
+        App.get(this).getAppComponent().plus(new GoodsRepositoryModule()).inject(this);
         loadAll();
     }
 
@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadAll() {
-        goodRepository.getAll(1, 1)
-                .subscribe(new Observer<List<Good>>() {
+        goodsRepository.getAll(1, 1)
+                .subscribe(new Observer<List<Goods>>() {
                     @Override
                     public void onCompleted() {
 
@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(List<Good> goods) {
-                        for (int i = 0; i < goods.size(); i++) {
-                            Log.d(TAG, "onNext: " + goods.get(i).toString());
+                    public void onNext(List<Goods> goodses) {
+                        for (int i = 0; i < goodses.size(); i++) {
+                            Log.d(TAG, "onNext: " + goodses.get(i).toString());
                         }
                     }
                 });

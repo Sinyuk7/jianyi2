@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.data.good;
+package com.sinyuk.jianyi.data.goods;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Sinyuk on 16/9/10.
  */
-public class GoodExtras {
+public class GoodsExtras {
 
     @SerializedName("id")
     private int id;

@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.ui.good;
+package com.sinyuk.jianyi.ui.goods;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyi.R;
-import com.sinyuk.jianyi.data.good.Good;
+import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
     private final DrawableRequestBuilder<String> avatarBuilder;
     private final DrawableRequestBuilder<String> shotBuilder;
 
-    private List<Good> mDataSet = new ArrayList<>();
+    private List<Goods> mDataSet = new ArrayList<>();
 
     public GoodsAdapter(Context context, RequestManager requestManager) {
         Timber.tag("FeedsAdapter");
@@ -35,7 +35,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
 
     @Override
     public GoodItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new GoodItemViewHolder((GoodListItemView) LayoutInflater.from(parent.getContext()).inflate(R.layout.good_list_item, parent, false));
+        return new GoodItemViewHolder((GoodsListItemView) LayoutInflater.from(parent.getContext()).inflate(R.layout.goods_list_item, parent, false));
     }
 
     @Override
@@ -43,13 +43,13 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
         holder.goodItemView.bindTo(mDataSet.get(position), shotBuilder, avatarBuilder);
     }
 
-    public void appendAll(List<Good> items) {
+    public void appendAll(List<Goods> items) {
         int startPosition = mDataSet.size();
         mDataSet.addAll(items);
         notifyItemRangeInserted(startPosition, items.size());
     }
 
-    public void addAll(List<Good> items) {
+    public void addAll(List<Goods> items) {
         mDataSet.clear();
         mDataSet.addAll(items);
         notifyDataSetChanged();
@@ -61,9 +61,9 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
     }
 
     public class GoodItemViewHolder extends RecyclerView.ViewHolder {
-        private final GoodListItemView goodItemView;
+        private final GoodsListItemView goodItemView;
 
-        public GoodItemViewHolder(GoodListItemView goodItemView) {
+        public GoodItemViewHolder(GoodsListItemView goodItemView) {
             super(goodItemView);
             this.goodItemView = goodItemView;
         }

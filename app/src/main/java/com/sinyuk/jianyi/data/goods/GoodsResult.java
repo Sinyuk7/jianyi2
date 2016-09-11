@@ -1,11 +1,11 @@
-package com.sinyuk.jianyi.data.good;
+package com.sinyuk.jianyi.data.goods;
 
 import java.util.List;
 
 /**
  * Created by Sinyuk on 16/9/10.
  */
-public class GoodResult {
+public class GoodsResult {
     private int first;
     private int before;
     private int next;
@@ -14,9 +14,9 @@ public class GoodResult {
     private int total_pages;
     private int total_items;
     private int limit;
-    private List<Good> items;
+    private List<Goods> items;
 
-    public List<Good> getItems() {
+    public List<Goods> getItems() {
         return items;
     }
 }

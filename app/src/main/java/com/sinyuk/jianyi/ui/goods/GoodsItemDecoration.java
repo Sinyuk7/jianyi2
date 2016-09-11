@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.ui.good;
+package com.sinyuk.jianyi.ui.goods;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -11,10 +11,10 @@ import com.sinyuk.jianyi.R;
 /**
  * Created by Sinyuk on 16.1.21.
  */
-public class GoodItemDecoration extends RecyclerView.ItemDecoration {
+public class GoodsItemDecoration extends RecyclerView.ItemDecoration {
     private int padding;
 
-    public GoodItemDecoration(Context context) {
+    public GoodsItemDecoration(Context context) {
         this.padding = context.getResources().getDimensionPixelOffset(R.dimen.content_space_8);
     }
 

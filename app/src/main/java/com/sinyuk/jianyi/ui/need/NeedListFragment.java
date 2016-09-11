@@ -1,12 +1,12 @@
 package com.sinyuk.jianyi.ui.need;
 
 import com.sinyuk.jianyi.R;
-import com.sinyuk.jianyi.ui.BaseFragment;
+import com.sinyuk.jianyi.ui.LazyFragment;
 
 /**
  * Created by Sinyuk on 16/9/11.
  */
-public class NeedListFragment extends BaseFragment{
+public class NeedListFragment extends LazyFragment {
     @Override
     protected void beforeInflate() {
 
@@ -19,6 +19,11 @@ public class NeedListFragment extends BaseFragment{
 
     @Override
     protected void finishInflate() {
+
+    }
+
+    @Override
+    public void fetchData() {
 
     }
 }

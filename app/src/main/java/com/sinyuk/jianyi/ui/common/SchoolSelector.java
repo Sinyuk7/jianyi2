@@ -1,13 +1,11 @@
-package com.sinyuk.jianyi.ui.home;
+package com.sinyuk.jianyi.ui.common;
 
-import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseFragment;
 
 /**
- * Created by Sinyuk on 16/9/10.
+ * Created by Sinyuk on 16/9/11.
  */
-public class DrawerMenu extends BaseFragment {
-
+public class SchoolSelector extends BaseFragment {
     @Override
     protected void beforeInflate() {
 
@@ -15,7 +13,7 @@ public class DrawerMenu extends BaseFragment {
 
     @Override
     protected int getRootViewId() {
-        return R.layout.fragment_drawer;
+        return 0;
     }
 
     @Override

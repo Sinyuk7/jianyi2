@@ -2,8 +2,8 @@ package com.sinyuk.jianyi;
 import com.sinyuk.jianyi.api.oauth.OauthComponent;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.api.service.ApiModule;
-import com.sinyuk.jianyi.data.good.GoodRepositoryComponent;
-import com.sinyuk.jianyi.data.good.GoodRepositoryModule;
+import com.sinyuk.jianyi.data.goods.GoodsRepositoryComponent;
+import com.sinyuk.jianyi.data.goods.GoodsRepositoryModule;
 import com.sinyuk.jianyi.ui.splash.SplashComponent;
 import com.sinyuk.jianyi.ui.splash.SplashModule;
 
@@ -17,7 +17,7 @@ import dagger.Component;
 @Singleton
 @Component(modules = {AppModule.class, ApiModule.class})
 public interface AppComponent {
-    GoodRepositoryComponent plus(GoodRepositoryModule module);
+    GoodsRepositoryComponent plus(GoodsRepositoryModule module);
 
     SplashComponent plus(SplashModule module);
 

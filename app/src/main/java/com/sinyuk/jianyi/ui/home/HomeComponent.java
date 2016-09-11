@@ -1,9 +1,8 @@
 package com.sinyuk.jianyi.ui.home;
 
-import com.sinyuk.jianyi.ui.good.GoodListFragment;
+import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
+import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.dagger.PerActivity;
-
-import javax.inject.Singleton;
 
 import dagger.Component;
 
@@ -13,6 +12,11 @@ import dagger.Component;
 @PerActivity
 @Component(modules = HomeModule.class)
 public interface HomeComponent {
-    GoodListFragment goodListFragment();
+    GoodsListFragment goodListFragment();
+
+    DrawerMenu drawerMenu();
+
+    NeedListFragment needListFragment();
+
     void inject(HomeActivity target);
 }

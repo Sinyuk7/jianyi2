@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi.data.good;
+package com.sinyuk.jianyi.data.goods;
 
 import com.sinyuk.jianyi.api.HttpResult;
 import com.sinyuk.jianyi.api.HttpResultFunc;
@@ -13,22 +13,22 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Sinyuk on 16/9/9.
  */
-public class GoodRepository {
+public class GoodsRepository {
     private JianyiService jianyiService;
 
-    public GoodRepository(JianyiService jianyiService) {
+    public GoodsRepository(JianyiService jianyiService) {
         this.jianyiService = jianyiService;
     }
 
-    public Observable<List<Good>> getAll(int school, int page) {
+    public Observable<List<Goods>> getAll(int school, int page) {
         return jianyiService.getAll(school, page)
-                .map(new HttpResultFunc<GoodResult>() {
+                .map(new HttpResultFunc<GoodsResult>() {
                     @Override
-                    public GoodResult call(HttpResult<GoodResult> httpResult) {
+                    public GoodsResult call(HttpResult<GoodsResult> httpResult) {
                         return httpResult.getData();
                     }
                 })
-                .map(GoodResult::getItems)
+                .map(GoodsResult::getItems)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

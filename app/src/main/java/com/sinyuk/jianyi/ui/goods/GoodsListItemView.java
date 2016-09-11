@@ -1,10 +1,8 @@
-package com.sinyuk.jianyi.ui.good;
+package com.sinyuk.jianyi.ui.goods;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,7 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.JianyiApi;
-import com.sinyuk.jianyi.data.good.Good;
+import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.sinyuk.jianyi.utils.StringUtils;
 import com.sinyuk.jianyi.widgets.LabelView;
@@ -26,7 +24,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Sinyuk on 16/9/10.
  */
-public class GoodListItemView extends LinearLayout {
+public class GoodsListItemView extends LinearLayout {
     @BindView(R.id.shot_iv)
     RatioImageView mShotIv;
     @BindView(R.id.price_label_view)
@@ -41,15 +39,15 @@ public class GoodListItemView extends LinearLayout {
     int grey600;
 
 
-    public GoodListItemView(Context context) {
+    public GoodsListItemView(Context context) {
         this(context, null);
     }
 
-    public GoodListItemView(Context context, AttributeSet attrs) {
+    public GoodsListItemView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public GoodListItemView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GoodsListItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setClickable(true);
     }
@@ -60,7 +58,7 @@ public class GoodListItemView extends LinearLayout {
         ButterKnife.bind(this);
     }
 
-    public void bindTo(Good data,
+    public void bindTo(Goods data,
                        DrawableRequestBuilder<String> shotBuilder,
                        DrawableRequestBuilder<String> avatarBuilder) {
         Preconditions.checkNotNull(data, "Can't bind to a null good");
