@@ -4,6 +4,8 @@ package com.sinyuk.jianyi.api.service;
 import com.sinyuk.jianyi.api.HttpResult;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.data.goods.GoodsResult;
+import com.sinyuk.jianyi.data.need.Need;
+import com.sinyuk.jianyi.data.need.NeedResult;
 import com.sinyuk.jianyi.data.school.School;
 
 import java.util.List;
@@ -32,4 +34,7 @@ public interface JianyiService {
 
     @GET("school")
     Observable<HttpResult<List<School>>> getSchools();
+
+    @GET("needs")
+    Observable<HttpResult<NeedResult>> getNeeds(@Query(JianyiApi.PARAM_PAGE) int page);
 }
