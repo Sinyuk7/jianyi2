@@ -41,9 +41,6 @@ public class Goods implements Parcelable {
     @SerializedName("schoolname")
     private String schoolName;
 
-    public Goods() {
-    }
-
     protected Goods(Parcel in) {
         this.id = in.readInt();
         this.uid = in.readInt();

@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -14,16 +13,17 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
         <View
+            android:transitionName="@string/transition_reveal_view"
             android:id="@+id/reveal_view"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:background="@color/white"/>
+            android:background="@color/colorPrimary"/>
 
         <com.sinyuk.jianyi.widgets.MyCircleImageView
             android:id="@+id/avatar"
             android:layout_width="98dp"
             android:layout_height="98dp"
-            android:layout_marginTop="-24dp"
+            android:layout_marginTop="-74dp"
             android:src="@mipmap/ic_launcher"
             android:transitionName="@string/transition_avatar"
             app:border_color="@color/white"
@@ -52,7 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/official_slate"
         android:overScrollMode="never"
         android:paddingTop="@dimen/content_space_16">
 

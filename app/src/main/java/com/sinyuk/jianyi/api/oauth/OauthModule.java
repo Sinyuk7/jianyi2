@@ -52,10 +52,4 @@ public class OauthModule {
     public OauthService provideAuthorizationService(@Named("OAuth") Retrofit retrofit) {
         return retrofit.create(OauthService.class);
     }
-
-    @Provides
-    @Singleton
-    public AccountManger provideAccountManager() {
-        return new AccountManger();
-    }
 }

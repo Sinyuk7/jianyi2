@@ -8,6 +8,8 @@ import com.sinyuk.jianyi.data.goods.GoodsRepositoryModule;
 import com.sinyuk.jianyi.data.need.NeedRepositoryComponent;
 import com.sinyuk.jianyi.data.need.NeedRepositoryModule;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
+import com.sinyuk.jianyi.ui.home.DrawerMenu;
+import com.sinyuk.jianyi.ui.home.GuillotineMenu;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.ui.splash.SplashComponent;
 import com.sinyuk.jianyi.ui.splash.SplashModule;
@@ -33,4 +35,6 @@ public interface AppComponent {
     void inject(SchoolSelector target);
 
     void inject(PlayerActivity target);
+
+    void inject(GuillotineMenu target);
 }

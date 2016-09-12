@@ -3,4 +3,5 @@
     <string name="transition_avatar">avatar</string>
     <string name="transition_username">username</string>
     <string name="transition_school">school</string>
+    <string name="transition_reveal_view">reveal_view</string>
 </resources>

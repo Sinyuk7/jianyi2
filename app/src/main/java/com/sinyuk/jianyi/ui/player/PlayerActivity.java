@@ -45,9 +45,9 @@ import rx.schedulers.Schedulers;
  * Created by Sinyuk on 16/9/12.
  */
 public class PlayerActivity extends BaseActivity {
+    public static final String KEY_PLAYER = "PLAYER";
     private static final String KEY_ID = "ID";
     private static final String KEY_SCHOOL_NAME = "SCHOOL_NAME";
-    private static final String KEY_PLAYER = "PLAYER";
     private static final int INVALID_ID = -1;
     private static final int BLUR_RADIUS = 20;
     private static final int BLUR_SAMPLING = 8;
@@ -113,10 +113,11 @@ public class PlayerActivity extends BaseActivity {
         context.startActivity(starter);
     }
 
-    public static void start(Context context, Player player) {
+    public static Intent start(Context context, Player player) {
         Intent starter = new Intent(context, PlayerActivity.class);
         starter.putExtra(KEY_PLAYER, player);
         context.startActivity(starter);
+        return starter;
     }
 
     @Override
@@ -210,7 +211,7 @@ public class PlayerActivity extends BaseActivity {
         if (!TextUtils.isEmpty(mSchoolName)) {
             mLocationTv.setText(mSchoolName);
         } else {
-            mLocationTv.setVisibility(View.INVISIBLE);
+            setText(mLocationTv, player.getSchoolName(), null);
         }
 
         Glide.with(this).load(player.getAvatar())

@@ -43,7 +43,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:scaleType="centerCrop"
-                    android:src="@color/grey_300"/>
+                    android:src="@color/grey_300"
+                    android:transitionName="@string/transition_reveal_view"/>
 
                 <com.sinyuk.jianyi.widgets.MyCircleImageView
                     android:id="@+id/avatar"
@@ -52,6 +53,7 @@
                     android:layout_alignBottom="@+id/reveal_view"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="-24dp"
+                    android:transitionName="@string/transition_avatar"
                     app:border_color="@color/white"
                     app:border_width="3dp"
                     tools:src="@drawable/ic_account_grey600_24dp"/>
@@ -63,6 +65,7 @@
                     android:layout_marginTop="28dp"
                     android:textSize="@dimen/material_text_display2"
                     android:textStyle="bold"
+                    android:transitionName="@string/transition_username"
                     tools:text="乔昔之"/>
 
                 <EditText
@@ -72,6 +75,7 @@
                     android:layout_marginTop="@dimen/content_space_2"
                     android:textColor="@color/grey_600"
                     android:textSize="@dimen/material_text_caption1"
+                    android:transitionName="@string/transition_school"
                     tools:text="浙江传媒学院"/>
 
 

@@ -23,21 +23,18 @@ public class GoodsExtras {
     private String tel;
     @SerializedName("sort")
     private String sort;
+    @SerializedName("del")
+    private int del;
+    @SerializedName("top")
+    private String top;
     @SerializedName("time")
     private String time;
     @SerializedName("uid")
-    private String uid;
+    private int uid;
     @SerializedName("viewcount")
     private int viewcount;
     @SerializedName("pic")
     private String pic;
-    /**
-     * id : 3414
-     * pic : /uploads/goods/poster_57932de35d0e0.jpg
-     * gid : 3293
-     * del : 0
-     * thumbnail : null
-     */
 
     @SerializedName("pics")
     private List<Pics> pics;
@@ -98,6 +95,22 @@ public class GoodsExtras {
         this.sort = sort;
     }
 
+    public int getDel() {
+        return del;
+    }
+
+    public void setDel(int del) {
+        this.del = del;
+    }
+
+    public String getTop() {
+        return top;
+    }
+
+    public void setTop(String top) {
+        this.top = top;
+    }
+
     public String getTime() {
         return time;
     }
@@ -106,11 +119,11 @@ public class GoodsExtras {
         this.time = time;
     }
 
-    public String getUid() {
+    public int getUid() {
         return uid;
     }
 
-    public void setUid(String uid) {
+    public void setUid(int uid) {
         this.uid = uid;
     }
 
@@ -140,21 +153,21 @@ public class GoodsExtras {
 
     public static class Pics {
         @SerializedName("id")
-        private int id;
+        private String id;
         @SerializedName("pic")
         private String pic;
         @SerializedName("gid")
-        private int gid;
+        private String gid;
         @SerializedName("del")
-        private String del;
+        private int del;
         @SerializedName("thumbnail")
         private String thumbnail;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
@@ -166,19 +179,19 @@ public class GoodsExtras {
             this.pic = pic;
         }
 
-        public int getGid() {
+        public String getGid() {
             return gid;
         }
 
-        public void setGid(int gid) {
+        public void setGid(String gid) {
             this.gid = gid;
         }
 
-        public String getDel() {
+        public int getDel() {
             return del;
         }
 
-        public void setDel(String del) {
+        public void setDel(int del) {
             this.del = del;
         }
 

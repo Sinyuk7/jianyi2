@@ -1,17 +1,31 @@
 package com.sinyuk.jianyi.ui.home;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.ui.BaseFragment;
+import com.sinyuk.jianyi.ui.player.PlayerActivity;
+import com.sinyuk.jianyi.utils.TextViewHelper;
+import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.widgets.MyCircleImageView;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import dagger.Lazy;
 
 /**
  * Created by Sinyuk on 16/9/11.
@@ -32,9 +46,19 @@ public class GuillotineMenu extends BaseFragment {
     @BindView(R.id.exit_tv)
     TextView mExitTv;
 
+    @Inject
+    Lazy<AccountManger> accountMangerLazy;
+    private Player mPlayer;
+
     @Override
     protected void beforeInflate() {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        App.get(context).getAppComponent().inject(this);
     }
 
     @Override
@@ -44,7 +68,21 @@ public class GuillotineMenu extends BaseFragment {
 
     @Override
     protected void finishInflate() {
+        accountMangerLazy.get().getFakePlayer().subscribe(this::handleResult);
+    }
 
+    private void handleResult(Player player) {
+        mPlayer = player;
+
+        TextViewHelper.setText(mUserNameTv, player.getName(), player.getId() + "");
+
+        TextViewHelper.setText(mSchoolTv, player.getSchoolName(), null);
+
+        Glide.with(this).load(player.getAvatar())
+                .priority(Priority.IMMEDIATE)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .into(mAvatar);
     }
 
     @OnClick(R.id.profile_tv)
@@ -54,7 +92,10 @@ public class GuillotineMenu extends BaseFragment {
         Pair<View, String> p3 = Pair.create((View) mUserNameTv, getString(R.string.transition_username));
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation((Activity) getContext(), p1, p2, p3);
-        startActivity(intent, options.toBundle());
+
+        Intent starter = new Intent(getContext(), PlayerActivity.class);
+        starter.putExtra(PlayerActivity.KEY_PLAYER, mPlayer);
+        startActivity(starter, options.toBundle());
     }
 
 }
