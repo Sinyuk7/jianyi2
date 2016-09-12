@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="FAB">
+        <item name="android:id">@id/fab</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="FAB.Large" parent="FAB">
+        <item name="android:layout_width">@dimen/fab_large</item>
+        <item name="android:layout_height">@dimen/fab_large</item>
+
+    </style>
+
+    <style name="FAB.Small" parent="FAB">
+        <item name="android:layout_width">@dimen/fab_small</item>
+        <item name="android:layout_height">@dimen/fab_small</item>
+    </style>
+</resources>
