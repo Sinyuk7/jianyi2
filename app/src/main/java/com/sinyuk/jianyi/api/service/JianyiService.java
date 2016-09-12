@@ -6,11 +6,13 @@ import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.data.goods.GoodsResult;
 import com.sinyuk.jianyi.data.need.Need;
 import com.sinyuk.jianyi.data.need.NeedResult;
+import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.school.School;
 
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -37,4 +39,8 @@ public interface JianyiService {
 
     @GET("needs")
     Observable<HttpResult<NeedResult>> getNeeds(@Query(JianyiApi.PARAM_PAGE) int page);
+
+    @GET("user/show/{id}")
+    Observable<HttpResult<Player>> getPlayer(@Path("id") int id);
+
 }

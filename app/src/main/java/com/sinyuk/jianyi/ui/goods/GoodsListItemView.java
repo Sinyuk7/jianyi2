@@ -11,6 +11,7 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.data.goods.Goods;
+import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.sinyuk.jianyi.utils.StringUtils;
 import com.sinyuk.jianyi.widgets.LabelView;
@@ -88,6 +89,12 @@ public class GoodsListItemView extends LinearLayout {
 
            /*加载图片*/
         shotBuilder.load(JianyiApi.BASE_URL + data.getPic()).into(mShotIv);
+
+        mAvatar.setOnClickListener(v -> {
+            if (getContext() != null) {
+                PlayerActivity.start(getContext(), data.getUid());
+            }
+        });
     }
 
     private void setText(TextView textView, String input, String defaultValue) {
