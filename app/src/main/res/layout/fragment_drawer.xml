@@ -10,15 +10,18 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginLeft="12dp"
-        android:paddingBottom="@dimen/content_space_4"
-        android:paddingTop="@dimen/content_space_8"
-        android:text="筛选"
+        android:background="@null"
+        android:cursorVisible="true"
+        android:drawableLeft="@drawable/ic_search_primary_24dp"
+        android:drawablePadding="@dimen/content_space_8"
+        android:hint="你在找什么..."
         android:textColor="@color/colorAccent"
-        android:textSize="@dimen/material_text_title"
+        android:textColorHint="@color/colorAccent"
+        android:textSize="@dimen/material_text_subhead"
         android:textStyle="bold"/>
 
     <View
@@ -26,46 +29,39 @@
         android:layout_height="1dp"
         android:background="@color/grey_300"/>
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/content_space_4">
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/latest_btn"
-            style="@style/drawer_radio_button"
-            android:text="@string/category_latest"
-            tools:checked="true"/>
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/recommended_btn"
-            style="@style/drawer_radio_button"
-            android:text="@string/category_recommended"/>
-
-        <android.support.v7.widget.AppCompatRadioButton
-            android:id="@+id/free_btn"
-            style="@style/drawer_radio_button"
-            android:text="@string/category_free"/>
-    </RadioGroup>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="@dimen/content_space_4"
-        android:background="@color/grey_300"/>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:paddingTop="@dimen/content_space_4">
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/all_btn"
                 style="@style/drawer_radio_button"
                 android:text="@string/category_all"
                 tools:checked="true"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/recommended_btn"
+                style="@style/drawer_radio_button"
+                android:text="@string/category_recommended"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/free_btn"
+                style="@style/drawer_radio_button"
+                android:text="@string/category_free"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="@dimen/content_space_4"
+                android:layout_marginTop="@dimen/content_space_4"
+                android:background="@color/grey_300"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/clothes__btn"

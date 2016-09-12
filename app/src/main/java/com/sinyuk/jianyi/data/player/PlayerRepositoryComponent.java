@@ -13,5 +13,5 @@ import dagger.Subcomponent;
                 PlayerRepositoryModule.class
         }
 )
-public class PlayerRepositoryComponent {
+public interface PlayerRepositoryComponent {
 }
