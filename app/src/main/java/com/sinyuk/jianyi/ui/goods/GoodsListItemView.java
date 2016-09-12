@@ -92,7 +92,7 @@ public class GoodsListItemView extends LinearLayout {
 
         mAvatar.setOnClickListener(v -> {
             if (getContext() != null) {
-                PlayerActivity.start(getContext(), data.getUid());
+                PlayerActivity.start(getContext(), data.getUid(), data.getSchoolName());
             }
         });
     }

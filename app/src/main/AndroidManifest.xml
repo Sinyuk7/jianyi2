@@ -40,6 +40,9 @@
         <activity android:name=".MainActivity">
 
         </activity>
+
+        <activity android:name=".ui.player.PlayerActivity"
+                  android:launchMode="standard"/>
     </application>
 
 </manifest>
