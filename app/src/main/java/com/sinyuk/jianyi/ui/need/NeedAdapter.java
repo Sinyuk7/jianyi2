@@ -67,7 +67,7 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
     @Override
     public void onBindViewHolder(NeedAdapter.NeedItemViewHolder holder, int position) {
         if (mDataSet.get(position) == null) return;
-        
+
         final Need data = mDataSet.get(position);
 
         setText(holder.mUsernameTv, data.getUsername(), "神秘人");
