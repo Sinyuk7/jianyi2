@@ -86,7 +86,7 @@ public class HomeActivity extends BaseActivity {
         setupDrawerLayout();
 
         //  第三种写法:优化的DelayLoad
-        getWindow().getDecorView().post(() -> myHandler.postDelayed(mLoadingGoodsRunnable, 4000));
+        getWindow().getDecorView().post(() -> myHandler.post(mLoadingGoodsRunnable));
     }
 
     private void setupDrawerLayout() {

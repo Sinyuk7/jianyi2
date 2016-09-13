@@ -2,7 +2,6 @@ package com.sinyuk.jianyi.ui.goods;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -20,7 +19,6 @@ import com.sinyuk.jianyi.data.goods.GoodsRepository;
 import com.sinyuk.jianyi.ui.BaseFragment;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
-import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,7 +36,7 @@ import rx.Observer;
  * Created by Sinyuk on 16/9/9.
  */
 public class GoodsListFragment extends BaseFragment {
-    private static final int PRELOAD_THRESHOLD = 4;
+    private static final int PRELOAD_THRESHOLD = 2;
     private static final int FIRST_PAGE = 1;
     //
     private static final String TAG = "GoodsListFragment";
@@ -63,13 +61,15 @@ public class GoodsListFragment extends BaseFragment {
      */
     private String title;
     private int school;
-    private int page = FIRST_PAGE;
+    private int page = 3;
 
     //
     private final Observer<List<Goods>> refreshObserver = new Observer<List<Goods>>() {
         @Override
         public void onCompleted() {
             page = FIRST_PAGE + 1;
+            // 这里还是空就过分了
+            mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_error : R.id.layout_list);
         }
 
         @Override
@@ -136,6 +136,8 @@ public class GoodsListFragment extends BaseFragment {
 
         mRecyclerView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
 
+//        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
+
         mRecyclerView.addItemDecoration(new GoodsItemDecoration(getContext()));
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -148,7 +150,7 @@ public class GoodsListFragment extends BaseFragment {
                 boolean isBottom =
                         gridLayoutManager.findLastCompletelyVisibleItemPosition() >= recyclerView.getAdapter().getItemCount() - PRELOAD_THRESHOLD;
                 if (isBottom) {
-                    loadGoods(page);
+                    loadGoods();
                 }
             }
         });
@@ -160,7 +162,7 @@ public class GoodsListFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    private void loadGoods(int page) {
+    private void loadGoods() {
         addSubscription(goodsRepository.filter(title, school, page).doOnSubscribe(this::showProgress).doOnTerminate(this::hideProgress).subscribe(loadObserver));
     }
 
@@ -175,17 +177,7 @@ public class GoodsListFragment extends BaseFragment {
     private void initData() {
         mAdapter = new GoodsAdapter(getContext(), Glide.with(this));
 
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-                mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_loading : R.id.layout_list);
-            }
-        });
-
-        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
-
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
