@@ -173,8 +173,8 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick(R.id.locate_btn)
     public void toggleSchoolSelector() {
-        schoolSelectorLazy.get().setCancelable(true);
-        schoolSelectorLazy.get().show(getSupportFragmentManager(), SchoolSelector.TAG);
+//        schoolSelectorLazy.get().setCancelable(true);
+//        schoolSelectorLazy.get().show(getSupportFragmentManager(), SchoolSelector.TAG);
     }
 
     @Override

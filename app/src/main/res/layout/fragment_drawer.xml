@@ -10,19 +10,31 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginLeft="12dp"
-        android:background="@null"
-        android:cursorVisible="true"
-        android:drawableLeft="@drawable/ic_search_primary_24dp"
-        android:drawablePadding="@dimen/content_space_8"
-        android:hint="你在找什么..."
-        android:textColor="@color/colorAccent"
-        android:textColorHint="@color/colorAccent"
-        android:textSize="@dimen/material_text_subhead"
-        android:textStyle="bold"/>
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/SingleLine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_location_on_accent_24dp"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="浙江传媒学院-下沙校区"
+            android:textColor="@color/text_secondary_dark"
+            android:textSize="@dimen/material_text_subhead"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/switch_school_btn"
+            style="@style/toolbar_button"
+            android:src="@drawable/ic_search_primary_24dp"/>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -88,7 +100,7 @@
                 android:text="@string/category_makeup"/>
 
             <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/soprts_btn"
+                android:id="@+id/sports_btn"
                 style="@style/drawer_radio_button"
                 android:drawableRight="@drawable/ic_receipt_grey600_24dp"
                 android:text="@string/category_sports"/>

@@ -18,7 +18,7 @@
 
     <style name="drawer_radio_button">
         <item name="android:layout_marginLeft">@dimen/content_space_8</item>
-        <item name="android:layout_marginRight">@dimen/content_space_8</item>
+        <item name="android:layout_marginRight">@dimen/content_space_16</item>
         <!--<item name="android:paddingEnd">@dimen/content_space_16</item>-->
         <!--<item name="android:paddingRight">@dimen/content_space_16</item>-->
         <item name="android:paddingLeft">@dimen/content_space_8</item>

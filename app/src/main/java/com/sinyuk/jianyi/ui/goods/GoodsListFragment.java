@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -15,7 +16,13 @@ import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.GoodsRepository;
 import com.sinyuk.jianyi.ui.BaseFragment;
+import com.sinyuk.jianyi.ui.events.CategoryFilterEvent;
+import com.sinyuk.jianyi.ui.events.SchoolFilterEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -31,6 +38,7 @@ import rx.Observer;
 public class GoodsListFragment extends BaseFragment {
     private static final int PRELOAD_THRESHOLD = 4;
     private static final int FIRST_PAGE = 1;
+    private static final String TAG = "GoodsListFragment";
     @BindView(R.id.layout_loading)
     FrameLayout mLayoutLoading;
     @BindView(R.id.recycler_view)
@@ -67,7 +75,7 @@ public class GoodsListFragment extends BaseFragment {
 
     @Override
     protected void beforeInflate() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -118,6 +126,12 @@ public class GoodsListFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void loadGoods(int page) {
 
     }
@@ -139,8 +153,18 @@ public class GoodsListFragment extends BaseFragment {
         refreshFeeds();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCategoryChange(CategoryFilterEvent event) {
+        Log.d(TAG, "onCategoryChange: " + event.getTitle());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSchoolChange(SchoolFilterEvent event) {
+        Log.d(TAG, "onSchoolChange: " + event.getIndex());
+    }
+
     private void refreshFeeds() {
-        goodsRepository.getAll(1, 1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver);
+        addSubscription(goodsRepository.getAll(1, 1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver));
     }
 
     /**

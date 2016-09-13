@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import rx.Subscription;
@@ -51,6 +53,9 @@ public abstract class BaseFragment extends Fragment {
         mCompositeSubscription = new CompositeSubscription();
         beforeInflate();
     }
+
+    @Subscribe
+    public void onEvent(){}
 
     /**
      * 保存Fragment的Hidden状态
