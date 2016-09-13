@@ -61,9 +61,9 @@ public class GoodsListItemView extends LinearLayout {
         ButterKnife.bind(this);
     }
 
-    public void bindTo(Goods data,
-                       DrawableRequestBuilder<String> shotBuilder,
-                       DrawableRequestBuilder<String> avatarBuilder) {
+    public void bindTo(final Goods data,
+                       final DrawableRequestBuilder<String> shotBuilder,
+                       final DrawableRequestBuilder<String> avatarBuilder) {
         Preconditions.checkNotNull(data, "Can't bind to a null good");
 
         setText(mTitleTv, data.getName(), null);
@@ -91,16 +91,11 @@ public class GoodsListItemView extends LinearLayout {
                     .into(mAvatar);
         }
 
-
-           /*加载图片*/
-
         shotBuilder.load(data.getCoverUrl()).into(mShotIv);
 
-        mAvatar.setOnClickListener(v -> {
-            PlayerActivity.start(getContext(), data.getUid());
-        });
+        mAvatar.setOnClickListener(v -> PlayerActivity.start(getContext(), data.getUid()));
 
-        mShotIv.setOnClickListener(v -> DetailActivity.start(getContext(), new Goods()));
+        mShotIv.setOnClickListener(v -> DetailActivity.start(getContext(), data));
     }
 
 

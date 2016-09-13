@@ -23,32 +23,44 @@
 
         <com.sinyuk.jianyi.widgets.BaselineGridTextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:lineSpacingExtra="1sp"
             android:textColor="@color/text_primary_dark"
-            android:textSize="20dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
             tools:text="Material Design Todo List"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
+            android:gravity="top"
             android:orientation="horizontal">
-            <com.sinyuk.jianyi.widgets.BaselineGridTextView                android:id="@+id/user_name_tv"
+            <com.sinyuk.jianyi.widgets.BaselineGridTextView
+                android:id="@+id/price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/content_space_16"
                 android:includeFontPadding="false"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/material_text_body1"
+                android:textStyle="bold"
+                tools:text="100,0"/>
+
+            <com.sinyuk.jianyi.widgets.BaselineGridTextView
+                android:id="@+id/user_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textColor="@color/text_secondary_dark"
                 android:textSize="@dimen/material_text_caption2"
-                tools:text="Sinyuk"/>
+                tools:text="波哥"/>
 
-            <com.sinyuk.jianyi.widgets.BaselineGridTextView                android:id="@+id/pub_date_tv"
+            <com.sinyuk.jianyi.widgets.BaselineGridTextView
+                android:id="@+id/pub_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/content_space_8"
-                android:includeFontPadding="false"
                 android:textColor="@color/colorPrimaryLt"
                 android:textSize="@dimen/material_text_caption1"
                 tools:text="几天前"/>
@@ -56,14 +68,5 @@
 
     </LinearLayout>
 
-    <com.sinyuk.jianyi.widgets.BaselineGridTextView
-        android:id="@+id/price_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/content_space_8"
-        android:layout_marginTop="@dimen/content_space_8"
-        android:textColor="@color/colorPrimaryLt"
-        android:textSize="@dimen/material_text_body1"
-        tools:text="100,0"/>
 
 </LinearLayout>

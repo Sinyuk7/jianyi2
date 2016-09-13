@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.school.School;
 
@@ -90,7 +89,7 @@ public class Goods implements Parcelable {
 
     public String getCoverUrl() {
         if (pic != null && !pic.isEmpty()) {
-            return JianyiApi.BASE_URL + pic.get(0).getPic();
+            return pic.get(0).getUrl();
         } else {
             return "";
         }

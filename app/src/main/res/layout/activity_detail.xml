@@ -129,13 +129,14 @@
                 android:layout_marginBottom="@dimen/content_space_16"
                 android:layout_marginTop="12dp"/>
 
-            <com.sinyuk.jianyi.widgets.ReadMoreTextView
+            <TextView
                 android:id="@+id/description_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1.05"
                 android:textColor="@color/text_secondary_dark"
-                android:textSize="@dimen/material_text_body2"
-                app:trimLength="40"
+                android:textSize="@dimen/material_text_body1"
                 tools:text="@string/fake"/>
 
 

@@ -9,6 +9,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.Pic;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.utils.AvatarHelper;
+import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
@@ -59,7 +61,7 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.app_bar_layout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.description_tv)
-    ReadMoreTextView mDescriptionTv;
+    TextView mDescriptionTv;
     @BindView(R.id.comments_list)
     RecyclerView mCommentsList;
     @BindView(R.id.view_pager)
@@ -75,7 +77,7 @@ public class DetailActivity extends BaseActivity {
     TextView shareBtn;
 
     private List<Pic> mShotList = new ArrayList<>();
-    private Goods mGoods;
+    private Goods result;
     private ShotAdapter mShotAdapter;
     private AnimatedVectorDrawableCompat likeAvd;
     private AnimatedVectorDrawableCompat viewsAvd;
@@ -94,7 +96,7 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void beforeInflating() {
-
+        result = getIntent().getParcelableExtra(KEY_GOODS);
     }
 
     @Override
@@ -102,7 +104,9 @@ public class DetailActivity extends BaseActivity {
         setupViewPager();
         setupActionButtons();
         // optional
-        handleResult();
+        if (result != null) {
+            handleResult();
+        }
     }
 
     private void setupActionButtons() {
@@ -131,42 +135,45 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void handleResult() {
-        //
-        final TextDrawable placeHolder = AvatarHelper.createTextDrawable("Sinyuk", this);
+        // 标题
+        TextViewHelper.setText(mTitle, result.getName(), null);
 
-        Glide.with(this).load("http://ww1.sinaimg.cn/mw1024/b29e155ajw1ed8y7i5fhuj20b40b4t9d.jpg")
-                .priority(Priority.IMMEDIATE)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .placeholder(android.R.color.white)
-                .error(placeHolder)
-                .bitmapTransform(new CropCircleTransformation(this))
-                .into(mAvatar);
+        //
+        TextViewHelper.setText(mDescriptionTv, result.getDetail(), null);
 
         NumberFormat nf = NumberFormat.getInstance();
-        likeBtn.setText(getResources().getQuantityString(R.plurals.likes, 12, nf.format(12)));
+        final int viewCount = result.getViewCount();
+        viewCountBtn.setText(getResources().getQuantityString(R.plurals.views, viewCount, nf.format(viewCount)));
 
-        viewCountBtn.setText(getResources().getQuantityString(R.plurals.views, 24, nf.format(24)));
-
-        // 标题
-        TextViewHelper.setText(mTitle, "想要有直升机", null);
-
-        //
-        TextViewHelper.setText(mPriceTv, "123456", null);
-
-        TextViewHelper.setText(mUserNameTv, "Sinyuk", null);
-
-        //
-        TextViewHelper.setText(mDescriptionTv, "所以那些可能都不是真的 董小姐" +
-                "你才不是一个没有故事的女同学" +
-                "爱上一匹野马 可我的家里没有草原" +
-                "这让我感到绝望 董小姐", null);
-
-        TextViewHelper.setText(mPubDataTv, "Sinyuk", null);
+        // fake
+        final int likeCount = viewCount / 8;
+        likeBtn.setText(getResources().getQuantityString(R.plurals.likes, likeCount, nf.format(likeCount)));
 
         try {
-            TextViewHelper.setText(mPubDataTv, FuzzyDateFormater.getParsedDate(this, "2016-07-23 16:42:10"), "爱在西元前");
+            TextViewHelper.setText(mPubDataTv, FuzzyDateFormater.getParsedDate(this, result.getTime()), "爱在西元前");
         } catch (Exception e) {
             mPubDataTv.setText("爱在西元前");
+        }
+
+
+        if (TextUtils.isEmpty(result.getPrice())) {
+            mPriceTv.setVisibility(View.INVISIBLE);
+        } else {
+            mPriceTv.setText(FormatUtils.formatPrice(result.getPrice()));
+        }
+
+        if (result.getUser() != null) {
+            final TextDrawable placeHolder = AvatarHelper.createTextDrawable(result.getUser().getName(), this);
+            Glide.with(this).load(result.getUser().getAvatar())
+                    .priority(Priority.IMMEDIATE)
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .placeholder(android.R.color.white)
+                    .error(placeHolder)
+                    .bitmapTransform(new CropCircleTransformation(this))
+                    .into(mAvatar);
+
+
+            TextViewHelper.setText(mUserNameTv, result.getUser().getName(), null);
         }
 
         loadShots();
@@ -194,13 +201,12 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void loadShots() {
-        Pic pic = new Pic();
-        pic.setPic("http://ww2.sinaimg.cn/mw690/a772ae96gw1eyw3ynr4nbj20rs1dbann.jpg");
-        mShotList.add(pic);
-        mShotList.add(pic);
-        mShotList.add(pic);
+        if (null != result.getPic()) {
+            mShotList.clear();
+            mShotList.addAll(result.getPic());
+            mShotAdapter.notifyDataSetChanged();
+        }
 
-        mShotAdapter.notifyDataSetChanged();
     }
 
     private class ShotAdapter extends PagerAdapter {
@@ -225,7 +231,7 @@ public class DetailActivity extends BaseActivity {
             container.addView(imageView);
             //
             if (mShotList.get(position) != null) {
-                requestBuilder.load(mShotList.get(position).getPic()).into(imageView);
+                requestBuilder.load(mShotList.get(position).getUrl()).into(imageView);
             }
             return imageView;
         }
