@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.sinyuk.jianyi.R;
-import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.ui.detail.DetailActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
+import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.sinyuk.jianyi.utils.StringUtils;
 import com.sinyuk.jianyi.widgets.LabelView;
@@ -67,34 +67,37 @@ public class GoodsListItemView extends LinearLayout {
         Preconditions.checkNotNull(data, "Can't bind to a null good");
 
         setText(mTitleTv, data.getName(), null);
-        setText(mUserNameTv, data.getUsername(), data.getUid() + "");
-        if (!TextUtils.isEmpty(data.getPrice())) {
-            mPriceLabelView.setText(data.getPrice());
+
+        if (TextUtils.isEmpty(data.getPrice())) {
+            mPriceLabelView.setVisibility(View.INVISIBLE);
         } else {
-            mPriceLabelView.setVisibility(INVISIBLE);
+            mPriceLabelView.setText(FormatUtils.formatPrice(data.getPrice()));
+        }
+
+        if (data.getUser() != null) {
+            setText(mUserNameTv, data.getUser().getName(), data.getUid() + "");
+              /* avatar*/
+            final String username = StringUtils.valueOrDefault(data.getUser().getName(), " ");
+
+            // use a TextDrawable as a placeholder
+            final char firstLetter = username.charAt(0);
+
+            final TextDrawable textDrawable = TextDrawable.builder()
+                    .buildRound(firstLetter + "", grey600);
+
+            avatarBuilder.load(data.getUser().getAvatar())
+                    .placeholder(textDrawable)
+                    .error(textDrawable)
+                    .into(mAvatar);
         }
 
 
-         /* avatar*/
-        final String username = StringUtils.valueOrDefault(data.getUsername(), " ");
-
-        // use a TextDrawable as a placeholder
-        final char firstLetter = username.charAt(0);
-
-        final TextDrawable textDrawable = TextDrawable.builder()
-                .buildRound(firstLetter + "", grey600);
-
-        avatarBuilder.load(data.getHeadImg())
-                .placeholder(textDrawable)
-                .error(textDrawable)
-                .into(mAvatar);
-
            /*加载图片*/
-        shotBuilder.load(JianyiApi.BASE_URL + data.getPic()).into(mShotIv);
+
+        shotBuilder.load(data.getCoverUrl()).into(mShotIv);
 
         mAvatar.setOnClickListener(v -> {
-            PlayerActivity.start(getContext(), data.getUid(), data.getSchoolName());
-
+            PlayerActivity.start(getContext(), data.getUid());
         });
 
         mShotIv.setOnClickListener(v -> DetailActivity.start(getContext(), new Goods()));

@@ -194,7 +194,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void loadShots() {
-        GoodsExtras.Pics pic = new GoodsExtras.Pics();
+        Pic pic = new Pic();
         pic.setPic("http://ww2.sinaimg.cn/mw690/a772ae96gw1eyw3ynr4nbj20rs1dbann.jpg");
         mShotList.add(pic);
         mShotList.add(pic);
