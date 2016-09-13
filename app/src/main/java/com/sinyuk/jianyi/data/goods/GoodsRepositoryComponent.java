@@ -1,6 +1,5 @@
 package com.sinyuk.jianyi.data.goods;
 
-import com.sinyuk.jianyi.MainActivity;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 
 import javax.inject.Singleton;
@@ -17,6 +16,5 @@ import dagger.Subcomponent;
         }
 )
 public interface GoodsRepositoryComponent {
-    void inject(MainActivity target);
     void inject(GoodsListFragment target);
 }

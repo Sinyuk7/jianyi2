@@ -2,10 +2,12 @@ package com.sinyuk.jianyi.ui.goods;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -16,9 +18,9 @@ import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.GoodsRepository;
 import com.sinyuk.jianyi.ui.BaseFragment;
-import com.sinyuk.jianyi.ui.events.CategoryFilterEvent;
-import com.sinyuk.jianyi.ui.events.SchoolFilterEvent;
+import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
+import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,6 +40,7 @@ import rx.Observer;
 public class GoodsListFragment extends BaseFragment {
     private static final int PRELOAD_THRESHOLD = 4;
     private static final int FIRST_PAGE = 1;
+    //
     private static final String TAG = "GoodsListFragment";
     @BindView(R.id.layout_loading)
     FrameLayout mLayoutLoading;
@@ -53,13 +56,20 @@ public class GoodsListFragment extends BaseFragment {
     GoodsRepository goodsRepository;
     private SmoothProgressBar smoothProgressBar;
     private boolean isLoading = false;
-    private int mPage = 1;
     private GoodsAdapter mAdapter;
 
+    /**
+     *
+     */
+    private String title;
+    private int school;
+    private int page = FIRST_PAGE;
+
+    //
     private final Observer<List<Goods>> refreshObserver = new Observer<List<Goods>>() {
         @Override
         public void onCompleted() {
-            mPage = FIRST_PAGE + 1;
+            page = FIRST_PAGE + 1;
         }
 
         @Override
@@ -69,9 +79,27 @@ public class GoodsListFragment extends BaseFragment {
 
         @Override
         public void onNext(List<Goods> items) {
-            mAdapter.addAll(items);
+            mAdapter.resetAll(items);
         }
     };
+
+    private final Observer<List<Goods>> loadObserver = new Observer<List<Goods>>() {
+        @Override
+        public void onCompleted() {
+            page++;
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            handleError(e);
+        }
+
+        @Override
+        public void onNext(List<Goods> items) {
+            mAdapter.appendAll(items);
+        }
+    };
+
 
     @Override
     protected void beforeInflate() {
@@ -120,7 +148,7 @@ public class GoodsListFragment extends BaseFragment {
                 boolean isBottom =
                         gridLayoutManager.findLastCompletelyVisibleItemPosition() >= recyclerView.getAdapter().getItemCount() - PRELOAD_THRESHOLD;
                 if (isBottom) {
-                    loadGoods(mPage);
+                    loadGoods(page);
                 }
             }
         });
@@ -133,6 +161,14 @@ public class GoodsListFragment extends BaseFragment {
     }
 
     private void loadGoods(int page) {
+        addSubscription(goodsRepository.filter(title, school, page).doOnSubscribe(this::showProgress).doOnTerminate(this::hideProgress).subscribe(loadObserver));
+    }
+
+    private void showProgress() {
+
+    }
+
+    private void hideProgress() {
 
     }
 
@@ -146,25 +182,39 @@ public class GoodsListFragment extends BaseFragment {
             }
         });
 
-//        mAdapter.setHasStableIds(true);
+        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
 
         mRecyclerView.setAdapter(mAdapter);
 
-        refreshFeeds();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCategoryChange(CategoryFilterEvent event) {
-        Log.d(TAG, "onCategoryChange: " + event.getTitle());
+    public void onCategoryChange(FilterUpdateEvent event) {
+        boolean needUpdate = false;
+        if (!TextUtils.isEmpty(event.getTitle())) {
+            if (!event.getTitle().equals(title)) {
+                Log.d(TAG, "onCategoryChange: " + event.getTitle());
+                title = event.getTitle();
+                needUpdate = true;
+            }
+        }
+
+        if (event.getSchool() != -1) {
+            if (event.getSchool() != school) {
+                Log.d(TAG, "onSchoolChange: " + event.getSchool());
+                school = event.getSchool();
+                needUpdate = true;
+            }
+        }
+        if (needUpdate) {
+            refreshResult();
+        }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSchoolChange(SchoolFilterEvent event) {
-        Log.d(TAG, "onSchoolChange: " + event.getIndex());
-    }
-
-    private void refreshFeeds() {
-        addSubscription(goodsRepository.getAll(1, 1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver));
+    private void refreshResult() {
+        addSubscription(goodsRepository.filter(title, school, FIRST_PAGE)
+                .doAfterTerminate(this::hideRefreshView)
+                .subscribe(refreshObserver));
     }
 
     /**

@@ -46,7 +46,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
         notifyItemRangeInserted(startPosition, items.size());
     }
 
-    public void addAll(List<Goods> items) {
+    public void resetAll(List<Goods> items) {
         mDataSet.clear();
         mDataSet.addAll(items);
         notifyDataSetChanged();
@@ -54,7 +54,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
 
     @Override
     public int getItemCount() {
-        return mDataSet == null ? 0 :mDataSet.size();
+        return mDataSet == null ? 0 : mDataSet.size();
     }
 
     public class GoodItemViewHolder extends RecyclerView.ViewHolder {

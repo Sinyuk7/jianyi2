@@ -10,7 +10,7 @@ import android.view.View;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseFragment;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
-import com.sinyuk.jianyi.ui.events.CategoryFilterEvent;
+import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -62,7 +62,7 @@ public class DrawerMenu extends BaseFragment {
                     schoolSelector.show(getChildFragmentManager(), SchoolSelector.TAG);
                     isClickSchool = false;
                 } else if (!TextUtils.isEmpty(mTitle)) {
-                    EventBus.getDefault().post(new CategoryFilterEvent(mTitle));
+                    EventBus.getDefault().post(new FilterUpdateEvent(mTitle));
                 }
             }
 

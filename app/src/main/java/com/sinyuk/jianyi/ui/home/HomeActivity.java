@@ -1,6 +1,7 @@
 package com.sinyuk.jianyi.ui.home;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,12 +17,15 @@ import android.widget.ImageView;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
+import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.sinyuk.jianyi.widgets.ToolbarIndicator;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -34,6 +38,9 @@ import dagger.Lazy;
  */
 public class HomeActivity extends BaseActivity {
     private static final long RIPPLE_DURATION = 250;
+
+    // 延迟加载列表
+    private final Runnable mLoadingGoodsRunnable = () -> EventBus.getDefault().post(new FilterUpdateEvent("all", 0));
 
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
@@ -57,6 +64,7 @@ public class HomeActivity extends BaseActivity {
     Lazy<SchoolSelector> schoolSelectorLazy;
     private GuillotineAnimation guillotineAnimation;
     private boolean isGuillotineOpened;
+    private Handler myHandler = new Handler();
 
     @Override
     protected int getContentViewID() {
@@ -76,6 +84,9 @@ public class HomeActivity extends BaseActivity {
         initViewPager();
 
         setupDrawerLayout();
+
+        //  第三种写法:优化的DelayLoad
+        getWindow().getDecorView().post(() -> myHandler.postDelayed(mLoadingGoodsRunnable, 4000));
     }
 
     private void setupDrawerLayout() {
@@ -186,5 +197,11 @@ public class HomeActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        myHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 }

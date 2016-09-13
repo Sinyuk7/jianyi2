@@ -14,14 +14,15 @@ import rx.schedulers.Schedulers;
  * Created by Sinyuk on 16/9/9.
  */
 public class GoodsRepository {
+    private static final String TAG = "GoodsRepository";
     private JianyiService jianyiService;
 
     public GoodsRepository(JianyiService jianyiService) {
         this.jianyiService = jianyiService;
     }
 
-    public Observable<List<Goods>> getAll(int school, int page) {
-        return jianyiService.getAll(school, page)
+    public Observable<List<Goods>> filter(String title, int school, int page) {
+        return jianyiService.get(title, school, page)
                 .map(new HttpResultFunc<GoodsResult>() {
                     @Override
                     public GoodsResult call(HttpResult<GoodsResult> httpResult) {
@@ -31,5 +32,8 @@ public class GoodsRepository {
                 .map(GoodsResult::getItems)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+
     }
+
+
 }
