@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.sinyuk.jianyi.widgets.BaselineGridTextView
+                <Button
                     android:id="@+id/like_btn"
                     style="@style/detail_action_button"
                     android:layout_width="0dp"
@@ -98,6 +98,28 @@
                     android:background="@null"
                     tools:drawableTop="@drawable/avd_likes"
                     tools:text="1234 likes"/>
+
+                <Button
+                    android:id="@+id/view_count_btn"
+                    style="@style/detail_action_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    tools:drawableTop="@drawable/avd_views"
+                    tools:text="33 views"
+                />
+
+                <Button
+                    android:id="@+id/share_btn"
+                    style="@style/detail_action_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    android:layout_weight="1"
+                    android:text="@string/share"
+                    tools:drawableTop="@drawable/avd_share"
+                />
 
                 <!--<io.plaidapp.ui.widget.BaselineGridTextView-->
                 <!--android:id="@+id/followers_count"-->

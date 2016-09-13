@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
@@ -65,7 +66,7 @@ public class DetailActivity extends BaseActivity {
     ViewPager mViewPager;
 
     @BindView(R.id.like_btn)
-    BaselineGridTextView likeBtn;
+    Button likeBtn;
 
     private List<GoodsExtras.Pics> mShotList = new ArrayList<>();
     private Goods mGoods;
