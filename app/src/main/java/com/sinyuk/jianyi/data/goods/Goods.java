@@ -41,7 +41,7 @@ public class Goods implements Parcelable {
     @SerializedName("schoolname")
     private String schoolName;
 
-    protected Goods(Parcel in) {
+    public Goods(Parcel in) {
         this.id = in.readInt();
         this.uid = in.readInt();
         this.name = in.readString();
@@ -52,6 +52,10 @@ public class Goods implements Parcelable {
         this.username = in.readString();
         this.headImg = in.readString();
         this.schoolName = in.readString();
+    }
+
+    public Goods() {
+
     }
 
     public int getId() {

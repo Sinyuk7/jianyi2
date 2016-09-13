@@ -3,6 +3,7 @@ package com.sinyuk.jianyi.ui.goods;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.data.goods.Goods;
+import com.sinyuk.jianyi.ui.detail.DetailActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.sinyuk.jianyi.utils.StringUtils;
@@ -91,11 +93,13 @@ public class GoodsListItemView extends LinearLayout {
         shotBuilder.load(JianyiApi.BASE_URL + data.getPic()).into(mShotIv);
 
         mAvatar.setOnClickListener(v -> {
-            if (getContext() != null) {
-                PlayerActivity.start(getContext(), data.getUid(), data.getSchoolName());
-            }
+            PlayerActivity.start(getContext(), data.getUid(), data.getSchoolName());
+
         });
+
+        mShotIv.setOnClickListener(v -> DetailActivity.start(getContext(), new Goods()));
     }
+
 
     private void setText(TextView textView, String input, String defaultValue) {
         if (textView == null) return;

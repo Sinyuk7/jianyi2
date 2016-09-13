@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>or
+    <style name="detail_action_button" parent="@android:style/Widget.Material.Button">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textAppearance">@style/detail_action_button_text</item>
+        <item name="android:drawablePadding">@dimen/content_space_4</item>
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="detail_action_button_text" parent="@android:style/TextAppearance.Material.Caption">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFeatureSettings">smcp, onum</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+
+    <plurals name="likes">
+        <item quantity="zero">no likes</item>
+        <item quantity="one">%s like</item>
+        <item quantity="other">%s likes</item>
+    </plurals>
+    <plurals name="views">
+        <item quantity="zero">no views</item>
+        <item quantity="one">%s view</item>
+        <item quantity="other">%s views</item>
+    </plurals>
+</resources>

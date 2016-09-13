@@ -113,13 +113,6 @@ public class PlayerActivity extends BaseActivity {
         context.startActivity(starter);
     }
 
-    public static Intent start(Context context, Player player) {
-        Intent starter = new Intent(context, PlayerActivity.class);
-        starter.putExtra(KEY_PLAYER, player);
-        context.startActivity(starter);
-        return starter;
-    }
-
     @Override
     protected int getContentViewID() {
         return R.layout.activity_player;
