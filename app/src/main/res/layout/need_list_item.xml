@@ -104,11 +104,12 @@
         />
     </LinearLayout>
 
-    <View
+    <include
+        layout="@layout/common_list_divider"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_below="@+id/expand_view"
-        android:layout_marginTop="@dimen/content_space_8"
-        android:background="#35757575"/>
+        android:layout_marginTop="@dimen/content_space_8"/>
+
 
 </RelativeLayout>

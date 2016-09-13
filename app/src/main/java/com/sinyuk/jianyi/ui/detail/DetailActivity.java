@@ -11,8 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
@@ -66,12 +66,20 @@ public class DetailActivity extends BaseActivity {
     ViewPager mViewPager;
 
     @BindView(R.id.like_btn)
-    Button likeBtn;
+    TextView likeBtn;
+
+    @BindView(R.id.view_count_btn)
+    TextView viewCountBtn;
+
+    @BindView(R.id.share_btn)
+    TextView shareBtn;
 
     private List<GoodsExtras.Pics> mShotList = new ArrayList<>();
     private Goods mGoods;
     private ShotAdapter mShotAdapter;
     private AnimatedVectorDrawableCompat likeAvd;
+    private AnimatedVectorDrawableCompat viewsAvd;
+    private AnimatedVectorDrawableCompat shareAvd;
 
     public static void start(Context context, Goods goods) {
         Intent starter = new Intent(context, DetailActivity.class);
@@ -99,9 +107,21 @@ public class DetailActivity extends BaseActivity {
 
     private void setupActionButtons() {
         likeAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_likes);
+        viewsAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_views);
+        shareAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_share);
+
+        if (viewsAvd != null) {
+            viewsAvd.setBounds(0, 0, viewsAvd.getMinimumWidth(), viewsAvd.getMinimumHeight());
+            viewCountBtn.setCompoundDrawables(null, viewsAvd, null, null);
+        }
+
         if (likeAvd != null) {
             likeAvd.setBounds(0, 0, likeAvd.getMinimumWidth(), likeAvd.getMinimumHeight());
             likeBtn.setCompoundDrawables(null, likeAvd, null, null);
+        }
+        if (shareAvd != null) {
+            shareAvd.setBounds(0, 0, shareAvd.getMinimumWidth(), shareAvd.getMinimumHeight());
+            shareBtn.setCompoundDrawables(null, shareAvd, null, null);
         }
     }
 
@@ -125,6 +145,8 @@ public class DetailActivity extends BaseActivity {
         NumberFormat nf = NumberFormat.getInstance();
         likeBtn.setText(getResources().getQuantityString(R.plurals.likes, 12, nf.format(12)));
 
+        viewCountBtn.setText(getResources().getQuantityString(R.plurals.views, 24, nf.format(24)));
+
         // 标题
         TextViewHelper.setText(mTitle, "想要有直升机", null);
 
@@ -134,9 +156,9 @@ public class DetailActivity extends BaseActivity {
         TextViewHelper.setText(mUserNameTv, "Sinyuk", null);
 
         //
-        TextViewHelper.setText(mDescriptionTv, "所以那些可能都不是真的 董小姐\n" +
-                "你才不是一个没有故事的女同学\n" +
-                "爱上一匹野马 可我的家里没有草原\n" +
+        TextViewHelper.setText(mDescriptionTv, "所以那些可能都不是真的 董小姐" +
+                "你才不是一个没有故事的女同学" +
+                "爱上一匹野马 可我的家里没有草原" +
                 "这让我感到绝望 董小姐", null);
 
         TextViewHelper.setText(mPubDataTv, "Sinyuk", null);
@@ -150,12 +172,22 @@ public class DetailActivity extends BaseActivity {
         loadShots();
     }
 
-    @OnClick({R.id.like_btn})
+    @OnClick({R.id.like_btn, R.id.view_count_btn, R.id.share_btn})
     public void onActionButtonClick(View v) {
         switch (v.getId()) {
             case R.id.like_btn:
                 if (likeAvd != null) {
                     likeAvd.start();
+                }
+                break;
+            case R.id.view_count_btn:
+                if (viewsAvd != null) {
+                    viewsAvd.start();
+                }
+                break;
+            case R.id.share_btn:
+                if (shareAvd != null) {
+                    shareAvd.start();
                 }
                 break;
         }

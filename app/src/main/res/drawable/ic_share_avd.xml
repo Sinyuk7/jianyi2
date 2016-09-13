@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportHeight="24"
+    android:viewportWidth="24">
+
+    <path
+        android:name="dots"
+        android:pathData="M18,19m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0 M6,12m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0 M18,5m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"
+        android:fillColor="#757575" />
+
+    <path
+        android:name="lines"
+        android:pathData="M6,12L18,19 M18,5L6,12"
+        android:strokeColor="#757575"
+        android:strokeLineCap="square"
+        android:strokeWidth="2" />
+
+</vector>
