@@ -20,7 +20,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.goods.Goods;
-import com.sinyuk.jianyi.data.goods.GoodsExtras;
+import com.sinyuk.jianyi.data.goods.Pic;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.utils.AvatarHelper;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
@@ -74,7 +74,7 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.share_btn)
     TextView shareBtn;
 
-    private List<GoodsExtras.Pics> mShotList = new ArrayList<>();
+    private List<Pic> mShotList = new ArrayList<>();
     private Goods mGoods;
     private ShotAdapter mShotAdapter;
     private AnimatedVectorDrawableCompat likeAvd;
