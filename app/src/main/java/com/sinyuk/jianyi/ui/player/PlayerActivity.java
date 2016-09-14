@@ -9,11 +9,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -25,11 +23,11 @@ import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.utils.PrefsKeySet;
-import com.sinyuk.jianyi.utils.StringUtils;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.BlurTransformation;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.widgets.MyCircleImageView;
+import com.sinyuk.jianyi.widgets.RatioImageView;
 
 import javax.inject.Inject;
 
@@ -43,14 +41,14 @@ public class PlayerActivity extends BaseActivity {
     public static final String KEY_PLAYER = "PLAYER";
     public static final String KEY_SCHOOL = "SCHOOL";
 
-    private static final int BLUR_RADIUS = 20;
-    private static final int BLUR_SAMPLING = 8;
+    private static final int BLUR_RADIUS = 28;
+    private static final int BLUR_SAMPLING = 14;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-    @BindView(R.id.reveal_view)
-    ImageView mRevealView;
+    @BindView(R.id.background)
+    RatioImageView mRevealView;
     @BindView(R.id.avatar)
-    MyCircleImageView mAvatar;
+    ImageView mAvatar;
     @BindView(R.id.user_name_et)
     EditText mUserNameEt;
     @BindView(R.id.location_tv)
@@ -106,19 +104,6 @@ public class PlayerActivity extends BaseActivity {
         handleResult();
 
     }
-
-   /* private void fetchPlayerData() {
-        jianyiServiceLazy.get().getPlayer(mId)
-                .map(new HttpResultFunc<Player>() {
-                    @Override
-                    public Player call(HttpResult<Player> httpResult) {
-                        return httpResult.getData();
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(playerObserver);
-    }*/
 
     private void setupToolbar() {
         if (mIsSelf) {

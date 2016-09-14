@@ -32,7 +32,7 @@ import dagger.Lazy;
  * Created by Sinyuk on 16/9/11.
  */
 public class GuillotineMenu extends BaseFragment {
-    @BindView(R.id.reveal_view)
+    @BindView(R.id.background)
     View mRevealView;
     @BindView(R.id.avatar)
     MyCircleImageView mAvatar;

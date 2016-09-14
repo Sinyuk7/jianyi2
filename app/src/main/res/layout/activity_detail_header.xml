@@ -19,7 +19,8 @@
         android:layout_marginRight="@dimen/content_space_8"
         android:layout_marginTop="@dimen/content_space_4"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:transitionName="@string/transition_avatar">
 
         <com.sinyuk.jianyi.widgets.BaselineGridTextView
             android:id="@+id/title"

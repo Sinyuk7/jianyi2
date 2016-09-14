@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,13 +26,13 @@ import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.Pic;
 import com.sinyuk.jianyi.ui.BaseActivity;
+import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.AvatarHelper;
 import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.widgets.BaselineGridTextView;
-import com.sinyuk.jianyi.widgets.ReadMoreTextView;
 import com.sinyuk.jianyi.widgets.TextDrawable;
 
 import java.text.NumberFormat;
@@ -75,6 +78,9 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.share_btn)
     TextView shareBtn;
+
+    @BindView(R.id.background)
+    FrameLayout mBackground;
 
     private List<Pic> mShotList = new ArrayList<>();
     private Goods result;
@@ -207,6 +213,20 @@ public class DetailActivity extends BaseActivity {
             mShotAdapter.notifyDataSetChanged();
         }
 
+    }
+
+    @OnClick(R.id.avatar)
+    public void gotoPlayerActivity(View v) {
+        if (result.getUser() != null) {
+            Pair<View, String> p1 = Pair.create((View) mAvatar, getString(R.string.transition_avatar));
+            Pair<View, String> p2 = Pair.create((View) mBackground, getString(R.string.transition_reveal_view));
+
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
+            Intent starter = new Intent(this, PlayerActivity.class);
+            starter.putExtra(PlayerActivity.KEY_PLAYER, result.getUser());
+            starter.putExtra(PlayerActivity.KEY_SCHOOL, result.getSchool());
+            startActivity(starter/*, options.toBundle()*/);
+        }
     }
 
     private class ShotAdapter extends PagerAdapter {

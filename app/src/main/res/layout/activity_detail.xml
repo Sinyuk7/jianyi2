@@ -31,8 +31,10 @@
                 android:orientation="vertical">
 
                 <FrameLayout
+                    android:id="@+id/background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:transitionName="@string/transition_reveal_view"
                     app:layout_collapseMode="parallax">
 
                     <com.sinyuk.jianyi.widgets.RatioImageView

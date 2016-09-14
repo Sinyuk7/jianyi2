@@ -36,4 +36,6 @@ public interface JianyiService {
     @GET("user/show/{id}")
     Observable<HttpResult<Player>> getPlayer(@Path("id") int id);
 
+    @GET("goods/sellManage")
+    Observable<HttpResult<GoodsResult>> getHisPosts(@Query("id") int id, @Query("page") int page);
 }

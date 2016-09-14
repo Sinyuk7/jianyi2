@@ -14,7 +14,7 @@
         android:orientation="vertical">
         <View
             android:transitionName="@string/transition_reveal_view"
-            android:id="@+id/reveal_view"
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@color/colorPrimary"/>
