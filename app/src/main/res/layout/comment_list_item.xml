@@ -63,7 +63,7 @@
         android:animateLayoutChanges="true"
         android:gravity="end"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <ImageView

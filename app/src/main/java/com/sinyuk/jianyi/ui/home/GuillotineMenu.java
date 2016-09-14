@@ -15,6 +15,7 @@ import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.data.player.Player;
+import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.ui.BaseFragment;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.TextViewHelper;
@@ -49,6 +50,7 @@ public class GuillotineMenu extends BaseFragment {
     @Inject
     Lazy<AccountManger> accountMangerLazy;
     private Player mPlayer;
+    private School mSchool;
 
     @Override
     protected void beforeInflate() {
@@ -93,8 +95,12 @@ public class GuillotineMenu extends BaseFragment {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation((Activity) getContext(), p1, p2, p3);
 
+        mSchool = new School();
+        mSchool.setName("艾泽拉斯大陆");
+
         Intent starter = new Intent(getContext(), PlayerActivity.class);
         starter.putExtra(PlayerActivity.KEY_PLAYER, mPlayer);
+        starter.putExtra(PlayerActivity.KEY_SCHOOL, mSchool);
         startActivity(starter, options.toBundle());
     }
 

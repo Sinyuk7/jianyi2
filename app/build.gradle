@@ -77,4 +77,5 @@ dependencies {
     testCompile rootProject.ext.dependencies["leakcanary-no-op"]
     //    compile project(':guillotinemenu')
     compile project(':guillotinemenu')
+    compile 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
 }
