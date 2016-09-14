@@ -2,6 +2,7 @@ package com.sinyuk.jianyi.ui.goods;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -19,6 +20,7 @@ import com.sinyuk.jianyi.data.goods.GoodsRepository;
 import com.sinyuk.jianyi.ui.BaseFragment;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
+import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -136,7 +138,7 @@ public class GoodsListFragment extends BaseFragment {
 
         mRecyclerView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
 
-//        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
+        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
 
         mRecyclerView.addItemDecoration(new GoodsItemDecoration(getContext()));
 
@@ -176,7 +178,7 @@ public class GoodsListFragment extends BaseFragment {
 
     private void initData() {
         mAdapter = new GoodsAdapter(getContext(), Glide.with(this));
-
+        mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
     }
 

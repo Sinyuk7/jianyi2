@@ -53,6 +53,14 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodItemView
     }
 
     @Override
+    public long getItemId(int position) {
+        if (mDataSet != null && mDataSet.get(position) != null) {
+            return mDataSet.get(position).getId();
+        }
+        return RecyclerView.NO_ID;
+    }
+
+    @Override
     public int getItemCount() {
         return mDataSet == null ? 0 : mDataSet.size();
     }
