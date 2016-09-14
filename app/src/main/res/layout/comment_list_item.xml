@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/need_item_background"
+    android:foreground="?selectableItemBackground"
+    android:minHeight="?android:listPreferredItemHeight"
+    android:paddingTop="@dimen/content_space_16">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="@dimen/content_space_8"
+        tools:src="@mipmap/ic_launcher"/>
+
+    <com.sinyuk.jianyi.widgets.BaselineGridTextView
+        android:id="@+id/user_name_tv"
+        style="@style/SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/avatar"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/material_text_body1"
+        android:textStyle="bold"
+        tools:text="Sinyuk"/>
+
+    <com.sinyuk.jianyi.widgets.BaselineGridTextView
+        android:id="@+id/pub_date_tv"
+        style="@style/SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/username_tv"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/content_space_8"
+        android:textColor="@color/text_secondary_dark"
+        android:textSize="@dimen/material_text_caption1"
+        tools:text="1天前"/>
+
+
+    <!--需求正文-->
+    <TextView
+        android:id="@+id/details_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_name_tv"
+        android:layout_marginBottom="@dimen/content_space_12"
+        android:layout_marginTop="@dimen/content_space_8"
+        android:layout_toRightOf="@+id/avatar"
+        android:lineSpacingMultiplier="1.1"
+        android:textColor="@color/text_primary_dark"
+        android:textSize="@dimen/material_text_body2"
+        tools:text="balaladasdas /n dsafdsfsfdsfdsfdsfsdasdsadsadsadsadsadsadsadsad"/>
+
+    <LinearLayout
+        android:id="@+id/expand_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/details_tv"
+        android:animateLayoutChanges="true"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+
+        <ImageView
+            android:id="@+id/reply_iv"
+            style="@style/comment_list_item_button"
+            android:src="@drawable/ic_messenger_grey600_24dp"
+        />
+    </LinearLayout>
+
+    <include
+        layout="@layout/common_list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/expand_view"
+        android:layout_marginTop="@dimen/content_space_8"/>
+
+
+</RelativeLayout>

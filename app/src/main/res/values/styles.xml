@@ -13,4 +13,11 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="AppTheme.Detail">
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+    </style>
+
+    <bool name="fitSystemView">false</bool>
+    <dimen name="status_bar_margin">0dp</dimen>
+
 </resources>

@@ -32,4 +32,17 @@
         <item quantity="other">%s views</item>
     </plurals>
     <string name="share">分享</string>
+    <string name="hint_reply">在这里留言</string>
+
+    <style name="comment_list_item_button">
+        <item name="android:clickable">true</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>
