@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
     tools:context=".ui.detail.DetailActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -96,8 +95,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/content_space_16"
-            android:layout_marginRight="@dimen/content_space_16"
             android:orientation="vertical">
 
             <include
@@ -105,12 +102,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginBottom="12dp"
+                android:layout_marginLeft="@dimen/content_space_16"
+                android:layout_marginRight="@dimen/content_space_16"
                 android:layout_marginTop="@dimen/content_space_16"/>
 
             <LinearLayout
                 android:id="@+id/stats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_space_16"
+                android:layout_marginRight="@dimen/content_space_16"
                 android:orientation="horizontal">
 
                 <TextView
@@ -143,12 +144,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginBottom="@dimen/content_space_16"
+                android:layout_marginLeft="@dimen/content_space_16"
+                android:layout_marginRight="@dimen/content_space_16"
                 android:layout_marginTop="12dp"/>
 
             <TextView
                 android:id="@+id/description_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_space_16"
+                android:layout_marginRight="@dimen/content_space_16"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.05"
                 android:textColor="@color/text_secondary_dark"
@@ -163,6 +168,7 @@
                 android:clipToPadding="false"
                 android:orientation="vertical"
                 android:overScrollMode="never"
+                android:paddingBottom="@dimen/content_space_16"
                 android:scrollbarStyle="insideOverlay"
                 android:scrollbars="vertical"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"

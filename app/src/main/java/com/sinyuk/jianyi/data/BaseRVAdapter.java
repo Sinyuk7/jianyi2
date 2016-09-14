@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public abstract class BaseRVAdapter<T, VH extends RecyclerView.ViewHolder>
     private static final int TYPE_FOOTER = Integer.MAX_VALUE - 1;
     private static final int ITEM_MAX_TYPE = Integer.MAX_VALUE - 2;
     private static final String TAG = "BaseRVAdapter";
-    protected List<T> mDataSet = Collections.emptyList();
+    protected List<T> mDataSet = new ArrayList<>();
     private RecyclerView.ViewHolder headerViewHolder;
     private RecyclerView.ViewHolder footerViewHolder;
 

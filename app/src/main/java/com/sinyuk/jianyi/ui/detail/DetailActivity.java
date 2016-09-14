@@ -14,18 +14,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.f2prateek.rx.preferences.Preference;
+import com.f2prateek.rx.preferences.RxSharedPreferences;
+import com.jakewharton.rxbinding.widget.RxTextView;
+import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.data.BaseRVAdapter;
+import com.sinyuk.jianyi.data.comment.Comment;
 import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.Pic;
 import com.sinyuk.jianyi.ui.BaseActivity;
@@ -33,6 +44,9 @@ import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.AvatarHelper;
 import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
+import com.sinyuk.jianyi.utils.ImeUtils;
+import com.sinyuk.jianyi.utils.NameGenerator;
+import com.sinyuk.jianyi.utils.PrefsKeySet;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
@@ -41,9 +55,14 @@ import com.sinyuk.jianyi.widgets.TextDrawable;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -84,6 +103,11 @@ public class DetailActivity extends BaseActivity {
     @BindView(R.id.share_btn)
     TextView shareBtn;
 
+    @Inject
+    AccountManger accountManger;
+    @Inject
+    RxSharedPreferences preferences;
+
     @BindView(R.id.background)
     FrameLayout mBackground;
 
@@ -95,6 +119,22 @@ public class DetailActivity extends BaseActivity {
     private AnimatedVectorDrawableCompat shareAvd;
     private boolean isLoading;
     private CommentAdapter mCommentAdapter;
+    private DrawableRequestBuilder<String> avatarBuilder;
+    private View commentFooter;
+    private EditText enterComment;
+    private ImageView postComment;
+    private View.OnClickListener onPostButtonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (accountManger.isLogin()) {
+                //
+                Toast.makeText(DetailActivity.this, "登录了", Toast.LENGTH_LONG).show();
+            } else {
+                //
+                Toast.makeText(DetailActivity.this, "没登录", Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
     public static void start(Context context, Goods goods) {
         Intent starter = new Intent(context, DetailActivity.class);
@@ -109,34 +149,76 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void beforeInflating() {
+        App.get(this).getAppComponent().inject(this);
         result = getIntent().getParcelableExtra(KEY_GOODS);
     }
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
+
         setupViewPager();
+
         setupActionButtons();
         // optional
         if (result != null) {
             handleResult();
         }
+
         initCommentList();
+
+        addCommentFooter();
+    }
+
+    private void addCommentFooter() {
+        if (null == commentFooter) {
+            commentFooter = LayoutInflater.from(this).inflate(R.layout.comment_list_footer, mCommentsList, false);
+            ImageView commentAvatar = (ImageView) commentFooter.findViewById(R.id.avatar);
+            enterComment = (EditText) commentFooter.findViewById(R.id.comment);
+            postComment = (ImageView) commentFooter.findViewById(R.id.post_btn);
+
+            addSubscription(RxTextView.textChanges(enterComment).map(TextUtils::isEmpty)
+                    .subscribe(this::disableInputButton));
+
+            postComment.setOnClickListener(onPostButtonClick);
+
+            disableInputButton(true);
+
+            mCommentAdapter.setFooterView(commentFooter);
+
+            commentAvatar.setOnClickListener(null);
+
+            if (!TextUtils.isEmpty(accountManger.getAvatar())) {
+                avatarBuilder.load(accountManger.getAvatar()).into(commentAvatar);
+            }
+        }
+    }
+
+    private void disableInputButton(Boolean noInput) {
+        Log.d(TAG, "disableInputButton: " + noInput);
+        postComment.setActivated(!noInput);
+        postComment.setClickable(!noInput);
     }
 
     private void initCommentList() {
+
+        avatarBuilder = Glide.with(this).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).dontAnimate().centerCrop().bitmapTransform(new CropCircleTransformation(this));
+
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         mCommentsList.setLayoutManager(layoutManager);
 
         mCommentsList.setHasFixedSize(true);
 
-        mCommentsList.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
-
         mCommentsList.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
 
         mCommentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (postComment != null) {
+                    ImeUtils.hideIme(postComment);
+                    postComment.clearFocus();
+                    recyclerView.requestFocus();
+                }
                 if (isLoading) {
                     return;
                 }
@@ -149,14 +231,21 @@ public class DetailActivity extends BaseActivity {
             }
         });
 
-        mCommentAdapter = new CommentAdapter(this, Glide.with(this));
+        mCommentAdapter = new CommentAdapter();
 
-        final View footer = LayoutInflater.from(this).inflate(R.layout.comment_list_footer, mCommentsList, false);
-
-        mCommentAdapter.setFooterView(footer);
+        mCommentAdapter.setHasStableIds(true);
 
         mCommentsList.setAdapter(mCommentAdapter);
 
+        List<Comment> comments = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Comment fake = new Comment();
+            fake.setSession(i);
+            fake.setUserName(NameGenerator.generateName());
+            comments.add(fake);
+        }
+
+        mCommentAdapter.resetAll(comments);
     }
 
     private void loadComment() {
@@ -240,6 +329,12 @@ public class DetailActivity extends BaseActivity {
                 if (likeAvd != null) {
                     likeAvd.start();
                 }
+                Preference<Integer> userId = preferences.getInteger(PrefsKeySet.KEY_USER_ID);
+                if (userId.isSet()) {
+                    userId.delete();
+                } else {
+                    userId.set(12345);
+                }
                 break;
             case R.id.view_count_btn:
                 if (viewsAvd != null) {
@@ -315,5 +410,173 @@ public class DetailActivity extends BaseActivity {
         }
     }
 
+    public class CommentAdapter extends BaseRVAdapter<Comment, CommentAdapter.CommentViewHolder> {
+        public final String[] avatarUrls = new String[]{
+                "http://i4.piimg.com/bfe33c321472a8e1.jpg",
+
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/7493872.jpg",
+                "http://i2.piimg.com/a3128205876036a0.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/65272015.jpg",
+
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/28409200.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/28774205.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/75678264.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/85429884.jpg",
+
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/95644103.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/48260140.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/34259100.jpg",
+                "http://i2.piimg.com/8740ab34b90ce823.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/21059124.jpg",
+
+                "http://i2.piimg.com/3aa7ddf4fe26c039.jpg",
+                "http://i2.piimg.com/3fcd5c6b292f12d6.jpg",
+                "http://i2.piimg.com/c67b8af9e3b8faa4.jpg",
+                "http://i2.piimg.com/11d5f7736b03274c.jpg",
+                "http://i4.piimg.com/2e25613d5ecc5892.jpg",
+                "http://i2.piimg.com/9095a3df4918db70.jpg",
+                "http://i2.piimg.com/0916f1757efb77a1.jpg",
+                "http://i2.piimg.com/d7cdf687a94f0387.jpg",
+                "http://i2.piimg.com/0916f1757efb77a1.jpg",
+                "http://i2.piimg.com/f23dcb0af8064150.jpg",
+                "http://i2.piimg.com/29c465301b6d7d99.jpg",
+                "http://i2.piimg.com/8b619e96a3a4809f.jpg",
+                "http://i2.piimg.com/f0e6bf048b3b2aaa.jpg",
+                "http://i1.piimg.com/98005a2ef5def8b6.jpg",
+                "http://i4.piimg.com/2e25613d5ecc5892.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/82385112.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/2617784.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/26331572.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/64088077.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/55141845.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/60177585.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/64546251.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/86513563.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/89918438.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/61545022.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/78252022.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/26940366.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/43930374.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/43930374.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/98363213.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/9408043.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/4783808.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/93786492.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/28693559.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/13943362.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/90545840.jpg",
+                "http://7xrn7f.com1.z0.glb.clouddn.com/16-4-27/85353049.jpg",
+        };
+        int mSelected = RecyclerView.NO_POSITION;
+
+        @Override
+        protected long getMyItemId(int position) {
+            if (mDataSet != null && mDataSet.get(position) != null) {
+                return mDataSet.get(position).getSession();
+            }
+            return RecyclerView.NO_ID;
+        }
+
+        @Override
+        public CommentViewHolder onCreateMyItemViewHolder(ViewGroup parent, int viewType) {
+            return new CommentViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_list_item, parent, false));
+        }
+
+        @Override
+        protected void onBindMyItemViewHolder(CommentViewHolder holder, int position) {
+
+        }
+
+        @Override
+        protected void onBindMyItemViewHolder(CommentViewHolder holder, int position, List<Comment> payloads) {
+
+            if (mDataSet.get(position) == null) return;
+
+            final Comment data = mDataSet.get(position);
+
+            holder.itemView.setActivated(position == mSelected);
+
+            holder.mExpandView.setVisibility(position == mSelected ? View.VISIBLE : View.GONE);
+
+            TextViewHelper.setText(holder.mUserNameTv, data.getUserName(), null);
+
+            TextViewHelper.setText(holder.mPubDateTv, FuzzyDateFormater.getTimeAgo(DetailActivity.this, new Date(System.currentTimeMillis() - 600000 * new Random().nextInt(position + 1) - position * 6000000)), null);
+
+            TextViewHelper.setText(holder.mDetailsTv, getString(R.string.fake), null);
+
+            int index = position % avatarUrls.length;
+            if (index > avatarUrls.length || index < 0) {
+                index = new Random().nextInt(20);
+            }
+            avatarBuilder.load(avatarUrls[index]).into(holder.mAvatar);
+
+            holder.mReplyIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final int position = holder.getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) return;
+
+                    enterComment.setText("@" + data.getUserName() + " ");
+                    enterComment.setSelection(enterComment.getText().length());
+
+                    // collapse the comment and scroll the reply box (in the footer) into view
+                    mSelected = RecyclerView.NO_POSITION;
+                    notifyItemChanged(position);
+                    holder.mReplyIv.jumpDrawablesToCurrentState();
+                    enterComment.requestFocus();
+                    mCommentsList.smoothScrollToPosition(getDataItemCount());
+                }
+            });
+        }
+
+        public void resetAll(List<Comment> comments) {
+            mDataSet.clear();
+            mDataSet.addAll(comments);
+            notifyItemRangeInserted(0, comments.size());
+        }
+
+        public class CommentViewHolder extends RecyclerView.ViewHolder {
+            @BindView(R.id.avatar)
+            ImageView mAvatar;
+            @BindView(R.id.user_name_tv)
+            BaselineGridTextView mUserNameTv;
+            @BindView(R.id.pub_date_tv)
+            BaselineGridTextView mPubDateTv;
+            @BindView(R.id.details_tv)
+            TextView mDetailsTv;
+            @BindView(R.id.reply_iv)
+            ImageView mReplyIv;
+            @BindView(R.id.expand_view)
+            LinearLayout mExpandView;
+            private View.OnClickListener listener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final boolean isExpanded = mExpandView.getVisibility() == View.VISIBLE;
+                    final int oldSelected = mSelected;
+                    v.setActivated(!isExpanded);
+                    if (!isExpanded) {
+                        mSelected = getAdapterPosition();
+                        if (enterComment != null && enterComment.hasFocus()) {
+                            enterComment.clearFocus();
+                            ImeUtils.hideIme(enterComment);
+                        }
+                        v.requestFocus();
+                    } else {
+                        mSelected = RecyclerView.NO_POSITION;
+                    }
+                    notifyItemChanged(oldSelected);
+                    notifyItemChanged(mSelected);
+                }
+            };
+
+            public CommentViewHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+
+                itemView.setOnClickListener(listener);
+
+            }
+        }
+    }
 
 }

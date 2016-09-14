@@ -1,5 +1,7 @@
 package com.sinyuk.jianyi.api;
 
+import android.support.annotation.Nullable;
+
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.api.oauth.OauthService;
@@ -16,7 +18,7 @@ import timber.log.Timber;
  * Created by Sinyuk on 16/9/9.
  */
 public class AccountManger {
-    private static final Integer INVALID_ID = -1;
+    private static final Integer INVALID_ID = 0;
     private RxSharedPreferences mRxSharedPreferences;
     private OauthService mOauthService;
     private Preference<String> userName;
@@ -28,14 +30,14 @@ public class AccountManger {
         // Nope
         this.mRxSharedPreferences = rxSharedPreferences;
 
-        userId = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_USER_ID, INVALID_ID);
-        userName = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_NAME, null);
-        userAvatar = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_AVATAR, null);
+        userId = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_USER_ID);
+        userName = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_NAME);
+        userAvatar = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_AVATAR);
 
     }
 
     public boolean isLogin() {
-        return !INVALID_ID.equals(mRxSharedPreferences.getInteger(PrefsKeySet.KEY_USER_ID).get());
+        return userId.isSet() && !userId.get().equals(userId.defaultValue());
     }
 
 
@@ -48,6 +50,11 @@ public class AccountManger {
         return Observable.just(player)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Nullable
+    public String getAvatar() {
+        return userAvatar.get();
     }
 
     public Observable<Player> getCurrentUser() {

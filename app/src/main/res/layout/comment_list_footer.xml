@@ -9,6 +9,8 @@
     android:minHeight="?android:listPreferredItemHeight"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/content_space_16"
+    android:paddingLeft="@dimen/content_space_16"
+    android:paddingRight="@dimen/content_space_16"
     android:paddingTop="@dimen/content_space_16"
     tools:background="#ccc">
 
@@ -33,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:focusableInTouchMode="true"
             android:hint="@string/hint_reply"
             android:inputType="textCapSentences"
             android:textColor="@color/text_primary_dark"
@@ -41,7 +44,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <ImageView
-        android:id="@+id/post_comment_btn"
+        android:id="@+id/post_btn"
         style="@style/comment_list_item_button"
         android:layout_gravity="center_vertical"
         android:src="@drawable/ic_messenger_grey600_24dp"/>

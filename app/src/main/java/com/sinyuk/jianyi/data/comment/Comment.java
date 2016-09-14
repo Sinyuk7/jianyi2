@@ -15,9 +15,19 @@ public class Comment {
     @SerializedName("time")
     private String time;
 
-    public Comment(int session, String message) {
-        this.session = session;
-        this.message = message;
+    @SerializedName("user_name")
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Comment() {
+
     }
 
     public int getSession() {

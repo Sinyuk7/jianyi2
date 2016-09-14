@@ -8,6 +8,8 @@
     android:background="@drawable/need_item_background"
     android:foreground="?selectableItemBackground"
     android:minHeight="?android:listPreferredItemHeight"
+    android:paddingLeft="@dimen/content_space_16"
+    android:paddingRight="@dimen/content_space_16"
     android:paddingTop="@dimen/content_space_16">
 
     <ImageView
