@@ -22,7 +22,11 @@ public class GoodsRepository {
     }
 
     public Observable<List<Goods>> filter(String title, int school, int page) {
-        return jianyiService.get(title, school, page)
+        /**
+         * don't ask me why do I have to plus 1 here
+         * thanks to @吴结巴大傻逼
+         */
+        return jianyiService.get(title, school + 1, page)
                 .map(new HttpResultFunc<GoodsResult>() {
                     @Override
                     public GoodsResult call(HttpResult<GoodsResult> httpResult) {

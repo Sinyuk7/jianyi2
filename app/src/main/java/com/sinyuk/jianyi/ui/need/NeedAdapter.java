@@ -63,7 +63,6 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
         return new NeedItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.need_list_item, parent, false));
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void onBindViewHolder(NeedAdapter.NeedItemViewHolder holder, int position) {
         if (mDataSet.get(position) == null) return;

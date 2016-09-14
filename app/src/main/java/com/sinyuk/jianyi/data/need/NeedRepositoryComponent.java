@@ -1,6 +1,7 @@
 package com.sinyuk.jianyi.data.need;
 
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
+import com.sinyuk.jianyi.ui.splash.SplashActivity;
 
 import javax.inject.Singleton;
 
@@ -17,4 +18,6 @@ import dagger.Subcomponent;
 )
 public interface NeedRepositoryComponent {
     void inject(NeedListFragment target);
+
+
 }

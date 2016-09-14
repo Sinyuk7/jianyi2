@@ -9,9 +9,12 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -32,6 +35,7 @@ import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
+import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.BaselineGridTextView;
 import com.sinyuk.jianyi.widgets.TextDrawable;
 
@@ -47,6 +51,7 @@ import butterknife.OnClick;
  */
 public class DetailActivity extends BaseActivity {
     private static final String KEY_GOODS = "GOODS";
+    private static final int PRELOAD_THRESHOLD = 2;
     @BindView(R.id.avatar)
     ImageView mAvatar;
     @BindView(R.id.title)
@@ -88,6 +93,8 @@ public class DetailActivity extends BaseActivity {
     private AnimatedVectorDrawableCompat likeAvd;
     private AnimatedVectorDrawableCompat viewsAvd;
     private AnimatedVectorDrawableCompat shareAvd;
+    private boolean isLoading;
+    private CommentAdapter mCommentAdapter;
 
     public static void start(Context context, Goods goods) {
         Intent starter = new Intent(context, DetailActivity.class);
@@ -113,6 +120,47 @@ public class DetailActivity extends BaseActivity {
         if (result != null) {
             handleResult();
         }
+        initCommentList();
+    }
+
+    private void initCommentList() {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+
+        mCommentsList.setLayoutManager(layoutManager);
+
+        mCommentsList.setHasFixedSize(true);
+
+        mCommentsList.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_PAGING);
+
+        mCommentsList.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
+
+        mCommentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (isLoading) {
+                    return;
+                }
+                final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                boolean isBottom =
+                        layoutManager.findLastCompletelyVisibleItemPosition() >= recyclerView.getAdapter().getItemCount() - PRELOAD_THRESHOLD;
+                if (isBottom) {
+                    loadComment();
+                }
+            }
+        });
+
+        mCommentAdapter = new CommentAdapter(this, Glide.with(this));
+
+        final View footer = LayoutInflater.from(this).inflate(R.layout.comment_list_footer, mCommentsList, false);
+
+        mCommentAdapter.setFooterView(footer);
+
+        mCommentsList.setAdapter(mCommentAdapter);
+
+    }
+
+    private void loadComment() {
+
     }
 
     private void setupActionButtons() {
@@ -266,4 +314,6 @@ public class DetailActivity extends BaseActivity {
             return object.equals(view);
         }
     }
+
+
 }

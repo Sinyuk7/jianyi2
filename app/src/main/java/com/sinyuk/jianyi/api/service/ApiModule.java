@@ -139,14 +139,14 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public JianyiService provideDribbleService(@Named("Api") Retrofit retrofit) {
+    public JianyiService provideJianyiService(@Named("Api") Retrofit retrofit) {
         return retrofit.create(JianyiService.class);
     }
 
     @Provides
     @Singleton
-    public SchoolManager provideSchoolManager(JianyiService jianyiService) {
-        return new SchoolManager(jianyiService);
+    public SchoolManager provideSchoolManager(JianyiService jianyiService, RxSharedPreferences preferences) {
+        return new SchoolManager(jianyiService, preferences);
     }
 
     @Provides

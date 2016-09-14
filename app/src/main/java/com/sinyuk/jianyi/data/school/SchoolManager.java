@@ -1,8 +1,10 @@
 package com.sinyuk.jianyi.data.school;
 
+import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.api.HttpResult;
 import com.sinyuk.jianyi.api.HttpResultFunc;
 import com.sinyuk.jianyi.api.service.JianyiService;
+import com.sinyuk.jianyi.utils.PrefsKeySet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,11 @@ public class SchoolManager {
     private static final String TAG = "SchoolManager";
     private JianyiService jianyiService;
     private List<School> mList = new ArrayList<>();
+    private RxSharedPreferences preferences;
 
-    public SchoolManager(JianyiService jianyiService) {
+    public SchoolManager(JianyiService jianyiService,RxSharedPreferences preferences) {
         this.jianyiService = jianyiService;
+        this.preferences = preferences;
     }
 
     private Observable<List<School>> refreshSchools() {
@@ -46,5 +50,16 @@ public class SchoolManager {
         } else {
             return refreshSchools();
         }
+    }
+
+    public int getCurrentLocation() {
+        if (preferences.getInteger(PrefsKeySet.KEY_CURRENT_LOCATION).isSet()) {
+            return preferences.getInteger(PrefsKeySet.KEY_CURRENT_LOCATION).get();
+        }
+        return 0;
+    }
+
+    public void updateCurrentLocation(int index) {
+        preferences.getInteger(PrefsKeySet.KEY_CURRENT_LOCATION).set(index);
     }
 }

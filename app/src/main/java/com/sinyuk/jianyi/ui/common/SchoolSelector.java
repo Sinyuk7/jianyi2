@@ -1,10 +1,10 @@
 package com.sinyuk.jianyi.ui.common;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +18,11 @@ import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.data.school.SchoolManager;
+import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
+import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.Lazy;
 import rx.Observer;
 
 /**
@@ -46,7 +51,8 @@ public class SchoolSelector extends BottomSheetDialogFragment {
     @BindView(R.id.view_animator)
     BetterViewAnimator mViewAnimator;
     @Inject
-    SchoolManager schoolManager;
+    Lazy<SchoolManager> schoolManager;
+
     List<School> schoolList = new ArrayList<>();
     private Unbinder unbinder;
     private SchoolsAdapter mAdapter;
@@ -66,11 +72,6 @@ public class SchoolSelector extends BottomSheetDialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return super.onCreateDialog(savedInstanceState);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         unbinder = ButterKnife.bind(this, view);
@@ -81,10 +82,11 @@ public class SchoolSelector extends BottomSheetDialogFragment {
     }
 
     private void fetchData() {
-        schoolManager.getSchools().subscribe(new Observer<List<School>>() {
+        schoolManager.get().getSchools().subscribe(new Observer<List<School>>() {
             @Override
             public void onCompleted() {
-
+                configCurrentSchool();
+                mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_error : R.id.layout_list);
             }
 
             @Override
@@ -96,9 +98,13 @@ public class SchoolSelector extends BottomSheetDialogFragment {
             public void onNext(List<School> schools) {
                 schoolList.clear();
                 schoolList.addAll(schools);
-                mAdapter.notifyDataSetChanged();
+                mAdapter.notifyItemRangeChanged(0, schools.size());
             }
         });
+    }
+
+    private void configCurrentSchool() {
+        mAdapter.setSelected(schoolManager.get().getCurrentLocation());
     }
 
     private void handleError(Throwable e) {
@@ -114,20 +120,15 @@ public class SchoolSelector extends BottomSheetDialogFragment {
 
         mRecyclerView.setScrollingTouchSlop(RecyclerView.TOUCH_SLOP_DEFAULT);
 
+        mRecyclerView.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
+
 //        mRecyclerView.addItemDecoration(new GoodsItemDecoration(getContext()));
     }
 
     private void initAdapter() {
         mAdapter = new SchoolsAdapter();
 
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-                mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_loading : R.id.layout_list);
-            }
-        });
-
-//        mAdapter.setHasStableIds(true);
+        mAdapter.setHasStableIds(true);
 
         mRecyclerView.setAdapter(mAdapter);
     }
@@ -148,6 +149,24 @@ public class SchoolSelector extends BottomSheetDialogFragment {
         @Override
         public SchoolsAdapter.SchoolItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new SchoolItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.school_list_item, parent, false));
+        }
+
+        public void setSelected(int selected) {
+            if (getItemCount() > selected && selected > -1) {
+                int oldPos = mSelected;
+                this.mSelected = selected;
+                notifyItemChanged(oldPos);
+                notifyItemChanged(mSelected);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            if (schoolList != null && schoolList.get(position) != null) {
+                return schoolList.get(position).getId();
+            } else {
+                return RecyclerView.NO_ID;
+            }
         }
 
         @Override
@@ -175,6 +194,9 @@ public class SchoolSelector extends BottomSheetDialogFragment {
                     mSelected = getAdapterPosition();
                     notifyItemChanged(temp);
                     notifyItemChanged(mSelected);
+                    EventBus.getDefault().post(new FilterUpdateEvent(null, mSelected));
+                    schoolManager.get().updateCurrentLocation(mSelected);
+                    dismiss();
                 });
             }
         }

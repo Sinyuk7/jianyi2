@@ -193,7 +193,7 @@ public class GoodsListFragment extends BaseFragment {
             }
         }
 
-        if (event.getSchool() != -1) {
+        if (event.getSchool() >= 0) {
             if (event.getSchool() != school) {
                 Log.d(TAG, "onSchoolChange: " + event.getSchool());
                 school = event.getSchool();

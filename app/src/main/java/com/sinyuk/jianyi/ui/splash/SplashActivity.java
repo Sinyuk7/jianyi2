@@ -6,8 +6,16 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.App;
+import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.api.service.JianyiService;
+import com.sinyuk.jianyi.data.goods.GoodsRepository;
+import com.sinyuk.jianyi.data.need.NeedRepository;
+import com.sinyuk.jianyi.data.school.SchoolManager;
 import com.sinyuk.jianyi.ui.home.HomeActivity;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -20,6 +28,14 @@ import timber.log.Timber;
 public class SplashActivity extends AppCompatActivity {
     protected Handler myHandler = new Handler();
     private Runnable mLazyLoadRunnable;
+    @Inject
+    RxSharedPreferences rxSharedPreferences;
+    @Inject
+    JianyiService jianyiService;
+    @Inject
+    AccountManger accountManger;
+    @Inject
+    SchoolManager schoolManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +51,6 @@ public class SplashActivity extends AppCompatActivity {
         Timber.d("Splash Finish");
         Intent starter = new Intent(SplashActivity.this, HomeActivity.class);
         starter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        starter.setData(Uri.parse("http://weibo.com/163music?refer_flag=0000015010_&from=feed&loc=nickname"));
         startActivity(starter);
         finish();
     }
