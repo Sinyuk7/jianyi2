@@ -66,7 +66,7 @@ public class ToolbarIndicator extends LinearLayout implements OnPageChangeListen
         setBackgroundColor(0x00000000);
 
         textPaint = new TextPaint();
-        textPaint.setColor(ContextCompat.getColor(context, R.color.colorPrimary));
+        textPaint.setColor(ContextCompat.getColor(context, android.R.color.white));
         textPaint.setAntiAlias(true);
         textPaint.setTextSize(dip2px(TEXT_SIZE));
         textPaint.setTextAlign(Paint.Align.CENTER);

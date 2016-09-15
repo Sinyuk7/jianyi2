@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_location_on_accent_24dp"
+            android:drawableLeft="@drawable/location"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:text="浙江传媒学院-下沙校区"
@@ -32,7 +32,8 @@
         <ImageView
             android:id="@+id/switch_school_btn"
             style="@style/toolbar_button"
-            android:src="@drawable/ic_search_primary_24dp"/>
+            android:src="@drawable/ic_search"
+            android:tint="@color/grey_600"/>
     </LinearLayout>
 
 
@@ -55,17 +56,20 @@
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/all_btn"
                 style="@style/drawer_radio_button"
+                android:drawableRight="@drawable/all"
                 android:text="@string/category_all"
                 tools:checked="true"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/recommended_btn"
                 style="@style/drawer_radio_button"
+                android:drawableRight="@drawable/recommend"
                 android:text="@string/category_recommended"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/free_btn"
                 style="@style/drawer_radio_button"
+                android:drawableRight="@drawable/free"
                 android:text="@string/category_free"/>
 
             <View
@@ -78,61 +82,61 @@
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/clothes__btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_clothes"
                 android:text="@string/category_clothes"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/stationery_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_creative"
                 android:text="@string/category_stationery"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/daily_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_daily"
                 android:text="@string/category_daily"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/makeup_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_makeup"
                 android:text="@string/category_makeup"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/sports_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_sport"
                 android:text="@string/category_sports"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/digital_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_digital"
                 android:text="@string/category_digital"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/book_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_book"
                 android:text="@string/category_book"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/ticket_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_ticket"
                 android:text="@string/category_ticket"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/bag_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/ic_bag"
                 android:text="@string/category_bag"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/food_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/ic_receipt_grey600_24dp"
+                android:drawableRight="@drawable/food"
                 android:text="@string/category_food"/>
         </RadioGroup>
     </android.support.v4.widget.NestedScrollView>

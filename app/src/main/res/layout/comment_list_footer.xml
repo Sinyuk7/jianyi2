@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/need_item_background"
@@ -11,15 +10,15 @@
     android:paddingBottom="@dimen/content_space_16"
     android:paddingLeft="@dimen/content_space_16"
     android:paddingRight="@dimen/content_space_16"
-    android:paddingTop="@dimen/content_space_16"
-    tools:background="#ccc">
+    android:paddingTop="@dimen/content_space_16">
 
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginRight="@dimen/content_space_8"
-        android:src="@drawable/ic_account_grey600_24dp"/>
+        android:src="@drawable/ic_profile"
+        android:tint="@color/grey_600"/>
 
 
     <android.support.design.widget.TextInputLayout
@@ -46,5 +45,5 @@
         android:id="@+id/post_btn"
         style="@style/comment_list_item_button"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_messenger_grey600_24dp"/>
+        android:src="@drawable/reply"/>
 </LinearLayout>

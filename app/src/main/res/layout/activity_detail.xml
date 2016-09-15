@@ -74,7 +74,7 @@
                 <ImageView
                     android:id="@+id/back_btn"
                     style="@style/toolbar_button"
-                    android:src="@drawable/ic_android_studio_white_48dp"/>
+                    android:src="@drawable/ic_back"/>
             </android.support.v7.widget.Toolbar>
 
 

@@ -10,7 +10,7 @@
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        tools:src="@drawable/ic_account_grey600_24dp"/>
+        tools:src="@drawable/ic_add"/>
 
     <LinearLayout
         android:layout_width="0dp"

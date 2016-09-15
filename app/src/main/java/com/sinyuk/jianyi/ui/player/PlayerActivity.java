@@ -107,10 +107,10 @@ public class PlayerActivity extends BaseActivity {
 
     private void setupToolbar() {
         if (mIsSelf) {
-            mActionIv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_mode_edit_white_24dp));
+            mActionIv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_write));
             mActionIv.setOnClickListener(getEditorStater());
         } else {
-            mActionIv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_wechat_grey600_24dp));
+            mActionIv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_reply_white));
         }
     }
 

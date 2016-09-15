@@ -17,19 +17,19 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@android:color/white"
+        android:background="@color/colorPrimary"
         app:contentInsetStart="0dp"
         app:layout_scrollFlags="scroll|enterAlways">
         <ImageView
             android:id="@+id/navigation_icon"
             style="@style/toolbar_button"
-            android:src="@drawable/ic_menu_primary_24dp"/>
+            android:src="@drawable/ic_profile"/>
 
         <ImageView
             android:id="@+id/setting_icon"
             style="@style/toolbar_button"
             android:layout_gravity="end"
-            android:src="@drawable/ic_settings_grey600_24dp"/>
+            android:src="@drawable/ic_settings"/>
 
     </android.support.v7.widget.Toolbar>
 </FrameLayout>

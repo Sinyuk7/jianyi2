@@ -69,7 +69,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:scaleType="centerCrop"
-            tools:src="@drawable/ic_account_grey600_24dp"/>
+            tools:src="@drawable/ic_profile_grey"/>
 
         <TextView
             android:id="@+id/user_name_tv"

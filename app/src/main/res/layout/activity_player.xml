@@ -26,7 +26,9 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:statusBarScrim="@color/colorPrimaryDark"
             app:titleEnabled="false">
 
             <RelativeLayout
@@ -57,7 +59,7 @@
                     android:layout_marginBottom="-24dp"
                     android:scaleType="centerCrop"
                     android:transitionName="@string/transition_avatar"
-                    tools:src="@drawable/ic_account_grey600_24dp"/>
+                    tools:src="@drawable/ic_profile"/>
 
                 <EditText
                     android:id="@+id/user_name_et"
@@ -101,7 +103,7 @@
                     android:id="@+id/back_iv"
                     style="@style/toolbar_button"
                     android:layout_gravity="start"
-                    android:src="@drawable/ic_arrow_back_white_24dp"/>
+                    android:src="@drawable/ic_back"/>
 
                 <ImageView
                     android:id="@+id/action_iv"

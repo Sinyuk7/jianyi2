@@ -95,12 +95,12 @@
         <ImageView
             android:id="@+id/tel_iv"
             style="@style/need_list_item_button"
-            android:src="@drawable/ic_category_primary_24dp"/>
+            android:src="@drawable/ic_comment"/>
 
         <ImageView
             android:id="@+id/chat_iv"
             style="@style/need_list_item_button"
-            android:src="@drawable/ic_account_grey600_24dp"
+            android:src="@drawable/reply"
         />
     </LinearLayout>
 
