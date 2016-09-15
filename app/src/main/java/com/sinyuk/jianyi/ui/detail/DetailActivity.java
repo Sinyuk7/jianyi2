@@ -214,11 +214,11 @@ public class DetailActivity extends BaseActivity {
         mCommentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (postComment != null) {
-                    ImeUtils.hideIme(postComment);
-                    postComment.clearFocus();
-                    recyclerView.requestFocus();
-                }
+//                if (postComment != null) {
+//                    ImeUtils.hideIme(postComment);
+//                    postComment.clearFocus();
+//                    recyclerView.requestFocus();
+//                }
                 if (isLoading) {
                     return;
                 }

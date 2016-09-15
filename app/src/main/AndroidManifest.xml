@@ -43,7 +43,6 @@
                   android:theme="@style/AppTheme.Player"/>
 
         <activity android:name=".ui.detail.DetailActivity"
-                  android:theme="@style/AppTheme.Detail"
                   android:windowSoftInputMode="adjustResize|stateHidden">
 
         </activity>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     tools:context=".ui.detail.DetailActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -19,14 +20,12 @@
             android:layout_height="wrap_content"
             android:minHeight="?attr/actionBarSize"
             app:contentScrim="@color/colorPrimary"
-            app:layout_scrollFlags="snap|scroll|enterAlways|enterAlwaysCollapsed"
-            app:statusBarScrim="@color/colorPrimaryDark"
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
             app:titleEnabled="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="false"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -51,9 +50,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="?attr/actionBarSize"
-                        android:layout_marginTop="@dimen/status_bar_margin"
-                        android:background="@drawable/immersive_toolbar"
-                        android:fitsSystemWindows="true"/>
+                        android:background="@drawable/immersive_toolbar"/>
                 </FrameLayout>
 
 
@@ -70,7 +67,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="@dimen/status_bar_margin"
                 android:background="@null"
                 app:contentInsetStart="0dp"
                 app:layout_collapseMode="pin">
@@ -88,8 +84,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:fitsSystemWindows="true"
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <LinearLayout
@@ -165,12 +159,9 @@
                 android:id="@+id/comments_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToPadding="false"
                 android:orientation="vertical"
                 android:overScrollMode="never"
                 android:paddingBottom="@dimen/content_space_16"
-                android:scrollbarStyle="insideOverlay"
-                android:scrollbars="vertical"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/comment_list_item"/>
