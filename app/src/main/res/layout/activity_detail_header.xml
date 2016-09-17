@@ -38,16 +38,6 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:orientation="horizontal">
-            <com.sinyuk.jianyi.widgets.BaselineGridTextView
-                android:id="@+id/price_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/content_space_16"
-                android:includeFontPadding="false"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/material_text_body1"
-                android:textStyle="bold"
-                tools:text="100,0"/>
 
             <com.sinyuk.jianyi.widgets.BaselineGridTextView
                 android:id="@+id/user_name_tv"
@@ -61,8 +51,8 @@
                 android:id="@+id/pub_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/content_space_8"
-                android:textColor="@color/colorPrimaryLt"
+                android:layout_marginLeft="@dimen/content_space_4"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/material_text_caption1"
                 tools:text="几天前"/>
         </LinearLayout>

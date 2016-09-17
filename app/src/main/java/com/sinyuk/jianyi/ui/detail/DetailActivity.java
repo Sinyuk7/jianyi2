@@ -79,8 +79,12 @@ public class DetailActivity extends BaseActivity {
     BaselineGridTextView mUserNameTv;
     @BindView(R.id.pub_date_tv)
     BaselineGridTextView mPubDataTv;
-    @BindView(R.id.price_tv)
-    BaselineGridTextView mPriceTv;
+    @BindView(R.id.price_extra)
+    TextView mPriceTv;
+    @BindView(R.id.school_extra)
+    TextView mSchoolTv;
+    @BindView(R.id.comment_extra)
+    TextView mCommentCount;
     @BindView(R.id.back_btn)
     ImageView mBackBtn;
     @BindView(R.id.toolbar)
@@ -238,12 +242,14 @@ public class DetailActivity extends BaseActivity {
         mCommentsList.setAdapter(mCommentAdapter);
 
         List<Comment> comments = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 6; i++) {
             Comment fake = new Comment();
             fake.setSession(i);
             fake.setUserName(NameGenerator.generateName());
             comments.add(fake);
         }
+
+        TextViewHelper.setText(mCommentCount, comments.size() + "", null);
 
         mCommentAdapter.resetAll(comments);
     }
@@ -303,6 +309,12 @@ public class DetailActivity extends BaseActivity {
             mPriceTv.setVisibility(View.INVISIBLE);
         } else {
             mPriceTv.setText(FormatUtils.formatPrice(result.getPrice()));
+        }
+
+        if (result.getSchool() != null) {
+            TextViewHelper.setText(mSchoolTv, result.getSchool().getName(), null);
+        } else {
+            mSchoolTv.setVisibility(View.GONE);
         }
 
         if (result.getUser() != null) {

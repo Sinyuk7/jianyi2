@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sinyuk.jianyi.utils.BetterViewAnimator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_animator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/view_animator">
+
+    <include
+        layout="@layout/common_list_loading"/>
+
+    <include
+        layout="@layout/manager_list_list"/>
+
+    <include
+        layout="@layout/manager_list_empty"/>
+
+
+</com.sinyuk.jianyi.utils.BetterViewAnimator>

@@ -26,7 +26,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                tools:visibility="gone">
 
                 <FrameLayout
                     android:id="@+id/background"
@@ -140,7 +141,7 @@
                 android:layout_marginBottom="@dimen/content_space_16"
                 android:layout_marginLeft="@dimen/content_space_16"
                 android:layout_marginRight="@dimen/content_space_16"
-                android:layout_marginTop="12dp"/>
+                android:layout_marginTop="@dimen/content_space_8"/>
 
             <TextView
                 android:id="@+id/description_tv"
@@ -151,9 +152,40 @@
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.05"
                 android:textColor="@color/text_secondary_dark"
-                android:textSize="@dimen/material_text_body1"
+                android:textSize="@dimen/material_text_body2"
                 tools:text="@string/fake"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/content_space_16"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/content_space_8"
+                android:paddingLeft="@dimen/content_space_16"
+                android:paddingRight="@dimen/content_space_16">
+
+                <TextView
+                    android:id="@+id/comment_extra"
+                    style="@style/detail_extras"
+                    android:drawableLeft="@drawable/ic_comment_extra"
+                    tools:text="100"/>
+
+                <TextView
+                    android:id="@+id/school_extra"
+                    style="@style/detail_extras"
+                    android:layout_marginLeft="@dimen/content_space_16"
+                    android:layout_marginRight="@dimen/content_space_16"
+                    android:drawableLeft="@drawable/ic_location_extra"
+                    tools:text="浙江传媒学院"/>
+
+                <TextView
+                    android:id="@+id/price_extra"
+                    style="@style/detail_extras"
+                    android:drawableLeft="@drawable/ic_price_extra"
+                    tools:text="100,0"/>
+
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/comments_list"

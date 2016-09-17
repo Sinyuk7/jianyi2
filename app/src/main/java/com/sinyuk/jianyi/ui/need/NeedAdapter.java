@@ -1,8 +1,6 @@
 package com.sinyuk.jianyi.ui.need;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -21,6 +19,7 @@ import com.sinyuk.jianyi.data.need.Need;
 import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.StringUtils;
+import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.widgets.TextDrawable;
 
@@ -69,11 +68,11 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
 
         final Need data = mDataSet.get(position);
 
-        setText(holder.mUsernameTv, data.getUsername(), "神秘人");
+        TextViewHelper.setText(holder.mUsernameTv, data.getUsername(), "神秘人");
 
-        setText(holder.mSchoolTv, data.getSchoolName(), null);
+        TextViewHelper.setText(holder.mSchoolTv, data.getSchoolName(), null);
 
-        setText(holder.mDetailsTv, data.getDetail(), "Ta很懒,什么都没留下");
+        TextViewHelper.setText(holder.mDetailsTv, data.getDetail(), "Ta很懒,什么都没留下");
 
         if (TextUtils.isEmpty(data.getPrice())) {
             holder.mPriceTv.setVisibility(View.INVISIBLE);
@@ -82,7 +81,7 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
         }
 
         try {
-            setText(holder.mPubDateTv, FuzzyDateFormater.getParsedDate(context, data.getTime()), "一千年以前");
+            TextViewHelper.setText(holder.mPubDateTv, FuzzyDateFormater.getParsedDate(context, data.getTime()), "一千年以前");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,15 +104,6 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
         holder.mExpandView.setVisibility(position == mSelected ? View.VISIBLE : View.GONE);
 
 
-    }
-
-    private void setText(TextView textView, String input, String defaultValue) {
-        if (textView == null) return;
-        if (TextUtils.isEmpty(input) && TextUtils.isEmpty(defaultValue)) {
-            textView.setVisibility(View.INVISIBLE);
-        } else {
-            textView.setText(StringUtils.valueOrDefault(input, defaultValue));
-        }
     }
 
     @Override

@@ -91,6 +91,7 @@ public class HomeActivity extends BaseActivity {
 
     private void setupDrawerLayout() {
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), drawerMenuLazy.get(), R.id.menu_container);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     private void initViewPager() {
@@ -159,13 +160,11 @@ public class HomeActivity extends BaseActivity {
                     @Override
                     public void onGuillotineOpened() {
                         isGuillotineOpened = true;
-                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                     }
 
                     @Override
                     public void onGuillotineClosed() {
                         isGuillotineOpened = false;
-                        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
                     }
                 })
                 .build();

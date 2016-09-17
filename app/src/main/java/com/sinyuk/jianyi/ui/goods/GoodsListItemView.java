@@ -21,6 +21,7 @@ import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.Preconditions;
 import com.sinyuk.jianyi.utils.StringUtils;
+import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.widgets.LabelView;
 import com.sinyuk.jianyi.widgets.RatioImageView;
 import com.sinyuk.jianyi.widgets.TextDrawable;
@@ -71,7 +72,7 @@ public class GoodsListItemView extends LinearLayout {
                        final DrawableRequestBuilder<String> avatarBuilder) {
         Preconditions.checkNotNull(data, "Can't bind to a null good");
 
-        setText(mTitleTv, data.getName(), null);
+        TextViewHelper.setText(mTitleTv, data.getName(), null);
 
         if (TextUtils.isEmpty(data.getPrice())) {
             mPriceLabelView.setVisibility(View.INVISIBLE);
@@ -80,7 +81,7 @@ public class GoodsListItemView extends LinearLayout {
         }
 
         if (data.getUser() != null) {
-            setText(mUserNameTv, data.getUser().getName(), data.getUid() + "");
+            TextViewHelper.setText(mUserNameTv, data.getUser().getName(), data.getUid() + "");
               /* avatar*/
             final String username = StringUtils.valueOrDefault(data.getUser().getName(), " ");
 
@@ -102,14 +103,4 @@ public class GoodsListItemView extends LinearLayout {
         mShotIv.setOnClickListener(v -> DetailActivity.start(getContext(), data));
     }
 
-
-    private void setText(TextView textView, String input, String defaultValue) {
-        if (textView == null) return;
-        if (TextUtils.isEmpty(input) && TextUtils.isEmpty(defaultValue)) {
-            textView.setVisibility(INVISIBLE);
-        } else {
-            textView.setText(StringUtils.valueOrDefault(input, defaultValue));
-        }
-
-    }
 }

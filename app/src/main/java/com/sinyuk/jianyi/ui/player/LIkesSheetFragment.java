@@ -1,12 +1,12 @@
 package com.sinyuk.jianyi.ui.player;
 
 import com.sinyuk.jianyi.R;
-import com.sinyuk.jianyi.ui.BaseFragment;
+import com.sinyuk.jianyi.ui.LazyFragment;
 
 /**
- * Created by Sinyuk on 16/9/14.
+ * Created by Sinyuk on 16/9/17.
  */
-public class PlayerSheetFragment extends BaseFragment{
+public class LikesSheetFragment extends LazyFragment{
     @Override
     protected void beforeInflate() {
 
@@ -14,11 +14,16 @@ public class PlayerSheetFragment extends BaseFragment{
 
     @Override
     protected int getRootViewId() {
-        return R.layout.fragment_player_sheet;
+        return R.layout.fragment_likes_sheet;
     }
 
     @Override
     protected void finishInflate() {
+
+    }
+
+    @Override
+    protected void fetchData() {
 
     }
 }

@@ -16,4 +16,9 @@
         <item name="android:layout_width">@dimen/fab_small</item>
         <item name="android:layout_height">@dimen/fab_small</item>
     </style>
+
+    <style name="view_animator">
+        <item name="android:inAnimation">@android:anim/fade_in</item>
+        <item name="android:outAnimation">@android:anim/fade_out</item>
+    </style>
 </resources>

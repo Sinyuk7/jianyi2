@@ -111,6 +111,10 @@ public class Goods implements Parcelable {
         return title;
     }
 
+    public void setUser(Player user) {
+        this.user = user;
+    }
+
     public String getPrice() {
         return price;
     }
