@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
@@ -63,12 +62,16 @@ public class JianyiLoginActivity extends BaseActivity {
 
         addSubscription(Observable.combineLatest(passwordObservable, phoneNumObservable, (password, phoneNum) -> {
             if (!Validator.isMobile(phoneNum.toString())) {
-                mUserNameEt.setError("写错了");
+                mUserNameInputLayout.setError("手机号码格式错误");
                 return false;
+            } else {
+                mUserNameInputLayout.setError(null);
             }
             if (!Validator.isPassword(password.toString())) {
-                mPasswordEt.setError("写错了");
+                mPasswordInputLayout.setError("密码格式错误");
                 return false;
+            } else {
+                mPasswordInputLayout.setError(null);
             }
             return true;
         }).subscribe(JianyiLoginActivity.this::toggleLoginButton));

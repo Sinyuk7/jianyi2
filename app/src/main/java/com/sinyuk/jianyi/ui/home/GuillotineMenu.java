@@ -17,6 +17,7 @@ import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.ui.BaseFragment;
+import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
@@ -102,6 +103,11 @@ public class GuillotineMenu extends BaseFragment {
         starter.putExtra(PlayerActivity.KEY_PLAYER, mPlayer);
         starter.putExtra(PlayerActivity.KEY_SCHOOL, mSchool);
         startActivity(starter, options.toBundle());
+    }
+    
+    @OnClick(R.id.avatar)
+    public void onClickAvatar(){
+      startActivity(new Intent(getContext(), JianyiLoginActivity.class));
     }
 
 }

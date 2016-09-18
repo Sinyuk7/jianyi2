@@ -69,7 +69,7 @@
         <!--<item name="android:textColorHighlight">@color/colorAccent</item>-->
         <item name="android:textColor">@color/text_secondary_dark</item>
         <!--<item name="android:textColorHint">@color/colorAccent</item>-->
-        <item name="android:textSize">@dimen/material_text_body1</item>
+        <item name="android:textSize">@dimen/material_text_subhead</item>
         <item name="android:focusableInTouchMode">true</item>
     </style>
 

@@ -44,8 +44,10 @@
 
         <activity android:name=".ui.detail.DetailActivity"
                   android:windowSoftInputMode="adjustResize|stateHidden">
-
         </activity>
+
+        <activity android:name=".ui.login.JianyiLoginActivity"
+                  android:windowSoftInputMode="adjustResize|stateHidden"/>
     </application>
 
 </manifest>
