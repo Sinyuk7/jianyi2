@@ -7,7 +7,6 @@ import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sinyuk.jianyi.BuildConfig;
-import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.api.oauth.OauthInterceptor;
 import com.sinyuk.jianyi.api.oauth.Token;
@@ -149,10 +148,5 @@ public class ApiModule {
         return new SchoolManager(jianyiService, preferences);
     }
 
-    @Provides
-    @Singleton
-    public AccountManger provideAccountManager(JianyiService jianyiService, RxSharedPreferences sharedPreferences) {
-        return new AccountManger(jianyiService, sharedPreferences);
-    }
 
 }

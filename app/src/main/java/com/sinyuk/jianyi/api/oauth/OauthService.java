@@ -1,6 +1,8 @@
 package com.sinyuk.jianyi.api.oauth;
 
-import retrofit2.adapter.rxjava.Result;
+import com.sinyuk.jianyi.api.HttpResult;
+import com.sinyuk.jianyi.data.player.Player;
+
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
@@ -19,4 +21,6 @@ public interface OauthService {
             @Field("client_secret") String secret,
             @Field("code") String code,
             @Field("redirect_uri") String redirectUri);
+
+
 }

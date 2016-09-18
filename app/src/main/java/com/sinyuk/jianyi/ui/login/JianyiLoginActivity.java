@@ -3,6 +3,7 @@ package com.sinyuk.jianyi.ui.login;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.inputmethod.EditorInfo;
@@ -13,8 +14,11 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.api.ApiException;
+import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.ui.BaseActivity;
+import com.sinyuk.jianyi.ui.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyi.utils.ImeUtils;
 import com.sinyuk.jianyi.utils.Validator;
 
@@ -48,6 +52,8 @@ public class JianyiLoginActivity extends BaseActivity {
     @Inject
     Lazy<AccountManger> accountMangerLazy;
 
+    private SweetAlertDialog mDialog;
+
     @Override
     protected int getContentViewID() {
         return R.layout.activity_jianyi_login;
@@ -55,7 +61,7 @@ public class JianyiLoginActivity extends BaseActivity {
 
     @Override
     protected void beforeInflating() {
-        App.get(this).getAppComponent().inject(this);
+        App.get(this).getAppComponent().plus(new OauthModule()).inject(this);
     }
 
     @Override
@@ -90,6 +96,42 @@ public class JianyiLoginActivity extends BaseActivity {
         toggleLoginButton(false);
     }
 
+    private void showProgress() {
+        mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        mDialog.getProgressHelper().setBarColor(ContextCompat.getColor(this, R.color.colorAccent));
+        mDialog.setTitleText("登录中");
+        mDialog.setCancelable(false);
+        mDialog.show();
+    }
+
+    private void hideProgress() {
+        mDialog.dismissWithAnimation();
+    }
+
+    public void showSucceed() {
+        mDialog.setTitleText(getString(R.string.login_succeed))
+                .setConfirmText(getString(R.string.action_alright))
+                .setConfirmClickListener(dialog -> {
+                    finish();
+                })
+                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+    }
+
+
+    private void showFailed(String message) {
+        mDialog.setTitleText(message)
+                .setConfirmText(getString(R.string.action_alright))
+                .setConfirmClickListener(null)
+                .changeAlertType(SweetAlertDialog.WARNING_TYPE);
+    }
+
+    private void showError(String message) {
+        mDialog.setTitleText(message)
+                .setConfirmText(getString(R.string.action_alright))
+                .setConfirmClickListener(null)
+                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+    }
+
     @OnClick(R.id.login_btn)
     public void onLogin() {
         mPasswordEt.setError(null);
@@ -103,12 +145,16 @@ public class JianyiLoginActivity extends BaseActivity {
                 .subscribe(new Observer<Player>() {
                     @Override
                     public void onCompleted() {
-
+//                        showSucceed();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+//                        if (e instanceof ApiException) {
+//                            showFailed(e.getLocalizedMessage());
+//                        } else {
+//                            showError(e.getLocalizedMessage());
+//                        }
                     }
 
                     @Override

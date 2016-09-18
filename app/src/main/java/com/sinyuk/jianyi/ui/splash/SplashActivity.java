@@ -33,8 +33,6 @@ public class SplashActivity extends AppCompatActivity {
     @Inject
     JianyiService jianyiService;
     @Inject
-    AccountManger accountManger;
-    @Inject
     SchoolManager schoolManager;
 
     @Override

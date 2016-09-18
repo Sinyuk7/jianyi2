@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.ui.BaseFragment;
@@ -61,7 +62,7 @@ public class GuillotineMenu extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        App.get(context).getAppComponent().inject(this);
+        App.get(context).getAppComponent().plus(new OauthModule()).inject(this);
     }
 
     @Override

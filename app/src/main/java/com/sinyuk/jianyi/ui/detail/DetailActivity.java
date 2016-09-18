@@ -35,6 +35,7 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.data.BaseRVAdapter;
 import com.sinyuk.jianyi.data.comment.Comment;
 import com.sinyuk.jianyi.data.goods.Goods;
@@ -153,7 +154,7 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void beforeInflating() {
-        App.get(this).getAppComponent().inject(this);
+        App.get(this).getAppComponent().plus(new OauthModule()).inject(this);
         result = getIntent().getParcelableExtra(KEY_GOODS);
     }
 

@@ -1,5 +1,9 @@
 package com.sinyuk.jianyi.api.oauth;
 
+import com.sinyuk.jianyi.ui.detail.DetailActivity;
+import com.sinyuk.jianyi.ui.home.GuillotineMenu;
+import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
+
 import javax.inject.Singleton;
 
 import dagger.Subcomponent;
@@ -14,4 +18,9 @@ import dagger.Subcomponent;
         }
 )
 public interface OauthComponent {
+        void inject(DetailActivity target);
+
+        void inject(GuillotineMenu target);
+
+        void inject(JianyiLoginActivity target);
 }

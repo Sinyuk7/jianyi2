@@ -43,10 +43,4 @@ public interface AppComponent {
     void inject(SchoolSelector target);
 
     void inject(PlayerActivity target);
-
-    void inject(GuillotineMenu target);
-
-    void inject(DetailActivity target);
-
-    void inject(JianyiLoginActivity target);
 }

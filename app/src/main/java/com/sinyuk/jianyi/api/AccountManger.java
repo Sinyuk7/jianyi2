@@ -20,19 +20,19 @@ import timber.log.Timber;
  * Created by Sinyuk on 16/9/9.
  */
 public class AccountManger {
-    private static final Integer INVALID_ID = 0;
     private RxSharedPreferences mRxSharedPreferences;
-    private JianyiService jianyiService;
     private OauthService mOauthService;
+    private JianyiService jianyiService;
     private Preference<String> userName;
     private Preference<String> userAvatar;
     private Preference<Integer> userId;
     private Player mCurrentUser;
 
-    public AccountManger(JianyiService jianyiService, RxSharedPreferences rxSharedPreferences) {
+    public AccountManger(JianyiService jianyiService, OauthService oauthService, RxSharedPreferences rxSharedPreferences) {
         // Nope
-        this.mRxSharedPreferences = rxSharedPreferences;
         this.jianyiService = jianyiService;
+        this.mRxSharedPreferences = rxSharedPreferences;
+        this.mOauthService = oauthService;
         userId = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_USER_ID);
         userName = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_NAME);
         userAvatar = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_AVATAR);
