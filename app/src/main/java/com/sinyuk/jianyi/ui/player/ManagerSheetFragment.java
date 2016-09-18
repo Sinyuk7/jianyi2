@@ -1,6 +1,7 @@
 package com.sinyuk.jianyi.ui.player;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -16,11 +17,10 @@ import android.widget.TextView;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
-import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.data.goods.Goods;
+import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.player.PlayerRepository;
 import com.sinyuk.jianyi.data.player.PlayerRepositoryModule;
 import com.sinyuk.jianyi.ui.BaseFragment;
@@ -29,7 +29,6 @@ import com.sinyuk.jianyi.ui.goods.GoodsItemDecoration;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
 import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
-import com.sinyuk.jianyi.utils.PrefsKeySet;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.LabelView;
@@ -42,16 +41,15 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Lazy;
 import rx.Observer;
 
 /**
  * Created by Sinyuk on 16/9/14.
  */
 public class ManagerSheetFragment extends BaseFragment {
-    public static final String KEY_ID = "ID";
     private static final int PRELOAD_THRESHOLD = 2;
     private static final int FIRST_PAGE = 1;
+    private static final String KEY_PLAYER = "PLAYER";
     @BindView(R.id.layout_loading)
     FrameLayout mLayoutLoading;
     @BindView(R.id.recycler_view)
@@ -61,15 +59,10 @@ public class ManagerSheetFragment extends BaseFragment {
     @BindView(R.id.view_animator)
     BetterViewAnimator mViewAnimator;
     @Inject
-    Lazy<AccountManger> accountMangerLazy;
-    @Inject
     PlayerRepository playerRepository;
-    @Inject
-    RxSharedPreferences preferences;
     private int id = 0;
     private boolean isLoading;
     private ManagerAdapter mAdapter;
-
     private int page = FIRST_PAGE;
     private final Observer<List<Goods>> refreshObserver = new Observer<List<Goods>>() {
         @Override
@@ -89,7 +82,6 @@ public class ManagerSheetFragment extends BaseFragment {
             mAdapter.resetAll(items);
         }
     };
-
     private final Observer<List<Goods>> loadObserver = new Observer<List<Goods>>() {
         @Override
         public void onCompleted() {
@@ -106,6 +98,16 @@ public class ManagerSheetFragment extends BaseFragment {
             mAdapter.appendAll(items);
         }
     };
+    private Player player;
+
+    public static ManagerSheetFragment newInstance(Player player) {
+
+        Bundle args = new Bundle();
+        args.putParcelable(KEY_PLAYER, player);
+        ManagerSheetFragment fragment = new ManagerSheetFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -115,7 +117,9 @@ public class ManagerSheetFragment extends BaseFragment {
 
     @Override
     protected void beforeInflate() {
-        id = preferences.getInteger(PrefsKeySet.KEY_USER_ID).get();
+        player = getArguments().getParcelable(KEY_PLAYER);
+//        id = player.getId();
+        id = 37;
     }
 
     @Override
@@ -127,6 +131,8 @@ public class ManagerSheetFragment extends BaseFragment {
     protected void finishInflate() {
         initRecyclerView();
         initData();
+
+        refresh();
     }
 
     private void initRecyclerView() {
@@ -158,6 +164,7 @@ public class ManagerSheetFragment extends BaseFragment {
         });
     }
 
+
     private void initData() {
         mAdapter = new ManagerAdapter();
         mAdapter.setHasStableIds(true);
@@ -184,7 +191,7 @@ public class ManagerSheetFragment extends BaseFragment {
     }
 
 
-    private class ManagerAdapter extends RecyclerView.Adapter<ManagerAdapter.ManagerItemHolder> {
+    public class ManagerAdapter extends RecyclerView.Adapter<ManagerAdapter.ManagerItemHolder> {
 
         private final static int CROSS_FADE_DURATION = 1500;
         private final DrawableRequestBuilder<String> shotBuilder;
@@ -210,7 +217,7 @@ public class ManagerSheetFragment extends BaseFragment {
                 holder.mPriceLabelView.setText(FormatUtils.formatPrice(data.getPrice()));
             }
 
-            TextViewHelper.setText(holder.mTitleTv, data.getTitle(), "嘛玩意儿?");
+            TextViewHelper.setText(holder.mTitleTv, data.getName(), "嘛玩意儿?");
 
             try {
                 TextViewHelper.setText(holder.mPubDateTv, FuzzyDateFormater.getParsedDate(getContext(), data.getTime()), "一千年以前");
@@ -221,12 +228,8 @@ public class ManagerSheetFragment extends BaseFragment {
 
 
             holder.mShotIv.setOnClickListener(v -> {
-                accountMangerLazy.get().getCurrentUser()
-                        .subscribe(player -> {
-                            data.setUser(player);
-                            DetailActivity.start(getContext(), data);
-                        });
-
+                data.setUser(player);
+                DetailActivity.start(getContext(), data);
             });
         }
 

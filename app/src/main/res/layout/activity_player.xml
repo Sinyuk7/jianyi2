@@ -26,7 +26,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:statusBarScrim="@color/colorPrimaryDark"
             app:titleEnabled="false">
@@ -81,13 +81,29 @@
                     android:transitionName="@string/transition_school"
                     tools:text="浙江传媒学院"/>
 
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tab_layout"
-                    style="@style/player_tab_layout"
+                <com.gigamole.navigationtabstrip.NavigationTabStrip
+                    android:id="@+id/tab_strip"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                     android:layout_below="@+id/location_tv"
                     android:layout_marginTop="@dimen/content_space_16"
-                    tools:background="#ccc"/>
+                    app:nts_active_color="@color/colorAccent"
+                    app:nts_animation_duration="300"
+                    app:nts_color="@color/colorAccent"
+                    app:nts_corners_radius="1.5dp"
+                    app:nts_factor="2.5"
+                    app:nts_gravity="bottom"
+                    app:nts_inactive_color="@color/grey_300"
+                    app:nts_type="point"
+                    app:nts_weight="4dp"
+                />
+
+                <!--<android.support.design.widget.TabLayout-->
+                <!--android:id="@+id/tab_layout"-->
+                <!--style="@style/player_tab_layout"-->
+                <!--android:layout_below="@+id/location_tv"-->
+                <!--android:layout_marginTop="@dimen/content_space_16"-->
+                <!--tools:background="#ccc"/>-->
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -114,7 +130,6 @@
 
 
     </android.support.design.widget.AppBarLayout>
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

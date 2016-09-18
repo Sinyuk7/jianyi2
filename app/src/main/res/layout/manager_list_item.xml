@@ -36,10 +36,9 @@
             style="@style/SingleLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/shot_iv"
+            android:layout_alignTop="@+id/delete_btn"
             android:layout_marginLeft="@dimen/content_space_8"
-            android:layout_marginRight="@dimen/content_space_8"
-            android:layout_marginTop="@dimen/content_space_4"
+            android:layout_toLeftOf="@+id/delete_btn"
             android:textColor="@color/text_primary_dark"
             android:textSize="@dimen/material_text_body2"
             tools:text="string/dummy_thrift_description"/>
@@ -47,9 +46,11 @@
 
         <ImageView
             android:id="@+id/delete_btn"
-            style="@style/toolbar_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/title_tv"
+            android:layout_below="@+id/shot_iv"
+            android:layout_margin="@dimen/content_space_8"
             android:padding="@dimen/content_space_8"
             android:scaleType="centerInside"
             android:src="@drawable/ic_delete"/>
@@ -58,13 +59,15 @@
         <TextView
             android:id="@+id/pub_date_tv"
             style="@style/SingleLine"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/delete_btn"
-            android:layout_marginTop="@dimen/content_space_16"
+            android:layout_below="@+id/title_tv"
+            android:layout_marginLeft="@dimen/content_space_8"
+            android:layout_marginTop="@dimen/content_space_4"
             android:layout_toLeftOf="@+id/delete_btn"
             android:textColor="@color/text_secondary_dark"
-            android:textSize="@dimen/material_text_caption2"
+            android:textSize="@dimen/material_text_caption1"
+            android:textStyle="italic"
             tools:text="五天前"/>
 
     </RelativeLayout>

@@ -46,6 +46,4 @@ public interface AppComponent {
     void inject(GuillotineMenu target);
 
     void inject(DetailActivity target);
-
-    void inject(ManagerSheetFragment target);
 }

@@ -2,13 +2,18 @@ package com.sinyuk.jianyi.ui.player;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
+import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.player.Player;
@@ -26,8 +32,10 @@ import com.sinyuk.jianyi.utils.PrefsKeySet;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.BlurTransformation;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
-import com.sinyuk.jianyi.widgets.MyCircleImageView;
 import com.sinyuk.jianyi.widgets.RatioImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -53,8 +61,8 @@ public class PlayerActivity extends BaseActivity {
     EditText mUserNameEt;
     @BindView(R.id.location_tv)
     EditText mLocationTv;
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
+    @BindView(R.id.tab_strip)
+    NavigationTabStrip mTabStrip;
     @BindView(R.id.back_iv)
     ImageView mBackIv;
     @BindView(R.id.action_iv)
@@ -65,10 +73,9 @@ public class PlayerActivity extends BaseActivity {
     AppBarLayout mAppBarLayout;
     @BindView(R.id.fab)
     FloatingActionButton mFab;
-
     @Inject
     Lazy<RxSharedPreferences> preferenceLazy;
-
+    private List<Fragment> fragmentList = new ArrayList<>();
     private School mSchool;
     private boolean mIsSelf;
     private Player mPlayer;
@@ -102,6 +109,50 @@ public class PlayerActivity extends BaseActivity {
         setupToolbar();
 
         handleResult();
+
+        initFragments();
+
+        initViewPager();
+    }
+
+    private void initViewPager() {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return fragmentList.get(position);
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case 0:
+                        return "发布";
+                    case 1:
+                        return "收藏";
+                }
+                return null;
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        });
+
+        Drawable image = ContextCompat.getDrawable(this, R.drawable.ic_food_accent);
+        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+        SpannableString sb = new SpannableString("哈哈");
+        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        mTabStrip.setTitles(sb.toString(), sb.toString());
+        mTabStrip.setViewPager(mViewPager);
+    }
+
+    private void initFragments() {
+        //
+        fragmentList.add(ManagerSheetFragment.newInstance(mPlayer));
+        fragmentList.add(ManagerSheetFragment.newInstance(mPlayer));
 
     }
 

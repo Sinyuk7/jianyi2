@@ -36,4 +36,8 @@
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:inputType">text</item>
     </style>
+    <string-array name="player_tab_titles">
+        <item>"发布"</item>
+        <item>"收藏"</item>
+    </string-array>
 </resources>
