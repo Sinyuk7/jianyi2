@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="player_tab_layout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
-        <item name="tabIndicatorHeight">4dp</item>
-        <item name="tabMinWidth">@dimen/tab_min_width</item>
-        <item name="tabPadding">@dimen/content_space_8</item>
-        <item name="tabSelectedTextColor">@color/colorPrimaryDark</item>
-        <item name="tabTextAppearance">@style/player_tab_text_appearance</item>
-        <item name="tabTextColor">@color/grey_600</item>
-    </style>
+    <!--    <style name="player_tab_layout">
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:layout_height">56dp</item>
+            <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
+            <item name="tabIndicatorHeight">4dp</item>
+            <item name="tabMinWidth">@dimen/tab_min_width</item>
+            <item name="tabPadding">@dimen/content_space_8</item>
+            <item name="tabSelectedTextColor">@color/colorPrimaryDark</item>
+            <item name="tabTextAppearance">@style/player_tab_text_appearance</item>
+            <item name="tabTextColor">@color/grey_600</item>
+        </style>-->
+    <eat-comment/>
 
-    <style name="player_tab_text_appearance">
-        <item name="android:textSize">@dimen/material_text_subhead</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textStyle">bold</item>
-    </style>
 
     <style name="player_tab_text">
-        <item name="android:textSize">@dimen/material_text_subhead</item>
+
+        <item name="android:textSize">@dimen/material_text_caption1</item>
         <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/content_space_4</item>
     </style>
 
     <eat-comment/>

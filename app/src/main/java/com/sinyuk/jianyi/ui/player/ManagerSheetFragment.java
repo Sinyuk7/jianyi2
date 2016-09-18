@@ -42,6 +42,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observer;
+import tyrantgit.explosionfield.ExplosionField;
 
 /**
  * Created by Sinyuk on 16/9/14.
@@ -99,6 +100,7 @@ public class ManagerSheetFragment extends BaseFragment {
         }
     };
     private Player player;
+    private ExplosionField explosionField;
 
     public static ManagerSheetFragment newInstance(Player player) {
 
@@ -113,6 +115,7 @@ public class ManagerSheetFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         App.get(context).getAppComponent().plus(new PlayerRepositoryModule()).inject(this);
+        explosionField = ExplosionField.attach2Window(getActivity());
     }
 
     @Override
@@ -167,7 +170,7 @@ public class ManagerSheetFragment extends BaseFragment {
 
     private void initData() {
         mAdapter = new ManagerAdapter();
-        mAdapter.setHasStableIds(true);
+//        mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -190,6 +193,11 @@ public class ManagerSheetFragment extends BaseFragment {
         mViewAnimator.setDisplayedChildId(R.id.layout_empty);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        explosionField.clear();
+    }
 
     public class ManagerAdapter extends RecyclerView.Adapter<ManagerAdapter.ManagerItemHolder> {
 
@@ -226,11 +234,26 @@ public class ManagerSheetFragment extends BaseFragment {
             }
             shotBuilder.load(data.getCoverUrl()).into(holder.mShotIv);
 
+            holder.mDeleteBtn.setOnClickListener(v -> {
+                explosionField.explode(holder.itemView);
+                v.postDelayed(() -> {
+                    holder.itemView.setVisibility(View.INVISIBLE);
+                    remove(holder.getAdapterPosition());
+                }, 400);
+//                    explosionField.clear();
+            });
 
             holder.mShotIv.setOnClickListener(v -> {
                 data.setUser(player);
                 DetailActivity.start(getContext(), data);
             });
+        }
+
+        public void remove(int position) {
+            if (mDataSet.get(position) == null) return;
+            mDataSet.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, mDataSet.size());
         }
 
         public void appendAll(List<Goods> items) {
@@ -245,13 +268,14 @@ public class ManagerSheetFragment extends BaseFragment {
             notifyItemRangeInserted(0, items.size());
         }
 
-        @Override
-        public long getItemId(int position) {
-            if (mDataSet != null && mDataSet.get(position) != null) {
-                return mDataSet.get(position).getId();
-            }
-            return RecyclerView.NO_ID;
-        }
+
+//        @Override
+//        public long getItemId(int position) {
+//            if (mDataSet != null && mDataSet.get(position) != null) {
+//                return mDataSet.get(position).getId();
+//            }
+//            return RecyclerView.NO_ID;
+//        }
 
         @Override
         public int getItemCount() {

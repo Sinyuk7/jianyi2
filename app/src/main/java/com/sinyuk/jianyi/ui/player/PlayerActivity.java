@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
@@ -22,7 +23,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
-import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.player.Player;
@@ -61,8 +61,6 @@ public class PlayerActivity extends BaseActivity {
     EditText mUserNameEt;
     @BindView(R.id.location_tv)
     EditText mLocationTv;
-    @BindView(R.id.tab_strip)
-    NavigationTabStrip mTabStrip;
     @BindView(R.id.back_iv)
     ImageView mBackIv;
     @BindView(R.id.action_iv)
@@ -145,8 +143,6 @@ public class PlayerActivity extends BaseActivity {
         ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
         sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        mTabStrip.setTitles(sb.toString(), sb.toString());
-        mTabStrip.setViewPager(mViewPager);
     }
 
     private void initFragments() {

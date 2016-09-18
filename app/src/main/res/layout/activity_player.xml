@@ -81,29 +81,27 @@
                     android:transitionName="@string/transition_school"
                     tools:text="浙江传媒学院"/>
 
-                <com.gigamole.navigationtabstrip.NavigationTabStrip
-                    android:id="@+id/tab_strip"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_below="@+id/location_tv"
-                    android:layout_marginTop="@dimen/content_space_16"
-                    app:nts_active_color="@color/colorAccent"
-                    app:nts_animation_duration="300"
-                    app:nts_color="@color/colorAccent"
-                    app:nts_corners_radius="1.5dp"
-                    app:nts_factor="2.5"
-                    app:nts_gravity="bottom"
-                    app:nts_inactive_color="@color/grey_300"
-                    app:nts_type="point"
-                    app:nts_weight="4dp"
-                />
 
-                <!--<android.support.design.widget.TabLayout-->
-                <!--android:id="@+id/tab_layout"-->
-                <!--style="@style/player_tab_layout"-->
-                <!--android:layout_below="@+id/location_tv"-->
-                <!--android:layout_marginTop="@dimen/content_space_16"-->
-                <!--tools:background="#ccc"/>-->
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:layout_below="@+id/location_tv"
+                              android:layout_marginTop="@dimen/content_space_16"
+                              android:orientation="horizontal"
+                              android:paddingBottom="@dimen/content_space_16">
+
+                    <TextView
+                        android:id="@+id/post_tab"
+                        style="@style/player_tab_text"
+                        android:drawableTop="@drawable/ic_book"
+                        android:text="发布 123"/>
+
+
+                    <TextView
+                        android:id="@+id/like_tab"
+                        style="@style/player_tab_text"
+                        android:drawableTop="@drawable/ic_food_accent"
+                        android:text="收藏 0"/>
+                </LinearLayout>
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
