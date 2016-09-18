@@ -151,8 +151,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public AccountManger provideAccountManager(RxSharedPreferences sharedPreferences) {
-        return new AccountManger(sharedPreferences);
+    public AccountManger provideAccountManager(JianyiService jianyiService, RxSharedPreferences sharedPreferences) {
+        return new AccountManger(jianyiService, sharedPreferences);
     }
 
 }

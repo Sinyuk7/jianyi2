@@ -14,6 +14,7 @@ import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.detail.DetailActivity;
 import com.sinyuk.jianyi.ui.home.DrawerMenu;
 import com.sinyuk.jianyi.ui.home.GuillotineMenu;
+import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.player.ManagerSheetFragment;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.ui.splash.SplashComponent;
@@ -46,4 +47,6 @@ public interface AppComponent {
     void inject(GuillotineMenu target);
 
     void inject(DetailActivity target);
+
+    void inject(JianyiLoginActivity target);
 }

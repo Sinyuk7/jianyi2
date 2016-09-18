@@ -75,6 +75,28 @@ public class Player implements Parcelable {
         this.schoolName = in.readString();
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", openid='" + openid + '\'' +
+                ", sex=" + sex +
+                ", realName='" + realName + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", Gamount=" + Gamount +
+                ", tel='" + tel + '\'' +
+                ", bio='" + bio + '\'' +
+                ", intro='" + intro + '\'' +
+                ", school=" + school +
+                ", currentSchool=" + currentSchool +
+                ", schoolName='" + schoolName + '\'' +
+                '}';
+    }
+
     public String getSchoolName() {
         return schoolName;
     }

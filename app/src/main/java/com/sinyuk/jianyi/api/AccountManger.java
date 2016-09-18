@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.api.oauth.OauthService;
+import com.sinyuk.jianyi.api.service.JianyiService;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.utils.PrefsKeySet;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -20,16 +22,17 @@ import timber.log.Timber;
 public class AccountManger {
     private static final Integer INVALID_ID = 0;
     private RxSharedPreferences mRxSharedPreferences;
+    private JianyiService jianyiService;
     private OauthService mOauthService;
     private Preference<String> userName;
     private Preference<String> userAvatar;
     private Preference<Integer> userId;
     private Player mCurrentUser;
 
-    public AccountManger(RxSharedPreferences rxSharedPreferences) {
+    public AccountManger(JianyiService jianyiService, RxSharedPreferences rxSharedPreferences) {
         // Nope
         this.mRxSharedPreferences = rxSharedPreferences;
-
+        this.jianyiService = jianyiService;
         userId = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_USER_ID);
         userName = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_NAME);
         userAvatar = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_AVATAR);
@@ -72,6 +75,28 @@ public class AccountManger {
         userId.set(player.getId());
         userName.set(player.getName());
         userAvatar.set(player.getAvatar());
+    }
+
+    public Observable<Player> login(String tel, String password) {
+        return jianyiService.login(tel, password)
+                .map(new HttpResultFunc<Player>() {
+                    @Override
+                    public Player call(HttpResult<Player> httpResult) {
+                        return httpResult.getData();
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<Player>() {
+                    @Override
+                    public void call(Player player) {
+//                        saveInPreference(player);
+                    }
+                }).doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
     }
 
     public Observable<Void> logout() {

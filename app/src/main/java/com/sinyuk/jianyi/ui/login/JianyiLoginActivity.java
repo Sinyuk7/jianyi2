@@ -4,19 +4,27 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.utils.ImeUtils;
 import com.sinyuk.jianyi.utils.Validator;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import dagger.Lazy;
 import rx.Observable;
+import rx.Observer;
 
 /**
  * Created by Sinyuk on 16/9/18.
@@ -37,6 +45,9 @@ public class JianyiLoginActivity extends BaseActivity {
     @BindView(R.id.login_btn)
     Button mLoginBtn;
 
+    @Inject
+    Lazy<AccountManger> accountMangerLazy;
+
     @Override
     protected int getContentViewID() {
         return R.layout.activity_jianyi_login;
@@ -44,7 +55,7 @@ public class JianyiLoginActivity extends BaseActivity {
 
     @Override
     protected void beforeInflating() {
-
+        App.get(this).getAppComponent().inject(this);
     }
 
     @Override
@@ -86,6 +97,25 @@ public class JianyiLoginActivity extends BaseActivity {
         final String phoneNum = mUserNameEt.getText().toString();
         final String password = mPasswordEt.getText().toString();
         ImeUtils.hideIme(mLoginBtn);
+
+        accountMangerLazy.get()
+                .login(phoneNum, password)
+                .subscribe(new Observer<Player>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Player player) {
+                        Log.d(TAG, "onNext: " + player.toString());
+                    }
+                });
     }
 
     private void toggleLoginButton(boolean activated) {

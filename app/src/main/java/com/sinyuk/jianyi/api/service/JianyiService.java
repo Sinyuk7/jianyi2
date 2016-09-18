@@ -10,7 +10,10 @@ import com.sinyuk.jianyi.data.school.School;
 
 import java.util.List;
 
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -38,4 +41,8 @@ public interface JianyiService {
 
     @GET("goods/sellManage")
     Observable<HttpResult<GoodsResult>> getHisPosts(@Query("user_id") int id, @Query("page") int page);
+
+    @POST("sign/index")
+    @FormUrlEncoded
+    Observable<HttpResult<Player>> login(@Field("tel") String id, @Field("password") String password);
 }
