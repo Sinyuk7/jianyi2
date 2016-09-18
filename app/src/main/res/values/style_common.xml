@@ -21,4 +21,78 @@
         <item name="android:inAnimation">@android:anim/fade_in</item>
         <item name="android:outAnimation">@android:anim/fade_out</item>
     </style>
+
+    <!-- ============================ -->
+    <!-- 自定义背景 Button -->
+    <!-- ========================== -->
+    <eat-comment/>
+
+    <style name="CustomBackgroundButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/material_text_button</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="android:padding">@dimen/content_space_16</item>
+    </style>
+
+    <style name="CustomBackgroundButton.Outline" parent="CustomBackgroundButton">
+        <item name="android:background">@drawable/selector_button_outline</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="CustomBackgroundButton.Fill" parent="CustomBackgroundButton">
+        <item name="android:background">@drawable/selector_button_fill</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="DefaultInputTextLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:elevation">@dimen/widget_elevation_low</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rounded_rect_white</item>
+        <item name="android:paddingLeft">@dimen/content_space_16</item>
+        <item name="android:paddingRight">@dimen/content_space_16</item>
+        <item name="android:paddingTop">@dimen/content_space_8</item>
+        <item name="android:paddingBottom">@dimen/content_space_16</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+    </style>
+
+    <style name="DefaultEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@null</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">@dimen/content_space_8</item>
+        <!--<item name="android:textColorHighlight">@color/colorAccent</item>-->
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <!--<item name="android:textColorHint">@color/colorAccent</item>-->
+        <item name="android:textSize">@dimen/material_text_body1</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="DefaultEditText.Display">
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="DefaultEditText.SingleLine">
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="DefaultEditText.ReadOnly" parent="DefaultEditText">
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <style name="DefaultEditText.SingleLine.ReadOnly" parent="DefaultEditText.SingleLine">
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
 </resources>
