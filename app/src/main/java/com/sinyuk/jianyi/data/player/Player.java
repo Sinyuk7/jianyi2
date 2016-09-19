@@ -51,6 +51,7 @@ public class Player implements Parcelable {
     private int school;
     @SerializedName("current_school")
     private int currentSchool;
+
     private String schoolName;
 
     public Player() {

@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
@@ -57,9 +56,9 @@ public class PlayerActivity extends BaseActivity {
     RatioImageView mRevealView;
     @BindView(R.id.avatar)
     ImageView mAvatar;
-    @BindView(R.id.user_name_et)
+    @BindView(R.id.user_name_tv)
     EditText mUserNameEt;
-    @BindView(R.id.location_tv)
+    @BindView(R.id.school_tv)
     EditText mLocationTv;
     @BindView(R.id.back_iv)
     ImageView mBackIv;

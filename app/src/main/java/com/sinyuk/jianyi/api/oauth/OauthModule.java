@@ -6,6 +6,7 @@ import com.sinyuk.jianyi.BuildConfig;
 import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.api.service.JianyiService;
+import com.sinyuk.jianyi.data.school.SchoolManager;
 
 import javax.inject.Named;
 import javax.inject.Singleton;

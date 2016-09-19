@@ -36,7 +36,7 @@ import rx.Observer;
 public class JianyiLoginActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.user_name_et)
+    @BindView(R.id.user_name_tv)
     TextInputEditText mUserNameEt;
     @BindView(R.id.user_name_input_layout)
     TextInputLayout mUserNameInputLayout;
@@ -74,7 +74,7 @@ public class JianyiLoginActivity extends BaseActivity {
                     }
                 }));
 
-        Observable<CharSequence> passwordObservable = RxTextView.textChanges(mPasswordEt).skip(5);
+        Observable<CharSequence> passwordObservable = RxTextView.textChanges(mPasswordEt).skip(6);
         Observable<CharSequence> phoneNumObservable = RxTextView.textChanges(mUserNameEt).skip(10);
 
         addSubscription(Observable.combineLatest(passwordObservable, phoneNumObservable, (password, phoneNum) -> {
@@ -109,26 +109,37 @@ public class JianyiLoginActivity extends BaseActivity {
     }
 
     public void showSucceed() {
+        if (mDialog == null) {
+            return;
+        }
         mDialog.setTitleText(getString(R.string.login_succeed))
                 .setConfirmText(getString(R.string.action_alright))
                 .setConfirmClickListener(dialog -> {
-                    finish();
+                    dialog.dismissWithAnimation();
+                    mLoginBtn.postDelayed(this::finish,250);
                 })
                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+        ;
     }
 
 
     private void showFailed(String message) {
+        if (mDialog == null) {
+            return;
+        }
         mDialog.setTitleText(message)
                 .setConfirmText(getString(R.string.action_alright))
-                .setConfirmClickListener(null)
+                .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
                 .changeAlertType(SweetAlertDialog.WARNING_TYPE);
     }
 
     private void showError(String message) {
+        if (mDialog == null) {
+            return;
+        }
         mDialog.setTitleText(message)
                 .setConfirmText(getString(R.string.action_alright))
-                .setConfirmClickListener(null)
+                .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
                 .changeAlertType(SweetAlertDialog.ERROR_TYPE);
     }
 
@@ -140,28 +151,29 @@ public class JianyiLoginActivity extends BaseActivity {
         final String password = mPasswordEt.getText().toString();
         ImeUtils.hideIme(mLoginBtn);
 
-        accountMangerLazy.get()
+        addSubscription(accountMangerLazy.get()
                 .login(phoneNum, password)
+                .doOnSubscribe(this::showProgress)
                 .subscribe(new Observer<Player>() {
                     @Override
                     public void onCompleted() {
-//                        showSucceed();
+                        showSucceed();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-//                        if (e instanceof ApiException) {
-//                            showFailed(e.getLocalizedMessage());
-//                        } else {
-//                            showError(e.getLocalizedMessage());
-//                        }
+                        if (e instanceof ApiException) {
+                            showFailed(e.getLocalizedMessage());
+                        } else {
+                            showError(e.getLocalizedMessage());
+                        }
                     }
 
                     @Override
                     public void onNext(Player player) {
                         Log.d(TAG, "onNext: " + player.toString());
                     }
-                });
+                }));
     }
 
     private void toggleLoginButton(boolean activated) {

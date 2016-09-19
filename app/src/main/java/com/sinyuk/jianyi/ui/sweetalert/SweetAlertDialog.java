@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 
 import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.utils.AnimationLayerListener;
 
 import java.util.List;
 

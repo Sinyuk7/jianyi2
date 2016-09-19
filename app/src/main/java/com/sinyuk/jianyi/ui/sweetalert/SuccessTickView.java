@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
 import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.utils.AnimatorLayerListener;
 
 
 public class SuccessTickView extends View {
@@ -117,6 +118,22 @@ public class SuccessTickView extends View {
                 }
             }
         };
+        tickAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                setLayerType(LAYER_TYPE_HARDWARE,null);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                setLayerType(LAYER_TYPE_NONE,null);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         tickAnim.setDuration(750);
         tickAnim.setStartOffset(100);
         startAnimation(tickAnim);

@@ -1,104 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
+    android:overScrollMode="never">
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical">
-        <View
+
+        <com.sinyuk.jianyi.widgets.RatioImageView
             android:id="@+id/background"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="wrap_content"
+            android:alpha="0.8"
+            android:scaleType="centerCrop"
             android:background="@color/colorPrimary"
-            android:transitionName="@string/transition_reveal_view"/>
+            android:transitionName="@string/transition_reveal_view"
+            app:ratio="0.5"/>
 
         <com.sinyuk.jianyi.widgets.MyCircleImageView
             android:id="@+id/avatar"
             android:layout_width="98dp"
             android:layout_height="98dp"
-            android:layout_marginTop="-74dp"
-            tools:src="@drawable/girl"
+            android:layout_marginBottom="28dp"
+            android:layout_marginTop="-76dp"
+            android:scaleType="centerCrop"
             android:transitionName="@string/transition_avatar"
-            app:border_color="@color/white"
-            app:border_width="3dp"/>
+            app:border_color="@android:color/white"
+            app:border_width="2dp"
+            tools:src="@drawable/girl"/>
 
-        <TextView
+        <EditText
             android:id="@+id/user_name_tv"
-            style="@style/guillotine_menu_text"
-            android:layout_marginTop="28dp"
+            style="@style/player_edit_text"
             android:textSize="@dimen/material_text_display2"
             android:textStyle="bold"
             android:transitionName="@string/transition_username"
+            android:visibility="gone"
             tools:text="乔昔之"/>
 
-        <TextView
+        <EditText
             android:id="@+id/school_tv"
-            style="@style/guillotine_menu_text"
-            android:layout_marginTop="@dimen/content_space_4"
-            android:textColor="@color/grey_600"
+            style="@style/player_edit_text"
+            android:layout_marginTop="@dimen/content_space_2"
+            android:textColor="@color/text_secondary_dark"
             android:textSize="@dimen/material_text_caption1"
             android:transitionName="@string/transition_school"
+            android:visibility="gone"
             tools:text="浙江传媒学院"/>
+
+        <EditText
+            android:id="@+id/login_hint_tv"
+            style="@style/player_edit_text"
+            android:text="只有登录才知道的世界"
+            android:textColor="@color/text_primary_dark"
+            android:textSize="@dimen/material_text_caption1"/>
+
+
+        <Button
+            android:id="@+id/inbox_btn"
+            style="@style/guillotine_menu_text"
+            android:drawableLeft="@drawable/notice"
+            android:text="我的消息"/>
+        <Button
+            android:id="@+id/profile_btn"
+            style="@style/guillotine_menu_text"
+            android:drawableLeft="@drawable/profile"
+            android:text="个人中心"/>
+
+        <Button
+            android:id="@+id/logout_btn"
+            style="@style/guillotine_menu_text"
+            android:drawableLeft="@drawable/close"
+            android:text="退出登录"/>
+
     </LinearLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:overScrollMode="never"
-        android:paddingTop="@dimen/content_space_16">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/inbox_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_mail"
-                android:drawablePadding="@dimen/content_space_8"
-                android:gravity="center"
-                android:padding="@dimen/content_space_4"
-                android:text="我的消息"
-                android:textSize="@dimen/material_text_title"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/profile_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_profile_grey"
-                android:drawablePadding="@dimen/content_space_8"
-                android:gravity="center"
-                android:padding="@dimen/content_space_4"
-                android:text="个人中心"
-                android:textSize="@dimen/material_text_title"
-                android:textStyle="bold"/>
-
-
-            <TextView
-                android:id="@+id/exit_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_close"
-                android:drawablePadding="@dimen/content_space_8"
-                android:gravity="center"
-                android:padding="@dimen/content_space_4"
-                android:text="退出登录"
-                android:textSize="@dimen/material_text_title"
-                android:textStyle="bold"/>
-
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

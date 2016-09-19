@@ -35,6 +35,11 @@ public class School implements Parcelable {
     public School() {
     }
 
+    public School(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     protected School(Parcel in) {
         this.id = in.readInt();
         this.name = in.readString();

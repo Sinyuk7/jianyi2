@@ -32,9 +32,6 @@
             app:titleEnabled="false">
 
             <RelativeLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
@@ -43,7 +40,7 @@
                 <com.sinyuk.jianyi.widgets.RatioImageView
                     android:id="@+id/background"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="wrap_content"
                     android:alpha="0.8"
                     android:scaleType="centerCrop"
                     android:src="@color/grey_300"
@@ -62,7 +59,7 @@
                     tools:src="@drawable/ic_profile"/>
 
                 <EditText
-                    android:id="@+id/user_name_et"
+                    android:id="@+id/user_name_tv"
                     style="@style/player_edit_text"
                     android:layout_below="@+id/avatar"
                     android:layout_marginTop="28dp"
@@ -72,9 +69,9 @@
                     tools:text="乔昔之"/>
 
                 <EditText
-                    android:id="@+id/location_tv"
+                    android:id="@+id/school_tv"
                     style="@style/player_edit_text"
-                    android:layout_below="@+id/user_name_et"
+                    android:layout_below="@+id/user_name_tv"
                     android:layout_marginTop="@dimen/content_space_2"
                     android:textColor="@color/grey_600"
                     android:textSize="@dimen/material_text_caption1"
@@ -84,7 +81,7 @@
 
                 <LinearLayout android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:layout_below="@+id/location_tv"
+                              android:layout_below="@+id/school_tv"
                               android:layout_marginTop="@dimen/content_space_16"
                               android:orientation="horizontal"
                               android:paddingBottom="@dimen/content_space_16">

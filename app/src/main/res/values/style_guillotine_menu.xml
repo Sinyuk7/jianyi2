@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="guillotine_menu_text">
+    <style name="guillotine_menu_text" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:background">@null</item>
-        <item name="android:paddingLeft">24dp</item>
-        <item name="android:paddingRight">24dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">marquee</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:drawablePadding">@dimen/content_space_8</item>
+        <item name="android:textColor">@color/selector_text_sgrey_accent</item>
+        <item name="android:textSize">@dimen/material_text_title</item>
     </style>
+
 </resources>

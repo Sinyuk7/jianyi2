@@ -7,14 +7,16 @@ import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.api.oauth.OauthService;
 import com.sinyuk.jianyi.api.service.JianyiService;
 import com.sinyuk.jianyi.data.player.Player;
+import com.sinyuk.jianyi.ui.events.LoginEvent;
+import com.sinyuk.jianyi.ui.events.LogoutEvent;
 import com.sinyuk.jianyi.utils.PrefsKeySet;
+
+import org.greenrobot.eventbus.EventBus;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Created by Sinyuk on 16/9/9.
@@ -26,6 +28,12 @@ public class AccountManger {
     private Preference<String> userName;
     private Preference<String> userAvatar;
     private Preference<Integer> userId;
+    private Preference<Integer> gamount;
+    private Preference<String> tel;
+    private Preference<Integer> school;
+    private Preference<Integer> currentSchool;
+    private Preference<String> schoolName;
+    private Preference<Integer> sex;
     private Player mCurrentUser;
 
     public AccountManger(JianyiService jianyiService, OauthService oauthService, RxSharedPreferences rxSharedPreferences) {
@@ -36,13 +44,17 @@ public class AccountManger {
         userId = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_USER_ID);
         userName = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_NAME);
         userAvatar = mRxSharedPreferences.getString(PrefsKeySet.KEY_USER_AVATAR);
-
+        gamount = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_GAMOUNT);
+        tel = mRxSharedPreferences.getString(PrefsKeySet.KEY_TEl);
+        school = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_SCHOOL);
+        currentSchool = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_CURRENT_SCHOOL);
+        schoolName = mRxSharedPreferences.getString(PrefsKeySet.KEY_SCHOOL_NAME);
+        sex = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_SEX);
     }
 
-    public boolean isLogin() {
+    public boolean isLoggedIn() {
         return userId.isSet() && !userId.get().equals(userId.defaultValue());
     }
-
 
     public Observable<Player> getFakePlayer() {
         Player player = new Player();
@@ -61,55 +73,66 @@ public class AccountManger {
     }
 
     public Observable<Player> getCurrentUser() {
-        return Observable.just(new Player()).map(user -> {
-            user.setName(userName.get());
-            user.setAvatar(userAvatar.get());
-            user.setId(userId.get());
-            return user;
-        }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread());
+        return Observable.just(new Player())
+                .map(user -> {
+                    user.setName(userName.get());
+                    user.setAvatar(userAvatar.get());
+                    user.setId(userId.get());
+                    user.setGamount(gamount.get());
+                    user.setTel(tel.get());
+                    user.setSex(sex.get());
+                    user.setSchool(school.get());
+                    user.setCurrentSchool(currentSchool.get());
+                    user.setSchoolName(schoolName.get());
+                    return user;
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-
     private void saveInPreference(Player player) {
-        Timber.d("saveInPreference");
         userId.set(player.getId());
         userName.set(player.getName());
         userAvatar.set(player.getAvatar());
+        gamount.set(player.getGamount());
+        tel.set(player.getTel());
+        sex.set(player.getSex());
+        school.set(player.getSchool());
+        currentSchool.set(player.getCurrentSchool());
+        schoolName.set(player.getSchoolName());
     }
 
-    public Observable<Player> login(String tel, String password) {
+    public Observable login(String tel, String password) {
         return jianyiService.login(tel, password)
                 .map(new HttpResultFunc<Player>() {
                     @Override
                     public Player call(HttpResult<Player> httpResult) {
                         return httpResult.getData();
                     }
-                }).subscribeOn(Schedulers.io())
+                })
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<Player>() {
-                    @Override
-                    public void call(Player player) {
-//                        saveInPreference(player);
-                    }
-                }).doOnError(new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-
-                    }
-                });
+                .doOnNext(this::saveInPreference)
+                .doOnNext(player -> EventBus.getDefault().post(new LoginEvent(player)));
     }
 
+
     public Observable<Void> logout() {
-        return Observable.empty().map((Func1<Object, Void>) o -> {
-
-            userId.delete();
-            userName.delete();
-
-            userAvatar.delete();
-
-            return null;
-        }).doOnNext(aVoid -> {
-            // TODO: post a event
-        }).subscribeOn(Schedulers.computation()).observeOn(AndroidSchedulers.mainThread());
+        return Observable.empty()
+                .map((Func1<Object, Void>) o -> {
+                    userId.delete();
+                    userName.delete();
+                    userAvatar.delete();
+                    gamount.delete();
+                    tel.delete();
+                    sex.delete();
+                    school.delete();
+                    currentSchool.delete();
+                    schoolName.delete();
+                    return null;
+                })
+                .doOnCompleted(() -> EventBus.getDefault().post(new LogoutEvent()))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

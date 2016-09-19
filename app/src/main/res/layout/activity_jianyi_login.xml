@@ -43,7 +43,7 @@
                 android:layout_marginBottom="@dimen/content_space_16">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/user_name_et"
+                    android:id="@+id/user_name_tv"
                     style="@style/DefaultEditText.SingleLine"
                     android:drawableLeft="@drawable/ic_profile_grey_18"
                     android:drawableStart="@drawable/ic_profile_grey_18"

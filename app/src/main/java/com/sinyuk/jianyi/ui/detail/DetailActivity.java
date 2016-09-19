@@ -131,7 +131,7 @@ public class DetailActivity extends BaseActivity {
     private View.OnClickListener onPostButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (accountManger.isLogin()) {
+            if (accountManger.isLoggedIn()) {
                 //
                 Toast.makeText(DetailActivity.this, "登录了", Toast.LENGTH_LONG).show();
             } else {
