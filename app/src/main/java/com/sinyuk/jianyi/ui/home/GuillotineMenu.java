@@ -5,13 +5,16 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -62,7 +65,7 @@ public class GuillotineMenu extends BaseFragment {
     @BindView(R.id.school_tv)
     EditText mSchoolTv;
     @BindView(R.id.login_hint_tv)
-    EditText mLoginHint;
+    TextView mLoginHint;
     @BindView(R.id.inbox_btn)
     Button mInboxBtn;
     @BindView(R.id.profile_btn)
@@ -204,12 +207,16 @@ public class GuillotineMenu extends BaseFragment {
         Intent starter = new Intent(getContext(), PlayerActivity.class);
         starter.putExtra(PlayerActivity.KEY_PLAYER, mPlayer);
         starter.putExtra(PlayerActivity.KEY_SCHOOL, school);
-        startActivity(starter, options.toBundle());
+        startActivity(starter/*, options.toBundle()*/);
     }
 
-    @OnClick(R.id.avatar)
-    public void onClickAvatar() {
-        startActivity(new Intent(getContext(), JianyiLoginActivity.class));
+    @OnClick(R.id.login_hint_tv)
+    public void onClickAvatar(View view) {
+        final Rect rect = new Rect();
+        view.getDrawingRect(rect);
+        final ViewGroup parent = (ViewGroup) view.getParent();
+        parent.offsetDescendantRectToMyCoords(view, rect);
+        JianyiLoginActivity.start(getContext(), rect);
     }
 
     @OnClick({R.id.inbox_btn, R.id.profile_btn, R.id.logout_btn})

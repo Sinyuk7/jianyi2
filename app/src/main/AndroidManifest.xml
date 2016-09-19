@@ -47,6 +47,8 @@
         </activity>
 
         <activity android:name=".ui.login.JianyiLoginActivity"
+                  android:launchMode="singleTop"
+                  android:theme="@style/AppTheme.Transparent"
                   android:windowSoftInputMode="adjustResize|stateHidden"/>
     </application>
 

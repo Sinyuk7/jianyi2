@@ -86,7 +86,6 @@ public class ProgressWheel extends View {
     public ProgressWheel(Context context) {
         super(context);
         setAnimationEnabled();
-        setLayerType(LAYER_TYPE_HARDWARE, null);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)

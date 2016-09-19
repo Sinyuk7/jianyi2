@@ -75,6 +75,12 @@
             app:layout_anchorGravity="bottom"
             app:spb_colors="@array/iris_color"/>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/FAB.Large"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_pic_fill_white"/>
+
     </android.support.design.widget.CoordinatorLayout>
     <!--menu-->
 

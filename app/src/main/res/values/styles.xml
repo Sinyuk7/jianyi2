@@ -31,4 +31,11 @@
     <bool name="fitSystemView">false</bool>
     <dimen name="status_bar_margin">0dp</dimen>
 
+    <style name="AppTheme.Transparent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

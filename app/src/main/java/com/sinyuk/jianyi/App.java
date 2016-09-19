@@ -3,7 +3,6 @@ package com.sinyuk.jianyi;
 import android.app.Application;
 import android.content.Context;
 
-import com.facebook.stetho.Stetho;
 import com.sinyuk.jianyi.data.goods.GoodsRepositoryComponent;
 import com.sinyuk.jianyi.data.goods.GoodsRepositoryModule;
 import com.sinyuk.jianyi.data.need.NeedRepositoryComponent;
@@ -34,7 +33,6 @@ public class App extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
-        Stetho.initializeWithDefaults(this);
         LeakCanary.install(this);
         initAppComponent();
     }
