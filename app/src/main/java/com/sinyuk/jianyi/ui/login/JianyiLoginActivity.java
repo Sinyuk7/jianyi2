@@ -114,10 +114,7 @@ public class JianyiLoginActivity extends BaseActivity {
         }
         mDialog.setTitleText(getString(R.string.login_succeed))
                 .setConfirmText(getString(R.string.action_alright))
-                .setConfirmClickListener(dialog -> {
-                    dialog.dismissWithAnimation();
-                    mLoginBtn.postDelayed(this::finish,250);
-                })
+                .setConfirmClickListener(dialog -> finish())
                 .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
         ;
     }

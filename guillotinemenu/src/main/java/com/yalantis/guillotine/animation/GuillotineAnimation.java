@@ -50,8 +50,7 @@ public class GuillotineAnimation {
             mGuillotineView.setRotation(GUILLOTINE_CLOSED_ANGLE);
             mGuillotineView.setVisibility(View.INVISIBLE);
         }
-        //TODO handle right-to-left layouts
-        //TODO handle landscape orientation
+
     }
 
     public void open() {

@@ -12,6 +12,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -20,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alpha="0.8"
-            android:scaleType="centerCrop"
             android:background="@color/colorPrimary"
+            android:scaleType="centerCrop"
             android:transitionName="@string/transition_reveal_view"
             app:ratio="0.5"/>
 
@@ -61,7 +62,8 @@
             style="@style/player_edit_text"
             android:text="只有登录才知道的世界"
             android:textColor="@color/text_primary_dark"
-            android:textSize="@dimen/material_text_caption1"/>
+            android:textSize="@dimen/material_text_caption1"
+            android:visibility="gone"/>
 
 
         <Button

@@ -1,6 +1,7 @@
 package com.sinyuk.jianyi.api;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
@@ -15,13 +16,13 @@ import org.greenrobot.eventbus.EventBus;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16/9/9.
  */
 public class AccountManger {
+    private static final String TAG = "AccountManger";
     private RxSharedPreferences mRxSharedPreferences;
     private OauthService mOauthService;
     private JianyiService jianyiService;
@@ -99,10 +100,10 @@ public class AccountManger {
         sex.set(player.getSex());
         school.set(player.getSchool());
         currentSchool.set(player.getCurrentSchool());
-        schoolName.set(player.getSchoolName());
+        schoolName.set(/*player.getSchoolName()*/"这里我要说一句大傻逼吴结巴");
     }
 
-    public Observable login(String tel, String password) {
+    public Observable<Player> login(String tel, String password) {
         return jianyiService.login(tel, password)
                 .map(new HttpResultFunc<Player>() {
                     @Override
@@ -117,22 +118,17 @@ public class AccountManger {
     }
 
 
-    public Observable<Void> logout() {
-        return Observable.empty()
-                .map((Func1<Object, Void>) o -> {
-                    userId.delete();
-                    userName.delete();
-                    userAvatar.delete();
-                    gamount.delete();
-                    tel.delete();
-                    sex.delete();
-                    school.delete();
-                    currentSchool.delete();
-                    schoolName.delete();
-                    return null;
-                })
-                .doOnCompleted(() -> EventBus.getDefault().post(new LogoutEvent()))
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread());
+    public void logout() {
+        Log.d(TAG, "Delete prefs");
+        userId.delete();
+        userName.delete();
+        userAvatar.delete();
+        gamount.delete();
+        tel.delete();
+        sex.delete();
+        school.delete();
+        currentSchool.delete();
+        schoolName.delete();
+        EventBus.getDefault().post(new LogoutEvent());
     }
 }

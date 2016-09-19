@@ -17,7 +17,7 @@
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@drawable/player_toolbar_scrim"
+        android:background="@android:color/transparent"
         app:contentInsetStart="0dp"
         app:layout_scrollFlags="scroll|enterAlways">
         <ImageView

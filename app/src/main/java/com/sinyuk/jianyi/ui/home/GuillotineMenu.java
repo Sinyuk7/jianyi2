@@ -74,13 +74,11 @@ public class GuillotineMenu extends BaseFragment {
     @Inject
     Lazy<ToastUtils> toastUtilsLazy;
     private Player mPlayer;
-    private School mSchool;
     private boolean isLoggedIn = false;
 
     @Override
     protected void beforeInflate() {
         EventBus.getDefault().register(this);
-        isLoggedIn = accountMangerLazy.get().isLoggedIn();
     }
 
     @Override
@@ -103,6 +101,9 @@ public class GuillotineMenu extends BaseFragment {
     @Override
     protected void finishInflate() {
         setupLayoutTransition();
+
+        isLoggedIn = accountMangerLazy.get().isLoggedIn();
+
         if (isLoggedIn) {
             addSubscription(accountMangerLazy.get()
                     .getCurrentUser()
@@ -117,16 +118,16 @@ public class GuillotineMenu extends BaseFragment {
     private void setupLayoutTransition() {
         LayoutTransition transition = new LayoutTransition();
 
-        ObjectAnimator addAnimator = ObjectAnimator.ofFloat(null, "alpha", 0, 1, 0).
-                setDuration(transition.getDuration(LayoutTransition.APPEARING));
+        ObjectAnimator addAnimator = ObjectAnimator.ofFloat(
+                null, "alpha", 0, 1).setDuration(2000);
         transition.setAnimator(LayoutTransition.APPEARING, addAnimator);
 
-        ObjectAnimator removeAnimator = ObjectAnimator.ofFloat(null, "alpha", 1, 0, 1).
-                setDuration(transition.getDuration(LayoutTransition.DISAPPEARING));
+        ObjectAnimator removeAnimator = ObjectAnimator.ofFloat(
+                null, "alpha", 1, 0).setDuration(2000);
         transition.setAnimator(LayoutTransition.DISAPPEARING, removeAnimator);
 
-        transition.setStagger(LayoutTransition.APPEARING, 50);
-        transition.setStagger(LayoutTransition.DISAPPEARING, 50);
+        transition.setStagger(LayoutTransition.APPEARING, 1000);
+        transition.setStagger(LayoutTransition.DISAPPEARING, 1000);
 
         mContainer.setLayoutTransition(transition);
     }
@@ -181,9 +182,10 @@ public class GuillotineMenu extends BaseFragment {
     private void toggleVisibility(boolean isLoggedIn) {
         int visibility = isLoggedIn ? View.VISIBLE : View.GONE;
         int reverse = isLoggedIn ? View.GONE : View.VISIBLE;
-        mLoginHint.setVisibility(reverse);
         mUserNameTv.setVisibility(visibility);
         mSchoolTv.setVisibility(visibility);
+        mLoginHint.setVisibility(reverse);
+
         mInboxBtn.setVisibility(visibility);
         mProfileBtn.setVisibility(visibility);
         mLogoutBtn.setVisibility(visibility);
@@ -197,7 +199,7 @@ public class GuillotineMenu extends BaseFragment {
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation((Activity) getContext(), p1, p2, p3);
 
-        final School school = new School(mPlayer.getSchool(), "大傻逼吴结巴");
+        final School school = new School(mPlayer.getSchool(), mPlayer.getSchoolName());
 
         Intent starter = new Intent(getContext(), PlayerActivity.class);
         starter.putExtra(PlayerActivity.KEY_PLAYER, mPlayer);
@@ -214,14 +216,14 @@ public class GuillotineMenu extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.inbox_btn:
+                Log.d(TAG, "onClick: " + "inbox");
                 break;
             case R.id.profile_btn:
                 break;
             case R.id.logout_btn:
-                addSubscription(accountMangerLazy.get().logout()
-                        .subscribe(aVoid -> {
-                            toastUtilsLazy.get().toastShort("退出登录");
-                        }));
+                Log.d(TAG, "onClick: " + "logout");
+                accountMangerLazy.get().logout();
+                toastUtilsLazy.get().toastShort("退出登录");
                 break;
         }
     }

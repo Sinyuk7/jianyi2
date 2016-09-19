@@ -23,19 +23,7 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class BaseFragment extends Fragment {
     private Unbinder unbinder;
     private CompositeSubscription mCompositeSubscription;
-    protected Context mContext = null;
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mContext = null;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
