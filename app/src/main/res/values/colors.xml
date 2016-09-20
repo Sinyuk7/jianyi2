@@ -4,19 +4,6 @@
     <color name="colorPrimary">#01D8A9</color>
     <color name="colorPrimaryLt">#50f9b2</color>
     <color name="colorAccent">#25c4ec</color>
-    <!--official colors-->
-    <!--You’re encouraged to use the official Dribbble colorswhen displaying the logo and marks. -->
-    <!--When using the logo type on light backgrounds, use our charcoal color when possible. -->
-    <!--Use white if displaying on dark backgrounds (as in the dribbble.com header).-->
-    <eat-comment/>
-    <color name="official_pink">#EA4C89</color>
-    <color name="official_charcoal">#333333</color>
-    <color name="official_link_blue">#3a8bbb</color>
-    <color name="official_pro">#66cccc</color>
-    <color name="official_jobs_hiring">#7bbb5e</color>
-    <color name="official_teams">#00b6e3</color>
-    <color name="official_playbook">#66cc99</color>
-    <color name="official_slate">#9da3a5</color>
     <color name="colorAccentLight">#45daff</color>
     <color name="colorAccentDark">#02acd7</color>
     <color name="colorPrimaryDarkLight">#5ae4c5</color>

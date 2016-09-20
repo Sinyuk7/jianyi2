@@ -67,8 +67,9 @@ dependencies {
     compile rootProject.ext.dependencies["dagger"]
     apt rootProject.ext.dependencies["dagger-compiler"]
     debugCompile rootProject.ext.dependencies["timber"]
-//    compile rootProject.ext.dependencies["stetho"]
-//    compile rootProject.ext.dependencies["stetho-okhttp3"]
+    //    compile rootProject.ext.dependencies["stetho"]
+
+    //    compile rootProject.ext.dependencies["stetho-okhttp3"]
     compile rootProject.ext.dependencies["smooth-progress-bar"]
     //    compile project(':yukloadinglayout')
     compile rootProject.ext.dependencies["rebound"]
@@ -79,5 +80,5 @@ dependencies {
     compile project(':guillotinemenu')
     compile 'tyrantgit:explosionfield:1.0.1'
     compile 'com.github.ozodrukh:CircularReveal:2.0.1'
-
+    compile project(':progressbutton')
 }

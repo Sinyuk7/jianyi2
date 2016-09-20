@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/official_pink"/>
+    <item android:drawable="@color/grey_50"/>
 
     <!--<item android:width="56dp" android:height="56dp">-->
         <!--<bitmap-->

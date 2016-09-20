@@ -94,14 +94,18 @@
                 android:visibility="gone"
                 tools:visibility="visible"/>
 
-            <Button
+            <com.dd.CircularProgressButton
                 android:id="@+id/login_btn"
-                style="@style/custom_button.fill"
+                style="@style/custom_button"
                 android:layout_marginBottom="32dp"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_login"
+                android:textColor="@color/white"
+                app:cpb_textComplete="登录成功"
+                app:cpb_textError="登录失败"
                 android:visibility="gone"
-                tools:visibility="visible"/>
+                tools:visibility="visible"
+                app:cpb_textIdle="@string/action_login" />
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

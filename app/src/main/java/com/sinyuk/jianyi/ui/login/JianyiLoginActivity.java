@@ -22,10 +22,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dd.CircularProgressButton;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
@@ -85,7 +85,7 @@ public class JianyiLoginActivity extends BaseActivity {
     @BindView(R.id.forget_psw_btn)
     TextView mForgetPswBtn;
     @BindView(R.id.login_btn)
-    Button mLoginBtn;
+    CircularProgressButton mLoginBtn;
     @BindView(R.id.container)
     LinearLayout mContainer;
     @BindColor(R.color.colorAccent)
