@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.codetail.widget.RevealFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <View
+        android:id="@+id/reveal_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        android:visibility="invisible"
+        app:layout_scrollFlags="snap|scroll|enterAlways"/>
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:orientation="vertical"
+        >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_1"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="@dimen/content_space_8"
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:layout_marginTop="@dimen/content_space_8"
+            android:visibility="invisible"
+            app:cardBackgroundColor="@color/cardview_dark_background"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            app:cardMaxElevation="2dp"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_2"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="@dimen/content_space_8"
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:layout_marginTop="@dimen/content_space_8"
+            android:visibility="invisible"
+            app:cardBackgroundColor="@color/cardview_dark_background"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            app:cardMaxElevation="2dp"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_3"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="@dimen/content_space_8"
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:layout_marginTop="@dimen/content_space_8"
+            android:visibility="invisible"
+            app:cardBackgroundColor="@color/cardview_dark_background"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            app:cardMaxElevation="2dp"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_4"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="@dimen/content_space_8"
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:layout_marginTop="@dimen/content_space_8"
+            android:visibility="invisible"
+            app:cardBackgroundColor="@color/cardview_dark_background"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="1dp"
+            app:cardMaxElevation="2dp"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/FAB.Large"
+        android:layout_gravity="end|bottom"/>
+</io.codetail.widget.RevealFrameLayout>

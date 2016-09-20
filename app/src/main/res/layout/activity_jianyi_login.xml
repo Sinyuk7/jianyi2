@@ -2,98 +2,108 @@
 <io.codetail.widget.RevealFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <View
         android:id="@+id/mask"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/window_background"
+        android:visibility="gone"/>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:visibility="gone"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/activity_sign_in"
+        app:titleTextColor="@color/white"
+        tools:visibility="visible"/>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="vertical"
-        android:visibility="invisible">
+        android:paddingBottom="32dp"
+        android:paddingLeft="56dp"
+        android:paddingRight="56dp"
+        android:paddingTop="32dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+
+        <LinearLayout
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="@string/activity_sign_in"
-            app:titleTextColor="@color/white"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/user_name_input_layout"
+                style="@style/input_text_layout"
+                android:layout_marginBottom="@dimen/content_space_16"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/user_name_et"
+                    style="@style/form_edit_text.singline"
+                    android:drawableLeft="@drawable/ic_profile_grey_18"
+                    android:drawableStart="@drawable/ic_profile_grey_18"
+                    android:hint="@string/hint_input_user_name"
+                    android:inputType="phone"/>
+
+            </android.support.design.widget.TextInputLayout>
 
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingBottom="32dp"
-            android:paddingLeft="56dp"
-            android:paddingRight="56dp"
-            android:paddingTop="32dp">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password_input_layout"
+                style="@style/input_text_layout"
+                android:visibility="gone"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTintMode="src_in"
+                tools:visibility="visible">
 
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password_et"
+                    style="@style/form_edit_text.singline"
+                    android:drawableLeft="@drawable/ic_lock_grey_18"
+                    android:drawableStart="@drawable/ic_lock_grey_18"
+                    android:hint="@string/hint_input_password"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/action_login"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/forget_psw_btn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/content_space_8"
+                android:layout_marginTop="@dimen/content_space_8"
+                android:text="@string/hint_forget_password"
+                android:textColor="@color/text_secondary_dark"
+                android:textSize="@dimen/material_text_caption1"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/user_name_input_layout"
-                    style="@style/DefaultInputTextLayout"
-                    android:layout_marginBottom="@dimen/content_space_16">
+            <Button
+                android:id="@+id/login_btn"
+                style="@style/custom_button.fill"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_login"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/user_name_tv"
-                        style="@style/DefaultEditText.SingleLine"
-                        android:drawableLeft="@drawable/ic_profile_grey_18"
-                        android:drawableStart="@drawable/ic_profile_grey_18"
-                        android:hint="@string/hint_input_user_name"
-                        android:inputType="phone"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/password_input_layout"
-                    style="@style/DefaultInputTextLayout"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTintMode="src_in">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/password_et"
-                        style="@style/DefaultEditText.SingleLine"
-                        android:drawableLeft="@drawable/ic_lock_grey_18"
-                        android:drawableStart="@drawable/ic_lock_grey_18"
-                        android:hint="@string/hint_input_password"
-                        android:imeActionId="@+id/login"
-                        android:imeActionLabel="@string/action_login"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPassword"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/forget_psw_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginRight="@dimen/content_space_8"
-                    android:layout_marginTop="@dimen/content_space_8"
-                    android:text="@string/hint_forget_password"
-                    android:textColor="@color/text_secondary_dark"
-                    android:textSize="@dimen/material_text_caption1"/>
-
-                <Button
-                    android:id="@+id/login_btn"
-                    style="@style/CustomBackgroundButton.Fill"
-                    android:layout_marginBottom="32dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/action_login"/>
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </LinearLayout>
 
 </io.codetail.widget.RevealFrameLayout>

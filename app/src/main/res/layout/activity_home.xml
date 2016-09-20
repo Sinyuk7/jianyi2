@@ -24,6 +24,11 @@
             android:overScrollMode="never"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/FAB.Large"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_pic_fill_white"/>
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -55,7 +60,8 @@
                     style="@style/toolbar_button"
                     android:layout_gravity="end"
                     android:src="@drawable/ic_list"
-                />
+                    />
+
                 <ImageView
                     android:id="@+id/locate_btn"
                     style="@style/toolbar_button"
@@ -75,11 +81,6 @@
             app:layout_anchorGravity="bottom"
             app:spb_colors="@array/iris_color"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            style="@style/FAB.Large"
-            android:layout_gravity="end|bottom"
-            android:src="@drawable/ic_pic_fill_white"/>
 
     </android.support.design.widget.CoordinatorLayout>
     <!--menu-->

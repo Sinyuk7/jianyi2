@@ -1,7 +1,6 @@
 package com.sinyuk.jianyi.ui.home;
 
-import android.graphics.Rect;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -16,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.sinyuk.jianyi.R;
@@ -24,8 +22,8 @@ import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
-import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
+import com.sinyuk.jianyi.ui.post.PostGoodsActivity;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.sinyuk.jianyi.widgets.ToolbarIndicator;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
@@ -44,10 +42,8 @@ import dagger.Lazy;
  */
 public class HomeActivity extends BaseActivity {
     private static final long RIPPLE_DURATION = 200;
-
     // 延迟加载列表
     private final Runnable mLoadingGoodsRunnable = () -> EventBus.getDefault().post(new FilterUpdateEvent("all", 0));
-
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     @BindView(R.id.menu_btn)
@@ -60,6 +56,7 @@ public class HomeActivity extends BaseActivity {
     ImageView mNavigationIcon;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
+
     @BindView(R.id.indicator)
     ToolbarIndicator mIndicator;
     @Inject
@@ -99,6 +96,12 @@ public class HomeActivity extends BaseActivity {
         getWindow().getDecorView().post(() -> myHandler.post(mLoadingGoodsRunnable));
     }
 
+    @Override
+    protected void onDestroy() {
+        myHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
+    }
+
     private void setupDrawerLayout() {
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), drawerMenuLazy.get(), R.id.menu_container);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -118,6 +121,11 @@ public class HomeActivity extends BaseActivity {
             }
 
             @Override
+            public int getCount() {
+                return 2;
+            }
+
+            @Override
             public CharSequence getPageTitle(int position) {
                 switch (position) {
                     case 0:
@@ -126,11 +134,6 @@ public class HomeActivity extends BaseActivity {
                         return "需求";
                 }
                 return null;
-            }
-
-            @Override
-            public int getCount() {
-                return 2;
             }
         });
 
@@ -187,7 +190,6 @@ public class HomeActivity extends BaseActivity {
                     }
                 })
                 .build();
-
     }
 
     private void showFab() {
@@ -200,6 +202,11 @@ public class HomeActivity extends BaseActivity {
         if (fab != null) {
             fab.hide();
         }
+    }
+
+    @OnClick(R.id.navigation_icon)
+    public void onOpenGuillotine() {
+
     }
 
     @OnClick(R.id.menu_btn)
@@ -215,7 +222,7 @@ public class HomeActivity extends BaseActivity {
     @OnClick(R.id.fab)
     public void onClickFab(FloatingActionButton target) {
         // if is logged in
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             target.cancelPendingInputEvents();
         }
         final ViewGroup parent = (ViewGroup) target.getParent();
@@ -228,13 +235,10 @@ public class HomeActivity extends BaseActivity {
             public void onHidden(FloatingActionButton fab) {
                 JianyiLoginActivity.start(HomeActivity.this, bounds);
             }
-        });
-    }
+        });*/
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showFab();
+        startActivity(new Intent(this, PostGoodsActivity.class));
+        overridePendingTransition(0, 0);
     }
 
     @OnClick(R.id.locate_btn)
@@ -255,8 +259,11 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        myHandler.removeCallbacksAndMessages(null);
-        super.onDestroy();
+    protected void onResume() {
+        super.onResume();
+        if (!isGuillotineOpened) {
+            showFab();
+        }
     }
+
 }

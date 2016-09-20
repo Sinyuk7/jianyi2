@@ -96,6 +96,6 @@
 
 
 
-    <dimen name="widget_elevation_low">1dp</dimen>
+    <dimen name="widget_elevation_low">2dp</dimen>
 
 </resources>

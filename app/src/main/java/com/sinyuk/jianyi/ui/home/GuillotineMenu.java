@@ -85,18 +85,6 @@ public class GuillotineMenu extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        App.get(context).getAppComponent().plus(new OauthModule()).inject(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
     protected int getRootViewId() {
         return R.layout.fragment_guillotine_menu;
     }
@@ -116,6 +104,18 @@ public class GuillotineMenu extends BaseFragment {
         }
 
         updateUI();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        App.get(context).getAppComponent().plus(new OauthModule()).inject(this);
     }
 
     private void setupLayoutTransition() {
@@ -216,6 +216,10 @@ public class GuillotineMenu extends BaseFragment {
         view.getDrawingRect(rect);
         final ViewGroup parent = (ViewGroup) view.getParent();
         parent.offsetDescendantRectToMyCoords(view, rect);
+        int centerX = rect.centerX();
+        int centerY = rect.centerY();
+        int radius = Math.min(rect.width(), rect.height());
+        rect.set(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
         JianyiLoginActivity.start(getContext(), rect);
     }
 
