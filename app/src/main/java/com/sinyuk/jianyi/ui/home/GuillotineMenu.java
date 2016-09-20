@@ -167,13 +167,15 @@ public class GuillotineMenu extends BaseFragment {
                     .error(errorPlaceholder)
                     .into(mAvatar);
 
+            Log.d(TAG, "avatar: " + mPlayer.getAvatar());
+
             Glide.with(this).load(mPlayer.getAvatar())
                     .crossFade(2000)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .bitmapTransform(new BlurTransformation(getContext(), BLUR_RADIUS, BLUR_SAMPLING))
                     .into(mBackground);
         } else {
-
+            Log.d(TAG, "not logged in: ");
             Glide.with(this).load(R.drawable.boy)
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(mAvatar);

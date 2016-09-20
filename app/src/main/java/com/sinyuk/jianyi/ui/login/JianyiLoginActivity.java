@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -34,9 +33,9 @@ import com.sinyuk.jianyi.api.ApiException;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.ui.BaseActivity;
-import com.sinyuk.jianyi.ui.sweetalert.SweetAlertDialog;
 import com.sinyuk.jianyi.utils.ImeUtils;
 import com.sinyuk.jianyi.utils.ScreenUtils;
+import com.sinyuk.jianyi.utils.ToastUtils;
 import com.sinyuk.jianyi.utils.Validator;
 import com.sinyuk.jianyi.utils.animator.AnimatorPath;
 import com.sinyuk.jianyi.utils.animator.PathEvaluator;
@@ -49,6 +48,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import dagger.Lazy;
 import io.codetail.animation.ViewAnimationUtils;
+import io.codetail.widget.RevealFrameLayout;
 import rx.Observable;
 import rx.Observer;
 
@@ -69,6 +69,8 @@ public class JianyiLoginActivity extends BaseActivity {
 
     @Inject
     Lazy<AccountManger> accountMangerLazy;
+    @Inject
+    ToastUtils toastUtils;
 
     @BindView(R.id.mask)
     View mask;
@@ -88,12 +90,15 @@ public class JianyiLoginActivity extends BaseActivity {
     CircularProgressButton mLoginBtn;
     @BindView(R.id.container)
     LinearLayout mContainer;
+    @BindView(R.id.root)
+    RevealFrameLayout root;
+    @BindView(R.id.overlay)
+    View overlay;
     @BindColor(R.color.colorAccent)
     int colorFrom;
     @BindColor(R.color.window_background)
     int colorTo;
 
-    private SweetAlertDialog mDialog;
     private Rect bounds = new Rect();
     private Rect maskBounds = new Rect();
 
@@ -108,52 +113,34 @@ public class JianyiLoginActivity extends BaseActivity {
     }
 
     private void showProgress() {
-        mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        mDialog.getProgressHelper().setBarColor(ContextCompat.getColor(this, R.color.colorAccent));
-        mDialog.setTitleText("登录中");
-        mDialog.setCancelable(false);
-        mDialog.show();
+        mLoginBtn.setProgress(1);
     }
 
-    private void hideProgress() {
-        mDialog.dismissWithAnimation();
-    }
 
     public void showSucceed() {
-        if (mDialog == null) {
-            return;
-        }
-        mDialog.setTitleText(getString(R.string.login_succeed))
-                .setConfirmText(getString(R.string.action_alright))
-                .setConfirmClickListener(dialog -> finish())
-                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-        ;
+        mLoginBtn.setProgress(100);
+//        mLoginBtn.postDelayed(() -> BlackMagics.go(JianyiLoginActivity.this, mLoginBtn, overlay, mContainer), 1000);
+        toastUtils.toastShort(R.string.login_succeed);
+        mLoginBtn.setClickable(false);
+        mLoginBtn.postDelayed(() -> finish(), 500);
     }
 
     private void showFailed(String message) {
-        if (mDialog == null) {
-            return;
-        }
-        mDialog.setTitleText(message)
-                .setConfirmText(getString(R.string.action_alright))
-                .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
-                .changeAlertType(SweetAlertDialog.WARNING_TYPE);
+        mLoginBtn.setProgress(-1);
+        toastUtils.toastShort(message);
     }
 
     private void showError(String message) {
-        if (mDialog == null) {
-            return;
-        }
-        mDialog.setTitleText(message)
-                .setConfirmText(getString(R.string.action_alright))
-                .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
-                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+        mLoginBtn.setProgress(-1);
+        toastUtils.toastShort(message);
     }
 
     @OnClick(R.id.login_btn)
     public void onLogin() {
         mPasswordEt.setError(null);
         mUserNameEt.setError(null);
+        mLoginBtn.setProgress(0);
+
         final String phoneNum = mUserNameEt.getText().toString();
         final String password = mPasswordEt.getText().toString();
         ImeUtils.hideIme(mLoginBtn);
@@ -181,10 +168,12 @@ public class JianyiLoginActivity extends BaseActivity {
                         Log.d(TAG, "onNext: " + player.toString());
                     }
                 }));
+
+
     }
 
     private void toggleLoginButton(boolean activated) {
-        mLoginBtn.setActivated(activated);
+        mLoginBtn.setEnabled(activated);
         mLoginBtn.setClickable(activated);
     }
 
@@ -207,6 +196,8 @@ public class JianyiLoginActivity extends BaseActivity {
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
+
+        mLoginBtn.setIndeterminateProgressMode(true);
 
         toggleLoginButton(false);
 
@@ -339,7 +330,6 @@ public class JianyiLoginActivity extends BaseActivity {
         }
         raise(mUserNameInputLayout, 1);
         raise(mPasswordInputLayout, 2);
-        raise(mLoginBtn, 3);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -357,6 +347,7 @@ public class JianyiLoginActivity extends BaseActivity {
         });
         animator.start();
     }
+
 
     public void setMaskLocation(PathPoint location) {
         mask.setX(location.mX);
