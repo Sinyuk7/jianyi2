@@ -344,13 +344,17 @@ public class JianyiLoginActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void raise(View view, int i) {
-
+        if (view == null) {
+            return;
+        }
         final int elevation = getResources().getDimensionPixelOffset(R.dimen.widget_elevation_low);
         ValueAnimator animator = ValueAnimator.ofFloat(0, elevation)
                 .setDuration(CHILD_RAISE_DURATION);
         animator.setStartDelay(CHILD_STAGGER * i);
         animator.setInterpolator(new FastOutSlowInInterpolator());
-        animator.addUpdateListener(animation -> view.setElevation((Float) animation.getAnimatedValue()));
+        animator.addUpdateListener(animation -> {
+            view.setElevation((Float) animation.getAnimatedValue());
+        });
         animator.start();
     }
 

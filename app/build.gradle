@@ -79,4 +79,5 @@ dependencies {
     compile project(':guillotinemenu')
     compile 'tyrantgit:explosionfield:1.0.1'
     compile 'com.github.ozodrukh:CircularReveal:2.0.1'
+
 }
