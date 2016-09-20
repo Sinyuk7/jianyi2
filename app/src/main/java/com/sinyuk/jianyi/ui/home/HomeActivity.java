@@ -1,6 +1,5 @@
 package com.sinyuk.jianyi.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
@@ -22,9 +21,10 @@ import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
+import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
-import com.sinyuk.jianyi.ui.post.PostGoodsActivity;
 import com.sinyuk.jianyi.utils.ActivityUtils;
+import com.sinyuk.jianyi.utils.BlackMagics;
 import com.sinyuk.jianyi.widgets.ToolbarIndicator;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 import com.yalantis.guillotine.interfaces.GuillotineListener;
@@ -221,24 +221,7 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick(R.id.fab)
     public void onClickFab(FloatingActionButton target) {
-        // if is logged in
-       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            target.cancelPendingInputEvents();
-        }
-        final ViewGroup parent = (ViewGroup) target.getParent();
-        final Rect bounds = new Rect();
-        target.getDrawingRect(bounds);
-        parent.offsetDescendantRectToMyCoords(target, bounds);
-
-        target.hide(new FloatingActionButton.OnVisibilityChangedListener() {
-            @Override
-            public void onHidden(FloatingActionButton fab) {
-                JianyiLoginActivity.start(HomeActivity.this, bounds);
-            }
-        });*/
-
-        startActivity(new Intent(this, PostGoodsActivity.class));
-        overridePendingTransition(0, 0);
+        BlackMagics.hideAndGo(this, target, JianyiLoginActivity.class);
     }
 
     @OnClick(R.id.locate_btn)

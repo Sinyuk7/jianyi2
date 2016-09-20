@@ -119,10 +119,9 @@ public class JianyiLoginActivity extends BaseActivity {
 
     public void showSucceed() {
         mLoginBtn.setProgress(100);
-//        mLoginBtn.postDelayed(() -> BlackMagics.go(JianyiLoginActivity.this, mLoginBtn, overlay, mContainer), 1000);
         toastUtils.toastShort(R.string.login_succeed);
         mLoginBtn.setClickable(false);
-        mLoginBtn.postDelayed(() -> finish(), 500);
+        mLoginBtn.postDelayed(this::finish, 500);
     }
 
     private void showFailed(String message) {
