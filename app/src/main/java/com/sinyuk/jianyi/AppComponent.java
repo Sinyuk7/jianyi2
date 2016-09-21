@@ -9,6 +9,7 @@ import com.sinyuk.jianyi.data.need.NeedRepositoryComponent;
 import com.sinyuk.jianyi.data.need.NeedRepositoryModule;
 import com.sinyuk.jianyi.data.player.PlayerRepositoryComponent;
 import com.sinyuk.jianyi.data.player.PlayerRepositoryModule;
+import com.sinyuk.jianyi.ui.FormActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.ui.splash.SplashComponent;
@@ -37,4 +38,6 @@ public interface AppComponent {
     void inject(SchoolSelector target);
 
     void inject(PlayerActivity target);
+
+    void inject(FormActivity target);
 }

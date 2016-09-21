@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="max_detail_count">80</integer>
+    <integer name="max_title_count">22</integer>
+</resources>

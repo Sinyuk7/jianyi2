@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sinyuk.jianyi">
+          package="com.sinyuk.jianyi">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- Leak canary needs access to External storage to save heap dumps -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:name=".App"
@@ -22,15 +22,15 @@
 
         <meta-data
             android:name="com.sinyuk.jianyi.utils.glide.SinyukGlideModule"
-            android:value="GlideModule" />
+            android:value="GlideModule"/>
 
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -40,7 +40,7 @@
         <activity
             android:name=".ui.player.PlayerActivity"
             android:launchMode="standard"
-            android:theme="@style/AppTheme.Player" />
+            android:theme="@style/AppTheme.Player"/>
 
         <activity
             android:name=".ui.detail.DetailActivity"
@@ -50,12 +50,14 @@
             android:name=".ui.login.JianyiLoginActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
 
         <activity
             android:name=".ui.post.PostGoodsActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Transparent" />
+            android:theme="@style/AppTheme.Transparent"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+
     </application>
 
 </manifest>

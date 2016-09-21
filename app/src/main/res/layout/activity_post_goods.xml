@@ -29,14 +29,15 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/goods_list_height"
+                android:layout_height="@dimen/post_list_height"
                 android:overScrollMode="never"
+                android:visibility="gone"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="3"
-                tools:listitem="@layout/post_goods_list_item"/>
+                tools:listitem="@layout/post_goods_list_item"
+                tools:visibility="visible"/>
 
             <LinearLayout
-                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -48,7 +49,11 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/title_input_area"
                     style="@style/input_text_layout"
-                    android:layout_marginBottom="@dimen/content_space_16">
+                    android:layout_marginBottom="@dimen/content_space_16"
+                    android:visibility="gone"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/max_title_count"
+                    tools:visibility="visible">
 
                     <EditText
                         android:id="@+id/title_et"
@@ -63,8 +68,10 @@
                     android:id="@+id/details_input_area"
                     style="@style/input_text_layout"
                     android:layout_marginBottom="@dimen/content_space_16"
+                    android:visibility="gone"
                     app:counterEnabled="true"
-                    app:counterMaxLength="80">
+                    app:counterMaxLength="@integer/max_detail_count"
+                    tools:visibility="visible">
 
                     <EditText
                         android:id="@+id/details_et"
@@ -79,8 +86,10 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/new_price_input_area"
-                    style="@style/input_text_layout">
+                    android:id="@+id/price_input_area"
+                    style="@style/input_text_layout"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <EditText
                         android:id="@+id/price_et"
@@ -94,7 +103,7 @@
 
 
                 <com.dd.CircularProgressButton
-                    android:id="@+id/post_btn"
+                    android:id="@+id/action_btn"
                     style="@style/custom_button"
                     android:layout_marginBottom="32dp"
                     android:layout_marginTop="@dimen/content_space_16"
@@ -120,6 +129,13 @@
         app:navigationIcon="@drawable/ic_back"
         app:title="@string/activity_post_goods"
         app:titleTextColor="@color/white"
-        tools:visibility="visible"/>
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/add_btn"
+            style="@style/toolbar_button"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_camera_add"/>
+    </android.support.v7.widget.Toolbar>
 
 </io.codetail.widget.RevealFrameLayout>

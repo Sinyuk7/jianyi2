@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="goods_list_item_delete">32dp</dimen>
-    <dimen name="goods_list_item_shot">88dp</dimen>
-    <dimen name="goods_list_height">120dp</dimen>
+    <dimen name="post_list_item_delete">32dp</dimen>
+    <dimen name="post_list_item_shot">88dp</dimen>
+    <dimen name="post_list_height">120dp</dimen>
 </resources>

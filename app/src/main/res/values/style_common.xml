@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="FAB">
         <item name="android:id">@id/fab</item>
         <item name="android:layout_margin">16dp</item>
@@ -56,6 +57,17 @@
         <item name="android:paddingTop">@dimen/content_space_8</item>
         <item name="android:paddingBottom">@dimen/content_space_16</item>
         <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="errorTextAppearance">@style/text_error</item>
+        <item name="counterOverflowTextAppearance">@style/counter_overflow</item>
+        <item name="counterTextAppearance">@style/TextAppearance.Design.Counter</item>
+    </style>
+
+    <style name="text_error" parent="TextAppearance.Design.Error">
+        <item name="android:textColor">@color/themeError</item>
+    </style>
+
+    <style name="counter_overflow" parent="TextAppearance.Design.Counter.Overflow">
+        <item name="android:textColor">@color/themeError</item>
     </style>
 
     <style name="form_edit_text">

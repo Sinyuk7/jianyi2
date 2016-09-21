@@ -25,6 +25,7 @@ import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
+import com.sinyuk.jianyi.ui.post.PostGoodsActivity;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.sinyuk.jianyi.utils.BlackMagics;
 import com.sinyuk.jianyi.widgets.ToolbarIndicator;
@@ -232,6 +233,7 @@ public class HomeActivity extends BaseActivity {
             if (mViewPager != null) {
                 switch (mViewPager.getCurrentItem()) {
                     case 0:
+                        BlackMagics.hideAndGo(this, target, PostGoodsActivity.class);
                         break;
                     case 1:
                         break;
