@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/window_background"
     android:overScrollMode="never">
+
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -28,15 +27,15 @@
 
         <com.sinyuk.jianyi.widgets.MyCircleImageView
             android:id="@+id/avatar"
+            style="@style/avatar_border"
             android:layout_width="98dp"
             android:layout_height="98dp"
             android:layout_marginBottom="28dp"
             android:layout_marginTop="-76dp"
             android:scaleType="centerCrop"
             android:transitionName="@string/transition_avatar"
-            app:border_color="@android:color/white"
-            app:border_width="2dp"
-            tools:src="@drawable/girl"/>
+            android:visibility="gone"
+            tools:src="@drawable/boy"/>
 
         <EditText
             android:id="@+id/user_name_tv"
@@ -64,17 +63,19 @@
             android:layout_marginTop="-20dp"
             android:gravity="center"
             android:text="只有登录才知道的世界"
-            android:textColor="@color/colorAccentLight"
+            android:textColor="@color/text_secondary_dark"
             android:textSize="@dimen/material_text_body1"
             android:textStyle="bold"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
 
         <Button
             android:id="@+id/inbox_btn"
             style="@style/guillotine_menu_text"
+            android:layout_marginTop="@dimen/content_space_16"
             android:drawableLeft="@drawable/notice"
             android:text="我的消息"/>
+
         <Button
             android:id="@+id/profile_btn"
             style="@style/guillotine_menu_text"
@@ -89,3 +90,4 @@
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
+

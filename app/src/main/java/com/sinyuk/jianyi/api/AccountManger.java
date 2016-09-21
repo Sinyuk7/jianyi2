@@ -85,6 +85,12 @@ public class AccountManger {
                     user.setSchool(school.get());
                     user.setCurrentSchool(currentSchool.get());
                     user.setSchoolName(schoolName.get());
+                    Log.d(TAG, "getCurrentUser: "+userName.get());
+                    Log.d(TAG, "getCurrentUser: "+userAvatar.get());
+                    Log.d(TAG, "getCurrentUser: "+userId.get());
+                    Log.d(TAG, "getCurrentUser: "+school.get());
+                    Log.d(TAG, "getCurrentUser: "+currentSchool.get());
+                    Log.d(TAG, "getCurrentUser: "+schoolName.get());
                     return user;
                 })
                 .subscribeOn(Schedulers.computation())
@@ -92,6 +98,7 @@ public class AccountManger {
     }
 
     private void saveInPreference(Player player) {
+        Log.d(TAG, "saveInPreference: " + player.toString());
         userId.set(player.getId());
         userName.set(player.getName());
         userAvatar.set(player.getAvatar());

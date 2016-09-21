@@ -1,13 +1,12 @@
 package com.sinyuk.jianyi.ui.home;
 
-import android.animation.LayoutTransition;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +17,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.school.School;
-import com.sinyuk.jianyi.ui.BaseFragment;
+import com.sinyuk.jianyi.ui.LazyFragment;
 import com.sinyuk.jianyi.ui.events.LoginEvent;
 import com.sinyuk.jianyi.ui.events.LogoutEvent;
 import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
@@ -49,10 +51,14 @@ import dagger.Lazy;
 /**
  * Created by Sinyuk on 16/9/11.
  */
-public class GuillotineMenu extends BaseFragment {
+public class GuillotineMenu extends LazyFragment {
     private static final int BLUR_RADIUS = 28;
     private static final int BLUR_SAMPLING = 14;
     private static final String TAG = "GuillotineMenu";
+    private static final long CHILD_STAGGER = 60;
+    private static final long CHILD_CHANGE_IN_DURATION = 200;
+    private static final int IN_DELAY = 1200 / 60;
+    private static final int OUT_DELAY = 300 / 60;
 
     @Inject
     Lazy<AccountManger> accountMangerLazy;
@@ -91,19 +97,20 @@ public class GuillotineMenu extends BaseFragment {
 
     @Override
     protected void finishInflate() {
-        setupLayoutTransition();
+    }
 
+    @Override
+    protected void fetchData() {
         isLoggedIn = accountMangerLazy.get().isLoggedIn();
 
         if (isLoggedIn) {
             addSubscription(accountMangerLazy.get()
                     .getCurrentUser()
-                    .subscribe(player -> {
-                        mPlayer = player;
-                    }));
+                    .doOnCompleted(this::updateUI)
+                    .subscribe(player -> mPlayer = player));
+        } else {
+            updateUI();
         }
-
-        updateUI();
     }
 
     @Override
@@ -116,23 +123,6 @@ public class GuillotineMenu extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         App.get(context).getAppComponent().plus(new OauthModule()).inject(this);
-    }
-
-    private void setupLayoutTransition() {
-        LayoutTransition transition = new LayoutTransition();
-
-        ObjectAnimator addAnimator = ObjectAnimator.ofFloat(
-                null, "alpha", 0, 1).setDuration(2000);
-        transition.setAnimator(LayoutTransition.APPEARING, addAnimator);
-
-        ObjectAnimator removeAnimator = ObjectAnimator.ofFloat(
-                null, "alpha", 1, 0).setDuration(2000);
-        transition.setAnimator(LayoutTransition.DISAPPEARING, removeAnimator);
-
-        transition.setStagger(LayoutTransition.APPEARING, 1000);
-        transition.setStagger(LayoutTransition.DISAPPEARING, 1000);
-
-        mContainer.setLayoutTransition(transition);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -152,9 +142,6 @@ public class GuillotineMenu extends BaseFragment {
     }
 
     private void updateUI() {
-
-        toggleVisibility(isLoggedIn);
-
         if (isLoggedIn && mPlayer != null) {
             TextViewHelper.setText(mUserNameTv, mPlayer.getName(), mPlayer.getId() + "");
 
@@ -162,45 +149,93 @@ public class GuillotineMenu extends BaseFragment {
 
             final int errorPlaceholder = mPlayer.getSex() == 0 ? R.drawable.boy : R.drawable.girl;
 
-            Glide.with(this).load(mPlayer.getAvatar())
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .error(errorPlaceholder)
-                    .into(mAvatar);
+            Glide.with(this).load(mPlayer.getAvatar()).bitmapTransform(new CropCircleTransformation(getContext())).error(errorPlaceholder).dontAnimate().into(mAvatar);
 
-            Log.d(TAG, "avatar: " + mPlayer.getAvatar());
+            Glide.with(this).load(mPlayer.getAvatar()).crossFade(1200).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .bitmapTransform(new BlurTransformation(getContext(), BLUR_RADIUS, BLUR_SAMPLING)).listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    startLayoutTransition(isLoggedIn);
+                    return false;
+                }
 
-            Glide.with(this).load(mPlayer.getAvatar())
-                    .crossFade(2000)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .bitmapTransform(new BlurTransformation(getContext(), BLUR_RADIUS, BLUR_SAMPLING))
-                    .into(mBackground);
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    startLayoutTransition(isLoggedIn);
+                    return false;
+                }
+            }).into(mBackground);
+
         } else {
-            Log.d(TAG, "not logged in: ");
-            Glide.with(this).load(R.drawable.boy)
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .into(mAvatar);
-
+            Glide.with(this).load(R.drawable.boy).bitmapTransform(new CropCircleTransformation(getContext())).into(mAvatar);
             mBackground.setImageDrawable(null);
+
+            startLayoutTransition(isLoggedIn);
+        }
+
+    }
+
+    private void startLayoutTransition(boolean isLoggedIn) {
+        int factor = isLoggedIn ? IN_DELAY : OUT_DELAY;
+        animateChildIn(mAvatar, factor);
+        if (isLoggedIn) {
+            animateChildOut(mLoginHint, factor + 1);
+            animateChildIn(mUserNameTv, factor + 2);
+            animateChildIn(mSchoolTv, factor + 3);
+            animateChildIn(mInboxBtn, factor + 4);
+            animateChildIn(mProfileBtn, factor + 5);
+            animateChildIn(mLogoutBtn, factor + 6);
+        } else {
+            animateChildIn(mLoginHint, factor + 6);
+            animateChildOut(mUserNameTv, factor + 5);
+            animateChildOut(mSchoolTv, factor + 4);
+            animateChildOut(mInboxBtn, factor + 3);
+            animateChildOut(mProfileBtn, factor + 2);
+            animateChildOut(mLogoutBtn, factor + 1);
         }
     }
 
-    private void toggleVisibility(boolean isLoggedIn) {
-        int visibility = isLoggedIn ? View.VISIBLE : View.GONE;
-        int reverse = isLoggedIn ? View.GONE : View.VISIBLE;
-        mUserNameTv.setVisibility(visibility);
-        mSchoolTv.setVisibility(visibility);
-        mLoginHint.setVisibility(reverse);
 
-        mInboxBtn.setVisibility(visibility);
-        mProfileBtn.setVisibility(visibility);
-        mLogoutBtn.setVisibility(visibility);
+    private void animateChildIn(View view, int index) {
+        if (view == null) return;
+        if (view.getVisibility() == View.VISIBLE) return;
+        long delay = CHILD_STAGGER * index;
+        view.setAlpha(0);
+        view.setScaleX(0.75f);
+        view.setTranslationY(200);
+        view.animate()
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .withLayer()
+                .setStartDelay(delay)
+                .alpha(1)
+                .scaleX(1)
+                .translationY(0)
+                .withStartAction(() -> view.setVisibility(View.VISIBLE))
+                .setDuration(CHILD_CHANGE_IN_DURATION)
+                .start();
+    }
+
+    private void animateChildOut(View view, int index) {
+        if (view == null) return;
+        if (view.getVisibility() == View.GONE) return;
+        long delay = CHILD_STAGGER * index;
+        view.animate()
+                .setInterpolator(new FastOutSlowInInterpolator())
+                .withLayer()
+                .setStartDelay(delay)
+                .alpha(0)
+                .scaleX(0.75f)
+                .translationY(200)
+                .withEndAction(() -> view.setVisibility(View.GONE))
+                .setDuration(CHILD_CHANGE_IN_DURATION)
+                .start();
     }
 
     @OnClick(R.id.profile_btn)
     public void goToProfile() {
-        Pair<View, String> p1 = Pair.create((View) mAvatar, getString(R.string.transition_avatar));
+        Pair<View, String> p1 = Pair.create(mAvatar, getString(R.string.transition_avatar));
         Pair<View, String> p2 = Pair.create(mSchoolTv, getString(R.string.transition_school));
-        Pair<View, String> p3 = Pair.create((View) mUserNameTv, getString(R.string.transition_username));
+        Pair<View, String> p3 = Pair.create(mUserNameTv, getString(R.string.transition_username));
         ActivityOptionsCompat options = ActivityOptionsCompat.
                 makeSceneTransitionAnimation((Activity) getContext(), p1, p2, p3);
 

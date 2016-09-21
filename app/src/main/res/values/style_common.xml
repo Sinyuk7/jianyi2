@@ -78,6 +78,10 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="avatar_border">
+        <item name="border_color">@android:color/white</item>
+        <item name="border_width">2dp</item>
+    </style>
 
 
 </resources>

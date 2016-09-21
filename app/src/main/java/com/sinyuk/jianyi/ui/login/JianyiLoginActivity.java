@@ -347,6 +347,11 @@ public class JianyiLoginActivity extends BaseActivity {
         animator.start();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
+    }
 
     public void setMaskLocation(PathPoint location) {
         mask.setX(location.mX);

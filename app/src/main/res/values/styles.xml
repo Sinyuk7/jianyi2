@@ -20,15 +20,6 @@
 
     <style name="AppTheme.Player">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/dribbble_player_shared_enter
-        </item>
-        <!--<item name="android:windowEnterTransition">@transition/dribbble_player_enter</item>-->
-        <!--<item name="android:windowReturnTransition">@transition/dribbble_player_return</item>-->
-        <item name="android:windowTransitionBackgroundFadeDuration">200</item>
     </style>
 
     <bool name="fitSystemView">false</bool>

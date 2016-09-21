@@ -3,6 +3,7 @@ package com.sinyuk.jianyi.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.Log;
 import android.view.Display;
@@ -16,7 +17,6 @@ import android.view.WindowManager;
  * <li>{@link ScreenUtils#dpToPx(Context, float)}</li>
  * <li>{@link ScreenUtils#dpToPxInt(Context, float)}</li>
  * </ul>
- *
  **/
 public class ScreenUtils {
 
@@ -128,7 +128,9 @@ public class ScreenUtils {
         int newUiOptions = uiOptions;
         boolean isImmersiveModeEnabled =
                 ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
-        if (isImmersiveModeEnabled) { return; }
+        if (isImmersiveModeEnabled) {
+            return;
+        }
 
         if (Build.VERSION.SDK_INT >= 14) {
             newUiOptions += View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
@@ -151,7 +153,9 @@ public class ScreenUtils {
         int newUiOptions = uiOptions;
         boolean isImmersiveModeEnabled =
                 ((uiOptions | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY) == uiOptions);
-        if (!isImmersiveModeEnabled) { return; }
+        if (!isImmersiveModeEnabled) {
+            return;
+        }
 
         if (Build.VERSION.SDK_INT >= 14) {
             newUiOptions -= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
@@ -183,5 +187,16 @@ public class ScreenUtils {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
     }
+
+    public static Rect getRectOnScreen(View view) {
+        int[] loc = new int[2];
+        view.getLocationOnScreen(loc);
+        return new Rect(loc[0], loc[1], loc[0] + view.getWidth(), loc[1] + view.getHeight());
+    }
+
+    public static int getDiagonalLength(Context context) {
+        return (int) Math.hypot(getScreenHeight(context), getScreenWidth(context));
+    }
+
 
 }

@@ -181,12 +181,18 @@ public class HomeActivity extends BaseActivity {
                     public void onGuillotineOpened() {
                         isGuillotineOpened = true;
                         hideFab();
+                        if (getSupportFragmentManager().findFragmentById(R.id.guillotine_menu) != null) {
+                            getSupportFragmentManager().findFragmentById(R.id.guillotine_menu).setUserVisibleHint(true);
+                        }
                     }
 
                     @Override
                     public void onGuillotineClosed() {
                         isGuillotineOpened = false;
                         showFab();
+                        if (getSupportFragmentManager().findFragmentById(R.id.guillotine_menu) != null) {
+                            getSupportFragmentManager().findFragmentById(R.id.guillotine_menu).setUserVisibleHint(false);
+                        }
                     }
                 })
                 .build();
