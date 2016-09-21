@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
@@ -85,7 +87,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void beforeInflating() {
-        DaggerHomeComponent.builder().homeModule(new HomeModule(this)).build().inject(this);
+        App.get(this).getAppComponent().plus(new OauthModule()).plus(new HomeModule(this)).inject(this);
     }
 
     @Override

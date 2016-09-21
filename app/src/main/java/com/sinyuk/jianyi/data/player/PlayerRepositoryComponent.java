@@ -16,5 +16,4 @@ import dagger.Subcomponent;
 )
 public interface PlayerRepositoryComponent {
     void inject(ManagerSheetFragment target);
-
 }

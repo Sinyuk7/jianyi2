@@ -19,4 +19,5 @@
     <string name="post_hint_details">详情</string>
     <string name="post_hint_price">价格</string>
     <string name="action_post">发布</string>
+    <string name="activity_post_goods">发布闲置</string>
 </resources>

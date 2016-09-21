@@ -57,17 +57,6 @@ public class AccountManger {
         return userId.isSet() && !userId.get().equals(userId.defaultValue());
     }
 
-    public Observable<Player> getFakePlayer() {
-        Player player = new Player();
-        player.setName("Sinyuk");
-        player.setAvatar("http://tva3.sinaimg.cn/crop.5.0.458.458.180/b29e155ajw8eymqeunme2j20dc0dc74q.jpg");
-        player.setTel("15757161279");
-        player.setSchoolName("浙江传媒学院");
-        return Observable.just(player)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
     @Nullable
     public String getAvatar() {
         return userAvatar.get();
@@ -85,12 +74,6 @@ public class AccountManger {
                     user.setSchool(school.get());
                     user.setCurrentSchool(currentSchool.get());
                     user.setSchoolName(schoolName.get());
-                    Log.d(TAG, "getCurrentUser: "+userName.get());
-                    Log.d(TAG, "getCurrentUser: "+userAvatar.get());
-                    Log.d(TAG, "getCurrentUser: "+userId.get());
-                    Log.d(TAG, "getCurrentUser: "+school.get());
-                    Log.d(TAG, "getCurrentUser: "+currentSchool.get());
-                    Log.d(TAG, "getCurrentUser: "+schoolName.get());
                     return user;
                 })
                 .subscribeOn(Schedulers.computation())

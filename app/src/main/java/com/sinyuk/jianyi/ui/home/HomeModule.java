@@ -5,7 +5,6 @@ import android.app.Activity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
-import com.sinyuk.jianyi.utils.dagger.PerActivity;
 
 import javax.inject.Singleton;
 
@@ -23,33 +22,33 @@ public class HomeModule {
         this.activity = activity;
     }
 
+    @Singleton
     @Provides
-    @PerActivity
     Activity activity() {
         return this.activity;
     }
 
+    @Singleton
     @Provides
-    @PerActivity
     GoodsListFragment provideGoodListFragment() {
         return new GoodsListFragment();
     }
 
+    @Singleton
     @Provides
-    @PerActivity
     DrawerMenu provideDrawerMenu() {
         return new DrawerMenu();
     }
 
+    @Singleton
     @Provides
-    @PerActivity
     NeedListFragment provideNeedListFragment() {
         return new NeedListFragment();
     }
 
+    @Singleton
     @Provides
-    @PerActivity
-    public SchoolSelector provideSchoolSelector() {
+    SchoolSelector provideSchoolSelector() {
         return new SchoolSelector();
     }
 }

@@ -12,17 +12,19 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.dd.CircularProgressButton;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.utils.animator.AnimatorPath;
@@ -45,20 +47,27 @@ public class PostGoodsActivity extends BaseActivity {
     private static final int START_DELAY = 50;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.reveal_view)
+    @BindView(R.id.mask)
     View mask;
-    @BindView(R.id.fab)
-    FloatingActionButton mFab;
+    @BindView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.title_et)
+    EditText mTitleEt;
+    @BindView(R.id.title_input_area)
+    TextInputLayout mTitleInputArea;
+    @BindView(R.id.details_et)
+    EditText mDetailsEt;
+    @BindView(R.id.details_input_area)
+    TextInputLayout mDetailsInputArea;
+    @BindView(R.id.price_et)
+    EditText mPriceEt;
+    @BindView(R.id.new_price_input_area)
+    TextInputLayout mNewPriceInputArea;
+    @BindView(R.id.post_btn)
+    CircularProgressButton mPostBtn;
     @BindView(R.id.container)
-    LinearLayout container;
-    @BindView(R.id.card_1)
-    CardView mCard1;
-    @BindView(R.id.card_2)
-    CardView mCard2;
-    @BindView(R.id.card_3)
-    CardView mCard3;
-    @BindView(R.id.card_4)
-    CardView mCard4;
+    LinearLayout mContainer;
+
     private AnimatorSet changeIn;
 //    Rect bounds = new Rect();
 //    Rect maskBounds = new Rect();
@@ -189,11 +198,6 @@ public class PostGoodsActivity extends BaseActivity {
     }
 
     private void animateChildren() {
-        for (int i = 0; i < container.getChildCount(); i++) {
-            if (container.getChildAt(i) != null) {
-                animateChildIn(container.getChildAt(i), i);
-            }
-        }
     }
 
     private void animateChildIn(View view, int index) {
@@ -216,8 +220,6 @@ public class PostGoodsActivity extends BaseActivity {
     public void setMaskLocation(PathPoint location) {
         mask.setX(location.mX);
         mask.setY(location.mY);
-        Log.d(TAG, "setMaskLocation: X -> " + location.mX);
-        Log.d(TAG, "setMaskLocation: Y -> " + location.mY);
-    }
 
+    }
 }

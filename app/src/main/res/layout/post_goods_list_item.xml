@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/good_list_card"
+    android:layout_width="@dimen/goods_list_height"
+    android:layout_height="@dimen/goods_list_height">
+
+
+    <com.sinyuk.jianyi.widgets.RatioImageView
+        android:id="@+id/thumbnail_iv"
+        android:layout_width="@dimen/goods_list_item_shot"
+        android:layout_height="@dimen/goods_list_item_shot"
+        android:layout_margin="@dimen/content_space_16"
+        android:scaleType="centerCrop"
+        tools:background="#ccc"
+        tools:src="@drawable/ic_mail"/>
+
+    <ImageView
+        android:id="@+id/delete_btn"
+        android:layout_width="@dimen/goods_list_item_delete"
+        android:layout_height="@dimen/goods_list_item_delete"
+        android:layout_gravity="end"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_close_fill_red"/>
+
+    <com.sinyuk.jianyi.widgets.LabelView
+        android:id="@+id/cover_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/content_space_16"
+        app:lv_background_color="@color/colorAccent"
+        app:lv_gravity="TOP_LEFT"
+        app:lv_text="封面"
+        app:lv_text_bold="true"
+        app:lv_text_size="@dimen/material_text_caption1"/>
+</FrameLayout>
