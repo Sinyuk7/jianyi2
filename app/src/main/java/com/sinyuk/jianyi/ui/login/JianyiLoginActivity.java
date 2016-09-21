@@ -64,7 +64,7 @@ public class JianyiLoginActivity extends BaseActivity {
     private static final long TOOLBAR_OFFSET_DURATION = 200;
     private static final long CHILD_CHANGE_IN_START_DELAY = 100;
     private static final long CHILD_CHANGE_IN_DURATION = 200;
-    private static final long CHILD_STAGGER = 65;
+    private static final long CHILD_STAGGER = 50;
     private static final long CHILD_RAISE_DURATION = 200;
 
     @Inject
@@ -260,9 +260,6 @@ public class JianyiLoginActivity extends BaseActivity {
                 path.moveTo(c0X, c0Y);
                 path.curveTo(c0X, c0Y, 0, c0Y, 0, 0);
 
-                Log.d(TAG, "path " + c0X);
-                Log.d(TAG, "path " + c0Y);
-
                 ObjectAnimator pathAnimator = ObjectAnimator.ofObject(JianyiLoginActivity.this, "maskLocation", new PathEvaluator(),
                         path.getPoints().toArray());
 
@@ -298,22 +295,21 @@ public class JianyiLoginActivity extends BaseActivity {
     }
 
     private void animateChildren() {
-        animateChildIn(mUserNameInputLayout, 0);
-        animateChildIn(mPasswordInputLayout, 1);
-        animateChildIn(mForgetPswBtn, 2);
-        animateChildIn(mLoginBtn, 3);
+        animateChildIn(mUserNameInputLayout, 2);
+        animateChildIn(mPasswordInputLayout, 3);
+        animateChildIn(mForgetPswBtn, 4);
+        animateChildIn(mLoginBtn, 5);
     }
 
     private void animateChildIn(View view, int index) {
         if (view == null) return;
-        long delay = index == 0 ? CHILD_CHANGE_IN_START_DELAY : CHILD_CHANGE_IN_START_DELAY + CHILD_STAGGER * index;
         view.setAlpha(0);
         view.setScaleX(0.75f);
         view.setTranslationY(200);
         view.animate()
                 .setInterpolator(new FastOutSlowInInterpolator())
                 .withLayer()
-                .setStartDelay(delay)
+                .setStartDelay(CHILD_STAGGER * index)
                 .alpha(1)
                 .scaleX(1)
                 .translationY(0)

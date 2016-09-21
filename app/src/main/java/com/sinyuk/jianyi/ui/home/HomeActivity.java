@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.sinyuk.jianyi.R;
+import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
@@ -63,6 +64,9 @@ public class HomeActivity extends BaseActivity {
     Lazy<NeedListFragment> needListFragmentLazy;
     @Inject
     Lazy<SchoolSelector> schoolSelectorLazy;
+    @Inject
+    Lazy<AccountManger> accountMangerLazy;
+
     @BindView(R.id.fab)
     FloatingActionButton fab;
     // 延迟加载列表
@@ -221,7 +225,19 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick(R.id.fab)
     public void onClickFab(FloatingActionButton target) {
-        BlackMagics.hideAndGo(this, target, JianyiLoginActivity.class);
+        final boolean isLoggedIn = accountMangerLazy.get().isLoggedIn();
+        if (isLoggedIn) {
+            if (mViewPager != null) {
+                switch (mViewPager.getCurrentItem()) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                }
+            }
+        } else {
+            BlackMagics.hideAndGo(this, target, JianyiLoginActivity.class);
+        }
     }
 
     @OnClick(R.id.locate_btn)

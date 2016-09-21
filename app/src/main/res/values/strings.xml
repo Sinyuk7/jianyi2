@@ -15,4 +15,8 @@
     <string name="plz_login">请先登录</string>
     <string name="share_intent_prefix">我在简易上找到了</string>
     <string name="share_intent_hint">想把它分享到…</string>
+    <string name="post_hint_title">标题</string>
+    <string name="post_hint_details">详情</string>
+    <string name="post_hint_price">价格</string>
+    <string name="action_post">发布</string>
 </resources>

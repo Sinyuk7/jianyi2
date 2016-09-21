@@ -167,6 +167,7 @@ public class GuillotineMenu extends LazyFragment {
             }).into(mBackground);
 
         } else {
+
             Glide.with(this).load(R.drawable.boy).bitmapTransform(new CropCircleTransformation(getContext())).into(mAvatar);
             mBackground.setImageDrawable(null);
 
