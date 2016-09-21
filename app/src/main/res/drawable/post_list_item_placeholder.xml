@@ -3,9 +3,7 @@
        android:shape="rectangle">
 
     <corners android:radius="@dimen/cardView_distinct_corner_radius"/>
-    <size
-        android:width="@dimen/post_list_item_shot"
-        android:height="@dimen/post_list_item_shot"/>
+
     <stroke
         android:width="@dimen/divider_height"
         android:color="@color/grey_300"/>

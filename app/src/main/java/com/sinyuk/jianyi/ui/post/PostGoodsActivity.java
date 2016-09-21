@@ -13,10 +13,12 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
@@ -26,6 +28,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.jakewharton.rxbinding.widget.RxTextView;
+import com.sangcomz.fishbun.FishBun;
+import com.sangcomz.fishbun.define.Define;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
@@ -34,16 +38,17 @@ import com.sinyuk.jianyi.ui.FormActivity;
 import com.sinyuk.jianyi.utils.ScreenUtils;
 import com.sinyuk.jianyi.utils.ToastUtils;
 import com.sinyuk.jianyi.utils.Validator;
-import com.sinyuk.jianyi.utils.glide.RoundedCornersTransformation;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.LabelView;
 import com.sinyuk.jianyi.widgets.RatioImageView;
+import com.sinyuk.jianyi.widgets.ThirdRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -60,7 +65,7 @@ public class PostGoodsActivity extends FormActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    ThirdRecyclerView mRecyclerView;
     @BindView(R.id.title_et)
     EditText mTitleEt;
     @BindView(R.id.title_input_area)
@@ -73,7 +78,6 @@ public class PostGoodsActivity extends FormActivity {
     EditText mPriceEt;
     @BindView(R.id.price_input_area)
     TextInputLayout mPriceInputArea;
-
     List<String> paths = new ArrayList<>();
     @Inject
     Lazy<AccountManger> accountMangerLazy;
@@ -81,6 +85,11 @@ public class PostGoodsActivity extends FormActivity {
     ToastUtils toastUtils;
     @BindView(R.id.add_btn)
     ImageView addButton;
+    @BindColor(R.color.colorPrimary)
+    int colorPrimary;
+    @BindColor(R.color.colorPrimaryDark)
+    int colorPrimaryDark;
+    private int ALBUM_SIZE = 500;
     private ThumbnailAdapter mAdapter;
 
     public static void start(Context context, Rect rect) {
@@ -107,10 +116,10 @@ public class PostGoodsActivity extends FormActivity {
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
         super.finishInflating(savedInstanceState);
-
+        ALBUM_SIZE = ScreenUtils.getScreenWidth(this) / 3;
         initRecyclerView();
         initData();
-        resetThumbnails();
+        initThumbnails();
 
         Observable<CharSequence> titleObservable = RxTextView.textChanges(mTitleEt);
         Observable<CharSequence> detailObservable = RxTextView.textChanges(mDetailsEt);
@@ -176,6 +185,8 @@ public class PostGoodsActivity extends FormActivity {
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
+                Log.d(TAG, "onChanged: ");
+                Log.d(TAG, "onChanged: " + getBlanks());
                 if (getBlanks() > 0) {
                     addButton.setVisibility(View.VISIBLE);
                 } else {
@@ -192,15 +203,11 @@ public class PostGoodsActivity extends FormActivity {
             if (TextUtils.isEmpty(paths.get(i)))
                 count++;
         }
+        Log.d(TAG, "getBlanks: " + count);
         return count;
     }
 
-    @OnClick(R.id.add_btn)
-    public void addPhoto() {
-
-    }
-
-    private void resetThumbnails() {
+    private void initThumbnails() {
         paths.add(FAKE_PATH);
         paths.add(FAKE_PATH);
         paths.add(FAKE_PATH);
@@ -214,6 +221,55 @@ public class PostGoodsActivity extends FormActivity {
             return;
         }
 
+    }
+
+    @OnClick(R.id.add_btn)
+    public void addPhoto() {
+        FishBun.with(PostGoodsActivity.this)
+                .setAlbumThumbnailSize(ALBUM_SIZE)//you can resize album thumnail size
+                //        .setActionBarColor(Color.BLACK)           // only actionbar color
+                .setPickerCount(getBlanks())//you can restrict photo count
+//                .setArrayPaths(paths)//you can choice again.
+                .setPickerSpanCount(3)
+                .setCamera(true)//you can use camera
+                .textOnImagesSelectionLimitReached("Limit Reached!")
+                .textOnNothingSelected("Nothing Selected")
+                .setButtonInAlbumActivity(true)
+                .setReachLimitAutomaticClose(true)
+                .setAlbumSpanCount(2, 4)
+                .startAlbum();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageData) {
+        super.onActivityResult(requestCode, resultCode, imageData);
+        switch (requestCode) {
+            case Define.ALBUM_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    addThumbnails(imageData.getStringArrayListExtra(Define.INTENT_PATH));
+                    //You can get image path(ArrayList<String>
+                    break;
+                }
+        }
+    }
+
+    private void addThumbnails(final ArrayList<String> result) {
+        if (result == null || result.isEmpty()) return;
+        int size = result.size();
+        for (int i = 0; i < size; i++) {
+            String path = result.get(i);
+            for (int j = 0; j < 3; j++) {
+                if (TextUtils.isEmpty(paths.get(j))) {
+                    Log.d(TAG, "addThumbnails at: " + j);
+                    paths.set(j, path);
+                    Log.d(TAG, "size is: " + paths.size());
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                }
+
+            }
+        }
     }
 
     private void animateChildren() {
@@ -238,12 +294,11 @@ public class PostGoodsActivity extends FormActivity {
         final int margin;
         private final DrawableRequestBuilder<String> thumbBuilder;
 
-        public ThumbnailAdapter() {
+        ThumbnailAdapter() {
             radius = getResources().getDimensionPixelOffset(R.dimen.cardView_distinct_corner_radius);
             margin = getResources().getDimensionPixelOffset(R.dimen.divider_height);
             thumbBuilder = Glide.with(PostGoodsActivity.this).fromString()
-                    .bitmapTransform(new RoundedCornersTransformation(PostGoodsActivity.this, radius, margin))
-                    .crossFade(1000)
+                    .dontAnimate()
                     .diskCacheStrategy(DiskCacheStrategy.RESULT);
         }
 
@@ -298,6 +353,8 @@ public class PostGoodsActivity extends FormActivity {
             ImageView mDeleteBtn;
             @BindView(R.id.cover_label)
             LabelView mCoverLabel;
+            @BindView(R.id.container)
+            FrameLayout mContainer;
 
             ItemViewHolder(View itemView) {
                 super(itemView);

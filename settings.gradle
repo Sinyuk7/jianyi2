@@ -1,1 +1,1 @@
-include ':app', ':guillotinemenu', ':progressbutton'
+include ':app', ':guillotinemenu', ':progressbutton', ':fishbun'

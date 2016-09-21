@@ -81,4 +81,5 @@ dependencies {
     compile 'tyrantgit:explosionfield:1.0.1'
     compile 'com.github.ozodrukh:CircularReveal:2.0.1'
     compile project(':progressbutton')
+    compile project(path: ':fishbun')
 }

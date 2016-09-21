@@ -2,49 +2,56 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/post_list_item_placeholder"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_pic"/>
+
     <FrameLayout
-        android:layout_width="@dimen/post_list_height"
-        android:layout_height="@dimen/post_list_height"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
-
-
-        <ImageView
-            android:layout_width="@dimen/post_list_item_shot"
-            android:layout_height="@dimen/post_list_item_shot"
-            android:layout_margin="@dimen/content_space_16"
-            android:background="@drawable/post_list_item_placeholder"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_pic"/>
 
         <com.sinyuk.jianyi.widgets.RatioImageView
             android:id="@+id/thumbnail_iv"
-            android:layout_width="@dimen/post_list_item_shot"
-            android:layout_height="@dimen/post_list_item_shot"
-            android:layout_margin="@dimen/content_space_16"
-            android:scaleType="centerCrop"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            app:ratio="1"
+            tools:background="@color/grey_300"/>
+
 
         <ImageView
             android:id="@+id/delete_btn"
-            android:layout_width="@dimen/post_list_item_shot"
-            android:layout_height="@dimen/post_list_item_delete"
-            android:layout_gravity="end"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@drawable/post_list_item_scrim"
+            android:paddingBottom="2dp"
+            android:paddingTop="10dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_close_fill_red"
-            android:visibility="gone"/>
+            android:src="@drawable/ic_delete_post_item"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
         <com.sinyuk.jianyi.widgets.LabelView
             android:id="@+id/cover_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/content_space_16"
             android:visibility="gone"
             app:lv_background_color="@color/colorAccent"
             app:lv_gravity="TOP_LEFT"
             app:lv_text="封面"
             app:lv_text_bold="true"
-            app:lv_text_size="@dimen/material_text_caption1"/>
+            app:lv_text_size="@dimen/material_text_caption1"
+            tools:visibility="visible"/>
     </FrameLayout>
 </FrameLayout>
