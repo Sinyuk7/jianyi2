@@ -68,14 +68,36 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:alpha="0"
                 android:background="@null"
                 app:contentInsetStart="0dp"
-                app:layout_collapseMode="pin">
+                app:layout_collapseMode="pin"
+                tools:background="@color/colorPrimary">
 
                 <ImageView
                     android:id="@+id/back_btn"
                     style="@style/toolbar_button"
+                    android:clickable="false"
                     android:src="@drawable/ic_back"/>
+
+                <TextView
+                    android:id="@+id/toolbar_title_tv"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/content_space_16"
+                    android:layout_marginRight="72dp"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    tools:text="Titldsadsadfdsfdsfdsfdsfdsfdsfdssfdssadsadsadsadsadsae"/>
+
+                <ImageView
+                    android:id="@+id/search_btn"
+                    style="@style/toolbar_button"
+                    android:layout_gravity="end"
+                    android:clickable="false"
+                    android:src="@drawable/ic_search"/>
             </android.support.v7.widget.Toolbar>
 
 
@@ -87,6 +109,7 @@
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -158,32 +181,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/content_space_16"
-                android:gravity="center"
-                android:orientation="horizontal"
+                android:background="@drawable/details_footer_scrim"
+                android:gravity="center_vertical|end"
+                android:orientation="vertical"
                 android:paddingBottom="@dimen/content_space_8"
                 android:paddingLeft="@dimen/content_space_16"
                 android:paddingRight="@dimen/content_space_16">
 
-                <TextView
-                    android:id="@+id/comment_extra"
-                    style="@style/detail_extras"
-                    android:drawableLeft="@drawable/ic_comment_extra"
-                    tools:text="100"/>
-
-                <TextView
-                    android:id="@+id/school_extra"
-                    style="@style/detail_extras"
-                    android:layout_marginLeft="@dimen/content_space_16"
-                    android:layout_marginRight="@dimen/content_space_16"
-                    android:drawableLeft="@drawable/ic_location_extra"
-                    tools:text="浙江传媒学院"/>
 
                 <TextView
                     android:id="@+id/price_extra"
                     style="@style/detail_extras"
-                    android:drawableLeft="@drawable/ic_price_extra"
+                    android:layout_marginBottom="@dimen/content_space_4"
+                    android:drawableRight="@drawable/ic_price_extra"
+                    android:textColor="@color/themeRed"
                     tools:text="100,0"/>
+
+                <TextView
+                    android:id="@+id/school_extra"
+                    style="@style/detail_extras"
+                    android:drawableRight="@drawable/ic_location_extra"
+                    tools:text="浙江传媒学院"/>
+
 
             </LinearLayout>
 
@@ -191,6 +210,7 @@
                 android:id="@+id/comments_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/grey_100"
                 android:orientation="vertical"
                 android:overScrollMode="never"
                 android:paddingBottom="@dimen/content_space_16"

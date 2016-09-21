@@ -11,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,8 +41,6 @@ import dagger.Lazy;
  */
 public class HomeActivity extends BaseActivity {
     private static final long RIPPLE_DURATION = 200;
-    // 延迟加载列表
-    private final Runnable mLoadingGoodsRunnable = () -> EventBus.getDefault().post(new FilterUpdateEvent("all", 0));
     @BindView(R.id.tool_bar)
     Toolbar mToolBar;
     @BindView(R.id.menu_btn)
@@ -56,7 +53,6 @@ public class HomeActivity extends BaseActivity {
     ImageView mNavigationIcon;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
-
     @BindView(R.id.indicator)
     ToolbarIndicator mIndicator;
     @Inject
@@ -69,6 +65,11 @@ public class HomeActivity extends BaseActivity {
     Lazy<SchoolSelector> schoolSelectorLazy;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    // 延迟加载列表
+    private final Runnable mLoadingGoodsRunnable = () -> {
+        EventBus.getDefault().post(new FilterUpdateEvent("all", 0));
+        showFab();
+    };
     private GuillotineAnimation guillotineAnimation;
     private boolean isGuillotineOpened;
     private Handler myHandler = new Handler();
@@ -153,7 +154,6 @@ public class HomeActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d(TAG, "onPageScrollStateChanged: " + state);
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     int drawable = mViewPager.getCurrentItem() == 0 ? R.drawable.ic_pic_fill_white : R.drawable.ic_post_white;
                     fab.setImageDrawable(ContextCompat.getDrawable(HomeActivity.this, drawable));
@@ -204,14 +204,8 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.navigation_icon)
-    public void onOpenGuillotine() {
-
-    }
-
     @OnClick(R.id.menu_btn)
     public void toggleDrawer() {
-        Log.d(TAG, "toggleDrawer:");
         if (mDrawerLayout.isDrawerOpen(GravityCompat.END)) {
             mDrawerLayout.closeDrawer(GravityCompat.END);
         } else {

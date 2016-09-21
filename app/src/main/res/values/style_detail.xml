@@ -22,14 +22,14 @@
 
 
     <plurals name="likes">
-        <item quantity="zero">no likes</item>
-        <item quantity="one">%s like</item>
-        <item quantity="other">%s likes</item>
+        <item quantity="zero">第一个收藏?</item>
+        <item quantity="one">%s 收藏</item>
+        <item quantity="other">%s 收藏</item>
     </plurals>
     <plurals name="views">
-        <item quantity="zero">no views</item>
-        <item quantity="one">%s view</item>
-        <item quantity="other">%s views</item>
+        <item quantity="zero">被你发现了!</item>
+        <item quantity="one">%s 看过</item>
+        <item quantity="other">%s 看过</item>
     </plurals>
     <string name="share">分享</string>
     <string name="hint_reply">在这里留言</string>
@@ -51,12 +51,11 @@
     </style>
     <style name="detail_extras">
         <item name="android:textStyle">italic</item>
+        <item name="android:gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
         <item name="android:drawablePadding">4dp</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/text_secondary_dark</item>
     </style>
 

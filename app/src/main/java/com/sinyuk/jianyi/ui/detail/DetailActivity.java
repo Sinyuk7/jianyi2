@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -29,12 +30,13 @@ import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
+import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
+import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.data.BaseRVAdapter;
 import com.sinyuk.jianyi.data.comment.Comment;
@@ -43,15 +45,15 @@ import com.sinyuk.jianyi.data.goods.Pic;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.AvatarHelper;
-import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.ImeUtils;
+import com.sinyuk.jianyi.utils.MathUtils;
 import com.sinyuk.jianyi.utils.NameGenerator;
-import com.sinyuk.jianyi.utils.PrefsKeySet;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.BaselineGridTextView;
+import com.sinyuk.jianyi.widgets.MyCircleImageView;
 import com.sinyuk.jianyi.widgets.TextDrawable;
 
 import java.text.NumberFormat;
@@ -65,6 +67,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16/9/12.
@@ -84,8 +88,7 @@ public class DetailActivity extends BaseActivity {
     TextView mPriceTv;
     @BindView(R.id.school_extra)
     TextView mSchoolTv;
-    @BindView(R.id.comment_extra)
-    TextView mCommentCount;
+
     @BindView(R.id.back_btn)
     ImageView mBackBtn;
     @BindView(R.id.toolbar)
@@ -98,6 +101,9 @@ public class DetailActivity extends BaseActivity {
     RecyclerView mCommentsList;
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
+
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @BindView(R.id.like_btn)
     TextView likeBtn;
@@ -115,6 +121,10 @@ public class DetailActivity extends BaseActivity {
 
     @BindView(R.id.background)
     FrameLayout mBackground;
+    @BindView(R.id.toolbar_title_tv)
+    TextView mToolbarTitleTv;
+    @BindView(R.id.search_btn)
+    ImageView mSearchBtn;
 
     private List<Pic> mShotList = new ArrayList<>();
     private Goods result;
@@ -161,6 +171,8 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
 
+        setupAppBarLayout();
+
         setupViewPager();
 
         setupActionButtons();
@@ -174,10 +186,35 @@ public class DetailActivity extends BaseActivity {
         addCommentFooter();
     }
 
+    private void setupAppBarLayout() {
+        int minHeight = collapsingToolbarLayout.getMinimumHeight();
+        addSubscription(RxAppBarLayout.offsetChanges(mAppBarLayout)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .map(dy -> Math.abs(dy / (mAppBarLayout.getTotalScrollRange() * 1.f - minHeight)))
+                .map(fraction -> MathUtils.constrain(0, 1, fraction))
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(fraction -> {
+                    Log.d(TAG, "setupAppBarLayout: " + fraction);
+                    if (fraction < 0.8) {
+                        mToolbar.setAlpha(0);
+                    } else {
+                        mToolbar.setAlpha(fraction);
+                    }
+                    mSearchBtn.setClickable(fraction == 1);
+                    mBackBtn.setClickable(fraction == 1);
+                }));
+    }
+
+    @OnClick(R.id.back_btn)
+    public void onBack() {
+        onBackPressed();
+    }
+
     private void addCommentFooter() {
         if (null == commentFooter) {
             commentFooter = LayoutInflater.from(this).inflate(R.layout.comment_list_footer, mCommentsList, false);
-            ImageView commentAvatar = (ImageView) commentFooter.findViewById(R.id.avatar);
+            MyCircleImageView commentAvatar = (MyCircleImageView) commentFooter.findViewById(R.id.avatar);
             enterComment = (EditText) commentFooter.findViewById(R.id.comment);
             postComment = (ImageView) commentFooter.findViewById(R.id.post_btn);
 
@@ -192,14 +229,15 @@ public class DetailActivity extends BaseActivity {
 
             commentAvatar.setOnClickListener(null);
 
-            if (!TextUtils.isEmpty(accountManger.getAvatar())) {
-                avatarBuilder.load(accountManger.getAvatar()).into(commentAvatar);
-            }
+            addSubscription(accountManger.getCurrentUser().subscribe(player -> {
+                if (player == null) return;
+                final int placeholder = player.getSex() == 0 ? R.drawable.boy : R.drawable.girl;
+                Glide.with(DetailActivity.this).load(player.getAvatar()).bitmapTransform(new CropCircleTransformation(DetailActivity.this)).error(placeholder).into(commentAvatar);
+            }));
         }
     }
 
     private void disableInputButton(Boolean noInput) {
-        Log.d(TAG, "disableInputButton: " + noInput);
         postComment.setActivated(!noInput);
         postComment.setClickable(!noInput);
     }
@@ -250,8 +288,6 @@ public class DetailActivity extends BaseActivity {
             comments.add(fake);
         }
 
-        TextViewHelper.setText(mCommentCount, comments.size() + "", null);
-
         mCommentAdapter.resetAll(comments);
     }
 
@@ -288,6 +324,7 @@ public class DetailActivity extends BaseActivity {
         // 标题
         TextViewHelper.setText(mTitle, result.getName(), null);
 
+        TextViewHelper.setText(mToolbarTitleTv, result.getName(), null);
         //
         TextViewHelper.setText(mDescriptionTv, result.getDetail(), null);
 
@@ -305,12 +342,8 @@ public class DetailActivity extends BaseActivity {
             mPubDataTv.setText("爱在西元前");
         }
 
+        TextViewHelper.setText(mPriceTv, result.getPrice(), "9999");
 
-        if (TextUtils.isEmpty(result.getPrice())) {
-            mPriceTv.setVisibility(View.INVISIBLE);
-        } else {
-            mPriceTv.setText(FormatUtils.formatPrice(result.getPrice()));
-        }
 
         if (result.getSchool() != null) {
             TextViewHelper.setText(mSchoolTv, result.getSchool().getName(), null);
@@ -342,12 +375,6 @@ public class DetailActivity extends BaseActivity {
                 if (likeAvd != null) {
                     likeAvd.start();
                 }
-                Preference<Integer> userId = preferences.getInteger(PrefsKeySet.KEY_USER_ID);
-                if (userId.isSet()) {
-                    userId.delete();
-                } else {
-                    userId.set(12345);
-                }
                 break;
             case R.id.view_count_btn:
                 if (viewsAvd != null) {
@@ -358,8 +385,19 @@ public class DetailActivity extends BaseActivity {
                 if (shareAvd != null) {
                     shareAvd.start();
                 }
+                v.postDelayed(this::shareTo, 500);
                 break;
         }
+    }
+
+    private void shareTo() {
+        if (result == null) return;
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_intent_prefix)
+                + result.getName() + JianyiApi.buildShareIntentUrl(result.getId()));
+        //自定义选择框的标题
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share_intent_hint)));
     }
 
     private void loadShots() {
@@ -374,8 +412,8 @@ public class DetailActivity extends BaseActivity {
     @OnClick(R.id.avatar)
     public void gotoPlayerActivity(View v) {
         if (result.getUser() != null) {
-            Pair<View, String> p1 = Pair.create((View) mAvatar, getString(R.string.transition_avatar));
-            Pair<View, String> p2 = Pair.create((View) mBackground, getString(R.string.transition_reveal_view));
+            Pair<View, String> p1 = Pair.create(mAvatar, getString(R.string.transition_avatar));
+            Pair<View, String> p2 = Pair.create(mBackground, getString(R.string.transition_reveal_view));
 
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
             Intent starter = new Intent(this, PlayerActivity.class);

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/window_background</item>
     </style>
 
     <style name="AppTheme.Splash">
@@ -22,7 +23,9 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
-        <item name="android:windowSharedElementEnterTransition">@transition/dribbble_player_shared_enter</item>
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/dribbble_player_shared_enter
+        </item>
         <!--<item name="android:windowEnterTransition">@transition/dribbble_player_enter</item>-->
         <!--<item name="android:windowReturnTransition">@transition/dribbble_player_return</item>-->
         <item name="android:windowTransitionBackgroundFadeDuration">200</item>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/need_item_background"
@@ -12,13 +13,14 @@
     android:paddingRight="@dimen/content_space_16"
     android:paddingTop="@dimen/content_space_16">
 
-    <ImageView
+    <com.sinyuk.jianyi.widgets.MyCircleImageView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginRight="@dimen/content_space_8"
-        android:src="@drawable/ic_profile"
-        android:tint="@color/grey_600"/>
+        android:src="@drawable/boy"
+        app:border_color="@android:color/transparent"
+        app:border_width="0dp"/>
 
 
     <android.support.design.widget.TextInputLayout
@@ -27,7 +29,7 @@
         android:layout_gravity="top"
         android:layout_weight="1"
         android:transitionGroup="true"
-    >
+        >
         <!--app:hintTextAppearance="@style/TextAppearance.FloatLabelHint"-->
         <EditText
             android:id="@+id/comment"

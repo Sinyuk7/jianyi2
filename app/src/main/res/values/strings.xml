@@ -12,4 +12,7 @@
     <string name="activity_sign_in">登录</string>
     <string name="action_alright">好的</string>
     <string name="login_succeed">登录成功</string>
+    <string name="plz_login">请先登录</string>
+    <string name="share_intent_prefix">我在简易上找到了</string>
+    <string name="share_intent_hint">想把它分享到…</string>
 </resources>

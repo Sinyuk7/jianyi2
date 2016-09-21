@@ -20,4 +20,8 @@ public class JianyiApi {
     public static final String PARAM_ORDER = "order";
 
     public static final String PARAM_PAGE = "page";
+
+    public static String buildShareIntentUrl(int id) {
+            return "http://wx.i-jianyi.com/goods/detail/id=" + id;
+    }
 }
