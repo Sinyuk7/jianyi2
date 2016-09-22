@@ -89,6 +89,7 @@ public abstract class FormActivity extends BaseActivity {
 
     public void showProgress() {
         actionButton.setProgress(1);
+        actionButton.setClickable(false);
     }
 
     public void showSucceed(String message) {
@@ -102,16 +103,18 @@ public abstract class FormActivity extends BaseActivity {
     public void showFailed(String message) {
         actionButton.setProgress(-1);
         toastUtils.toastShort(message);
+        actionButton.setClickable(true);
     }
 
     public void showError(String message) {
         actionButton.setProgress(-1);
         toastUtils.toastShort(message);
+        actionButton.setClickable(true);
     }
 
     public void toggleActionButton(boolean activated) {
-        actionButton.setEnabled(activated);
         actionButton.setClickable(activated);
+        actionButton.setEnabled(activated);
     }
 
     private void createEnterAnimation() {

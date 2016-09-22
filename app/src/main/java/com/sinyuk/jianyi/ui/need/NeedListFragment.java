@@ -2,8 +2,6 @@ package com.sinyuk.jianyi.ui.need;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +15,7 @@ import com.sinyuk.jianyi.data.need.Need;
 import com.sinyuk.jianyi.data.need.NeedRepository;
 import com.sinyuk.jianyi.ui.LazyFragment;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
-import com.sinyuk.jianyi.utils.list.DividerItemDecoration;
+import com.sinyuk.jianyi.widgets.phoenix.PullToRefreshView;
 
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class NeedListFragment extends LazyFragment {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.layout_list)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    PullToRefreshView pullToRefreshView;
     @BindView(R.id.layout_error)
     RelativeLayout mLayoutError;
     @BindView(R.id.view_animator)
@@ -100,12 +98,7 @@ public class NeedListFragment extends LazyFragment {
     }
 
     private void setupRefreshLayout() {
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-            }
-        });
+        pullToRefreshView.setOnRefreshListener(this::refreshNeeds);
     }
 
     private void initRecyclerView() {
@@ -162,7 +155,7 @@ public class NeedListFragment extends LazyFragment {
      * 临时这么搞搞 有待优化
      */
     private void hideRefreshView() {
-
+        pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false),2000);
     }
 
     @Override

@@ -19,4 +19,13 @@ public class HttpResult<T> {
     public T getData() {
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "HttpResult{" +
+                "status=" + status +
+                ", code=" + code +
+                ", data=" + data +
+                '}';
+    }
 }

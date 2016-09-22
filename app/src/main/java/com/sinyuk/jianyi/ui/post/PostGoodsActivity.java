@@ -35,6 +35,7 @@ import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.ui.FormActivity;
+import com.sinyuk.jianyi.utils.ImeUtils;
 import com.sinyuk.jianyi.utils.ScreenUtils;
 import com.sinyuk.jianyi.utils.ToastUtils;
 import com.sinyuk.jianyi.utils.Validator;
@@ -43,6 +44,7 @@ import com.sinyuk.jianyi.widgets.LabelView;
 import com.sinyuk.jianyi.widgets.RatioImageView;
 import com.sinyuk.jianyi.widgets.ThirdRecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.Lazy;
 import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16/9/20.
@@ -62,6 +67,7 @@ public class PostGoodsActivity extends FormActivity {
 
     private static final long TOOLBAR_OFFSET_DURATION = 200;
     private static final String FAKE_PATH = "";
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recycler_view)
@@ -83,6 +89,7 @@ public class PostGoodsActivity extends FormActivity {
     Lazy<AccountManger> accountMangerLazy;
     @Inject
     ToastUtils toastUtils;
+
     @BindView(R.id.add_btn)
     ImageView addButton;
     @BindColor(R.color.colorPrimary)
@@ -91,6 +98,30 @@ public class PostGoodsActivity extends FormActivity {
     int colorPrimaryDark;
     private int ALBUM_SIZE = 500;
     private ThumbnailAdapter mAdapter;
+    private Observable<String> callback1;
+    private Observable<String> callback2;
+    private Observable<String> callback3;
+    private List<String> urlList = new ArrayList<>();
+    private Observer<String> callbackObserver = new Observer<String>() {
+        @Override
+        public void onCompleted() {
+            if (urlList.size() == getSize()) {
+                sendAll();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            showError(e.getLocalizedMessage());
+            Log.e(TAG, "onError: " + e.getMessage());
+        }
+
+        @Override
+        public void onNext(String url) {
+            Log.d(TAG, "onNext: " + url);
+            urlList.add(url);
+        }
+    };
 
     public static void start(Context context, Rect rect) {
         Intent starter = new Intent(context, PostGoodsActivity.class);
@@ -214,11 +245,73 @@ public class PostGoodsActivity extends FormActivity {
 
     @OnClick(R.id.action_btn)
     public void onPost() {
-        if (paths == null || paths.size() == 0) {
+        if (paths == null || getBlanks() == paths.size()) {
             toastUtils.toastShort("传张照骗看看呗");
             return;
         }
+        mTitleInputArea.setError(null);
+        mDetailsInputArea.setError(null);
+        mPriceInputArea.setError(null);
+        actionButton.setProgress(0);
 
+        ImeUtils.hideIme(actionButton);
+
+        if (!TextUtils.isEmpty(paths.get(0))) {
+            Log.d(TAG, "path: " + paths.get(0));
+            callback1 = accountMangerLazy.get().upload(new File(paths.get(0))).subscribeOn(Schedulers.io());
+        }
+
+        if (!TextUtils.isEmpty(paths.get(1))) {
+            Log.d(TAG, "path: " + paths.get(1));
+            callback2 = accountMangerLazy.get().upload(new File(paths.get(1))).subscribeOn(Schedulers.io());
+        }
+
+        if (!TextUtils.isEmpty(paths.get(2))) {
+            Log.d(TAG, "path: " + paths.get(2));
+            callback3 = accountMangerLazy.get().upload(new File(paths.get(2))).subscribeOn(Schedulers.io());
+        }
+
+        switch (getSize()) {
+            case 3:
+                addSubscription(Observable.concat(callback1, callback2, callback3)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(this::showProgress)
+                        .subscribe(callbackObserver));
+                break;
+            case 2:
+                addSubscription(Observable.concat(callback1, callback2)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(this::showProgress)
+                        .subscribe(callbackObserver));
+                break;
+            case 1:
+                addSubscription(callback1
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(this::showProgress)
+                        .subscribe(callbackObserver));
+                break;
+        }
+    }
+
+    /**
+     *
+     */
+    private void sendAll() {
+        for (int i = 0; i < urlList.size(); i++) {
+            Log.d(TAG, "sendAll: " + urlList.get(i));
+        }
+
+        final String title = mTitleEt.getText().toString();
+        final String detail = mDetailsEt.getText().toString();
+        final String price = mPriceEt.getText().toString();
+
+    }
+
+    private int getSize() {
+        return 3 - getBlanks();
     }
 
     @OnClick(R.id.add_btn)
@@ -233,7 +326,7 @@ public class PostGoodsActivity extends FormActivity {
                 .textOnImagesSelectionLimitReached("Limit Reached!")
                 .textOnNothingSelected("Nothing Selected")
                 .setButtonInAlbumActivity(true)
-                .setReachLimitAutomaticClose(true)
+                .setReachLimitAutomaticClose(false)
                 .setAlbumSpanCount(2, 4)
                 .startAlbum();
     }

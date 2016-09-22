@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.f2prateek.rx.preferences.RxSharedPreferences;
-import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.utils.ToastUtils;
 
 import java.io.File;
@@ -31,13 +30,13 @@ public final class AppModule {
 
     @Singleton
     @Provides
-    public Application provideApplication() {
+    Application provideApplication() {
         return application;
     }
 
     @Singleton
     @Provides
-    public Context provideContext() {
+    Context provideContext() {
         return application;
     }
 
@@ -49,19 +48,19 @@ public final class AppModule {
 
     @Provides
     @Singleton
-    public RxSharedPreferences providePreferences(SharedPreferences preferences) {
+    RxSharedPreferences providePreferences(SharedPreferences preferences) {
         return RxSharedPreferences.create(preferences);
     }
 
     @Provides
     @Singleton
-    public File provideCachePath() {
+    File provideCachePath() {
         return new File(application.getExternalCacheDir(), "network_cache");
     }
 
     @Provides
     @Singleton
-    public ToastUtils provideToastUtils() {
+    ToastUtils provideToastUtils() {
         return new ToastUtils(application);
     }
 

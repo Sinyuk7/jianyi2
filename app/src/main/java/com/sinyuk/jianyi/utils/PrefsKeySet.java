@@ -20,4 +20,5 @@ public final class PrefsKeySet {
     // 当前查看的学校
     public static final String KEY_CURRENT_SCHOOL = "current_school";
     public static final String KEY_SCHOOL_NAME = "school_name";
+    public static final String KEY_PASSWORD = "password";
 }

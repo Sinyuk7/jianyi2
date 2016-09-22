@@ -1,21 +1,32 @@
 package com.sinyuk.jianyi.api;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.api.oauth.OauthService;
 import com.sinyuk.jianyi.api.service.JianyiService;
+import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.ui.events.LoginEvent;
 import com.sinyuk.jianyi.ui.events.LogoutEvent;
+import com.sinyuk.jianyi.utils.Compressor;
 import com.sinyuk.jianyi.utils.PrefsKeySet;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -35,10 +46,17 @@ public class AccountManger {
     private Preference<Integer> currentSchool;
     private Preference<String> schoolName;
     private Preference<Integer> sex;
-    private Player mCurrentUser;
 
-    public AccountManger(JianyiService jianyiService, OauthService oauthService, RxSharedPreferences rxSharedPreferences) {
+    private Preference<String> password;
+    private Player mCurrentUser;
+    private Context applicationContext;
+
+    public AccountManger(Context context,
+                         JianyiService jianyiService,
+                         OauthService oauthService,
+                         RxSharedPreferences rxSharedPreferences) {
         // Nope
+        this.applicationContext = context;
         this.jianyiService = jianyiService;
         this.mRxSharedPreferences = rxSharedPreferences;
         this.mOauthService = oauthService;
@@ -51,6 +69,8 @@ public class AccountManger {
         currentSchool = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_CURRENT_SCHOOL);
         schoolName = mRxSharedPreferences.getString(PrefsKeySet.KEY_SCHOOL_NAME);
         sex = mRxSharedPreferences.getInteger(PrefsKeySet.KEY_SEX);
+
+        password = mRxSharedPreferences.getString(PrefsKeySet.KEY_PASSWORD);
     }
 
     public boolean isLoggedIn() {
@@ -80,7 +100,7 @@ public class AccountManger {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private void saveInPreference(Player player) {
+    private void saveInPreference(Player player, String psw) {
         Log.d(TAG, "saveInPreference: " + player.toString());
         userId.set(player.getId());
         userName.set(player.getName());
@@ -91,6 +111,7 @@ public class AccountManger {
         school.set(player.getSchool());
         currentSchool.set(player.getCurrentSchool());
         schoolName.set(/*player.getSchoolName()*/"这里我要说一句大傻逼吴结巴");
+        password.set(psw);
     }
 
     public Observable<Player> login(String tel, String password) {
@@ -103,7 +124,7 @@ public class AccountManger {
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(this::saveInPreference)
+                .doOnNext(player -> saveInPreference(player, password))
                 .doOnNext(player -> EventBus.getDefault().post(new LoginEvent(player)));
     }
 
@@ -121,4 +142,129 @@ public class AccountManger {
         schoolName.delete();
         EventBus.getDefault().post(new LogoutEvent());
     }
+
+
+    public Observable<String> upload(File file) {
+        return Observable.just(file)
+                .flatMap(new Func1<File, Observable<File>>() {
+                    @Override
+                    public Observable<File> call(File file) {
+                        return Compressor.compress(applicationContext, file);
+                    }
+                })
+                .map(compressed -> RequestBody.create(MediaType.parse("image/jpg"), compressed))
+                .map(requestBody -> MultipartBody.Part.createFormData("pic", file.getName(), requestBody))
+                .flatMap(new Func1<MultipartBody.Part, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(MultipartBody.Part part) {
+                        return jianyiService.uploadPic(part)
+                                .map(new HttpResultFunc<String>() {
+                                    @Override
+                                    public String call(HttpResult<String> httpResult) {
+                                        return httpResult.getData();
+                                    }
+                                });
+                    }
+                });
+    }
+
+    private boolean hasPassword() {
+        return password.isSet() && !TextUtils.isEmpty(password.get());
+    }
+
+    public Observable<Goods> postGoods(String title,
+                                       String parentSort,
+                                       String childSort,
+                                       String price,
+                                       String detail,
+                                       List<String> pics) {
+
+        switch (pics.size()) {
+            case 1:
+                return getCurrentUser().flatMap(new Func1<Player, Observable<Goods>>() {
+                    @Override
+                    public Observable<Goods> call(Player player) {
+                        if (player == null || !hasPassword()) {
+                            return Observable.error(new Exception("用户信息过期,请重新登录"));
+                        }
+
+                        return jianyiService.postGoods(
+                                tel.get(),
+                                password.get(),
+                                title,
+                                parentSort,
+                                childSort,
+                                price,
+                                detail,
+                                pics.get(0)
+                        ).map(new HttpResultFunc<Goods>() {
+                            @Override
+                            public Goods call(HttpResult<Goods> httpResult) {
+                                return httpResult.getData();
+                            }
+                        });
+                    }
+                });
+
+
+            case 2:
+                return getCurrentUser().flatMap(new Func1<Player, Observable<Goods>>() {
+                    @Override
+                    public Observable<Goods> call(Player player) {
+                        if (player == null || !hasPassword()) {
+                            return Observable.error(new Exception("用户信息过期,请重新登录"));
+                        }
+
+                        return jianyiService.postGoods(
+                                tel.get(),
+                                password.get(),
+                                title,
+                                parentSort,
+                                childSort,
+                                price,
+                                detail,
+                                pics.get(0),
+                                pics.get(1)
+                        ).map(new HttpResultFunc<Goods>() {
+                            @Override
+                            public Goods call(HttpResult<Goods> httpResult) {
+                                return httpResult.getData();
+                            }
+                        });
+                    }
+                });
+
+
+            case 3:
+                return getCurrentUser().flatMap(new Func1<Player, Observable<Goods>>() {
+                    @Override
+                    public Observable<Goods> call(Player player) {
+                        if (player == null || !hasPassword()) {
+                            return Observable.error(new Exception("用户信息过期,请重新登录"));
+                        }
+
+                        return jianyiService.postGoods(
+                                tel.get(),
+                                password.get(),
+                                title,
+                                parentSort,
+                                childSort,
+                                price,
+                                detail,
+                                pics.get(0),
+                                pics.get(1),
+                                pics.get(2)
+                        ).map(new HttpResultFunc<Goods>() {
+                            @Override
+                            public Goods call(HttpResult<Goods> httpResult) {
+                                return httpResult.getData();
+                            }
+                        });
+                    }
+                });
+        }
+        return Observable.error(new Exception("未知错误"));
+    }
+
+
 }

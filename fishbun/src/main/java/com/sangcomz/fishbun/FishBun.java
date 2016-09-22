@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import com.sangcomz.fishbun.define.Define;
 import com.sangcomz.fishbun.ui.album.AlbumActivity;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 
@@ -28,16 +29,16 @@ public class FishBun {
     public static class BaseProperty implements BasePropertyImpl {
 
         private ArrayList<String> arrayPaths = new ArrayList<>();
-        private Activity activity = null;
-        private Fragment fragment = null;
+        private WeakReference<Activity> activityReference;
+        private WeakReference<Fragment> fragmentReference;
         private int requestCode = Define.ALBUM_REQUEST_CODE;
 
         public BaseProperty(Activity activity) {
-            this.activity = activity;
+            activityReference = new WeakReference<Activity>(activity);
         }
 
         public BaseProperty(Fragment fragment) {
-            this.fragment = fragment;
+            fragmentReference = new WeakReference<Fragment>(fragment);
         }
 
         public BaseProperty setArrayPaths(ArrayList<String> arrayPaths) {
@@ -137,10 +138,10 @@ public class FishBun {
 
         public void startAlbum() {
             Context context = null;
-            if (activity != null)
-                context = activity;
-            else if (fragment != null)
-                context = fragment.getActivity();
+            if (activityReference.get() != null)
+                context = activityReference.get() ;
+            else if (fragmentReference.get() != null)
+                context = fragmentReference.get().getActivity();
             else
                 try {
                     throw new Exception("Activity or Fragment Null");
@@ -162,13 +163,19 @@ public class FishBun {
             Intent i = new Intent(context, AlbumActivity.class);
             i.putStringArrayListExtra(Define.INTENT_PATH, arrayPaths);
 
-            if (activity != null)
-                activity.startActivityForResult(i, requestCode);
+            if (activityReference.get() != null)
+                activityReference.get().startActivityForResult(i, requestCode);
 
-            else if (fragment != null)
-                fragment.startActivityForResult(i, requestCode);
+            else if (fragmentReference.get() != null)
+                fragmentReference.get().startActivityForResult(i, requestCode);
 
+            if (activityReference != null) {
+                activityReference.clear();
+            }
 
+            if (fragmentReference != null) {
+                fragmentReference.clear();
+            }
         }
 
 

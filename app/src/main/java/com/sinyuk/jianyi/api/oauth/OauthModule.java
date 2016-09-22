@@ -1,12 +1,13 @@
 package com.sinyuk.jianyi.api.oauth;
 
+import android.content.Context;
+
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.google.gson.Gson;
 import com.sinyuk.jianyi.BuildConfig;
 import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.api.service.JianyiService;
-import com.sinyuk.jianyi.data.school.SchoolManager;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -52,13 +53,13 @@ public class OauthModule {
 
     @Provides
     @Singleton
-    public OauthService provideAuthorizationService(@Named("OAuth") Retrofit retrofit) {
+    OauthService provideAuthorizationService(@Named("OAuth") Retrofit retrofit) {
         return retrofit.create(OauthService.class);
     }
 
     @Provides
     @Singleton
-    public AccountManger provideAccountManager(JianyiService jianyiService, OauthService oauthService, RxSharedPreferences sharedPreferences) {
-        return new AccountManger(jianyiService, oauthService, sharedPreferences);
+    AccountManger provideAccountManager(Context context, JianyiService jianyiService, OauthService oauthService, RxSharedPreferences sharedPreferences) {
+        return new AccountManger(context, jianyiService, oauthService, sharedPreferences);
     }
 }
