@@ -177,24 +177,22 @@ public class PostGoodsActivity extends FormActivity {
 
         mRecyclerView.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
 
+        mRecyclerView.addItemDecoration(new ThumbnailItemDecoration(this));
+
     }
 
     private void initData() {
         mAdapter = new ThumbnailAdapter();
         mAdapter.setHasStableIds(true);
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-                Log.d(TAG, "onChanged: ");
-                Log.d(TAG, "onChanged: " + getBlanks());
-                if (getBlanks() > 0) {
-                    addButton.setVisibility(View.VISIBLE);
-                } else {
-                    addButton.setVisibility(View.GONE);
-                }
-            }
-        });
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void onDataSetChange() {
+        if (getBlanks() > 0) {
+            addButton.setVisibility(View.VISIBLE);
+        } else {
+            addButton.setVisibility(View.GONE);
+        }
     }
 
     private int getBlanks() {
@@ -261,10 +259,9 @@ public class PostGoodsActivity extends FormActivity {
             String path = result.get(i);
             for (int j = 0; j < 3; j++) {
                 if (TextUtils.isEmpty(paths.get(j))) {
-                    Log.d(TAG, "addThumbnails at: " + j);
                     paths.set(j, path);
-                    Log.d(TAG, "size is: " + paths.size());
-                    mAdapter.notifyDataSetChanged();
+                    mAdapter.notifyItemChanged(j);
+                    onDataSetChange();
                     break;
                 }
 
@@ -312,6 +309,8 @@ public class PostGoodsActivity extends FormActivity {
             if (!TextUtils.isEmpty(paths.get(position))) {
                 if (position == 0) {
                     holder.mCoverLabel.setVisibility(View.VISIBLE);
+                } else {
+                    holder.mCoverLabel.setVisibility(View.GONE);
                 }
                 thumbBuilder.load(paths.get(position))
                         .listener(new RequestListener<String, GlideDrawable>() {
@@ -329,9 +328,8 @@ public class PostGoodsActivity extends FormActivity {
                         .into(holder.mThumbnailIv);
             } else {
                 holder.mDeleteBtn.setVisibility(View.GONE);
-                if (position == 0) {
-                    holder.mCoverLabel.setVisibility(View.GONE);
-                }
+                holder.mCoverLabel.setVisibility(View.GONE);
+                holder.mThumbnailIv.setImageDrawable(null);
             }
         }
 
@@ -359,6 +357,15 @@ public class PostGoodsActivity extends FormActivity {
             ItemViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
+                mDeleteBtn.setOnClickListener(v -> {
+                    final int i = getAdapterPosition();
+                    paths.remove(i);
+                    mAdapter.notifyItemRemoved(i);
+                    paths.add(FAKE_PATH);
+                    // last item needs update
+                    mAdapter.notifyItemChanged(2);
+                    onDataSetChange();
+                });
             }
         }
     }

@@ -4,6 +4,11 @@
     <gradient
         android:angle="90"
         android:endColor="#00ffffff"
-        android:startColor="@color/window_background"/>
-
+        android:centerColor="#8affffff"
+        android:startColor="#ebffffff"/>
+    <corners
+        android:bottomLeftRadius="@dimen/cardView_distinct_corner_radius"
+        android:bottomRightRadius="@dimen/cardView_distinct_corner_radius"
+        android:topLeftRadius="0dp"
+        android:topRightRadius="0dp"/>
 </shape>
