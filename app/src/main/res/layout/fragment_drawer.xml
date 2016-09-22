@@ -110,6 +110,12 @@
                 android:text="@string/category_sports"/>
 
             <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/bike_btn"
+                style="@style/drawer_radio_button"
+                android:drawableRight="@drawable/ic_bike"
+                android:text="@string/category_vehicle"/>
+
+            <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/digital_btn"
                 style="@style/drawer_radio_button"
                 android:drawableRight="@drawable/ic_digital"

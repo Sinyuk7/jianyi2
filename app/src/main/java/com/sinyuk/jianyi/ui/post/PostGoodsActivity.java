@@ -113,7 +113,7 @@ public class PostGoodsActivity extends FormActivity {
         @Override
         public void onError(Throwable e) {
             showError(e.getLocalizedMessage());
-            Log.e(TAG, "onError: " + e.getMessage());
+            e.printStackTrace();
         }
 
         @Override
@@ -300,10 +300,6 @@ public class PostGoodsActivity extends FormActivity {
      *
      */
     private void sendAll() {
-        for (int i = 0; i < urlList.size(); i++) {
-            Log.d(TAG, "sendAll: " + urlList.get(i));
-        }
-
         final String title = mTitleEt.getText().toString();
         final String detail = mDetailsEt.getText().toString();
         final String price = mPriceEt.getText().toString();

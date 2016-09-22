@@ -1,7 +1,6 @@
 package com.sinyuk.jianyi.utils;
 
 import android.content.Context;
-import android.os.SystemClock;
 
 import java.io.File;
 
@@ -17,7 +16,6 @@ public class Compressor {
         return Luban.get(context)
                 .load(file)
                 .putGear(Luban.THIRD_GEAR)
-                .setFilename("jy_" + SystemClock.currentThreadTimeMillis())
                 .asObservable();
     }
 }
