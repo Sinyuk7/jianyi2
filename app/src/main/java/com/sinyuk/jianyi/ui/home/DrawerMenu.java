@@ -40,6 +40,12 @@ public class DrawerMenu extends BaseFragment {
     }
 
     @Override
+    public void onDestroy() {
+        drawerLayout = null;
+        super.onDestroy();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         drawerLayout = (DrawerLayout) ((Activity) context).findViewById(R.id.drawer_layout);
@@ -73,12 +79,6 @@ public class DrawerMenu extends BaseFragment {
         });
     }
 
-    @Override
-    public void onDestroy() {
-        drawerLayout = null;
-        super.onDestroy();
-    }
-
     @OnClick(
             {
                     R.id.switch_school_btn,
@@ -92,6 +92,7 @@ public class DrawerMenu extends BaseFragment {
                     R.id.sports_btn,
                     R.id.digital_btn,
                     R.id.book_btn,
+                    R.id.bike_btn,
                     R.id.ticket_btn,
                     R.id.bag_btn,
                     R.id.food_btn,
@@ -133,6 +134,9 @@ public class DrawerMenu extends BaseFragment {
                 break;
             case R.id.ticket_btn:
                 mTitle = getString(R.string.category_ticket);
+                break;
+            case R.id.bike_btn:
+                mTitle = getString(R.string.category_vehicle);
                 break;
             case R.id.bag_btn:
                 mTitle = getString(R.string.category_bag);

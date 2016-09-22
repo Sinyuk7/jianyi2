@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="2dp"
+          android:background="@drawable/selector_tag_background"
+          android:paddingBottom="4dp"
+          android:paddingLeft="8dp"
+          android:paddingRight="8dp"
+          android:paddingTop="4dp"
+          android:textColor="@drawable/selector_tag_color"
+          android:textSize="@dimen/material_text_caption2"
+          tools:text="Helloworld">
+
+</TextView>

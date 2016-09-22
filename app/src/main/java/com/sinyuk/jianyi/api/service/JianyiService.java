@@ -3,11 +3,11 @@ package com.sinyuk.jianyi.api.service;
 
 import com.sinyuk.jianyi.api.HttpResult;
 import com.sinyuk.jianyi.api.JianyiApi;
-import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.GoodsResult;
 import com.sinyuk.jianyi.data.need.NeedResult;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.school.School;
+import com.sinyuk.jianyi.ui.post.PostResult;
 
 import java.util.List;
 
@@ -61,21 +61,21 @@ public interface JianyiService {
     @Headers("Cache-Control: no-cache")
     @POST("goods/create")
     @FormUrlEncoded
-    Observable<HttpResult<Goods>> postGoods(@Field("tel") String id,
-                                            @Field("password") String password,
-                                            @Field("name") String title,
-                                            @Field("title") String parentSort,
-                                            @Field("sort") String childSort,
-                                            @Field("price") String price,
-                                            @Field("detail") String detail,
-                                            @Field("pic[0]") String first,
-                                            @Field("pic[1]") String second,
-                                            @Field("pic[2]") String third);
+    Observable<HttpResult<PostResult>> postGoods(@Field("tel") String id,
+                                                 @Field("password") String password,
+                                                 @Field("name") String title,
+                                                 @Field("title") String parentSort,
+                                                 @Field("sort") String childSort,
+                                                 @Field("price") String price,
+                                                 @Field("detail") String detail,
+                                                 @Field("pic[0]") String first,
+                                                 @Field("pic[1]") String second,
+                                                 @Field("pic[2]") String third);
 
     @Headers("Cache-Control: no-cache")
     @POST("goods/create")
     @FormUrlEncoded
-    Observable<HttpResult<Goods>> postGoods(@Field("tel") String id,
+    Observable<HttpResult<PostResult>> postGoods(@Field("tel") String id,
                                             @Field("password") String password,
                                             @Field("name") String title,
                                             @Field("title") String parentSort,
@@ -88,7 +88,7 @@ public interface JianyiService {
     @Headers("Cache-Control: no-cache")
     @POST("goods/create")
     @FormUrlEncoded
-    Observable<HttpResult<Goods>> postGoods(@Field("tel") String id,
+    Observable<HttpResult<PostResult>> postGoods(@Field("tel") String id,
                                             @Field("password") String password,
                                             @Field("name") String title,
                                             @Field("title") String parentSort,

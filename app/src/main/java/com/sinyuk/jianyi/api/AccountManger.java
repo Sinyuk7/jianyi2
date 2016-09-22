@@ -9,10 +9,10 @@ import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.api.oauth.OauthService;
 import com.sinyuk.jianyi.api.service.JianyiService;
-import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.ui.events.LoginEvent;
 import com.sinyuk.jianyi.ui.events.LogoutEvent;
+import com.sinyuk.jianyi.ui.post.PostResult;
 import com.sinyuk.jianyi.utils.Compressor;
 import com.sinyuk.jianyi.utils.PrefsKeySet;
 
@@ -172,18 +172,18 @@ public class AccountManger {
         return password.isSet() && !TextUtils.isEmpty(password.get());
     }
 
-    public Observable<Goods> postGoods(String title,
-                                       String parentSort,
-                                       String childSort,
-                                       String price,
-                                       String detail,
-                                       List<String> pics) {
+    public Observable<PostResult> postGoods(String title,
+                                            String parentSort,
+                                            String childSort,
+                                            String price,
+                                            String detail,
+                                            List<String> pics) {
 
         switch (pics.size()) {
             case 1:
-                return getCurrentUser().flatMap(new Func1<Player, Observable<Goods>>() {
+                return getCurrentUser().flatMap(new Func1<Player, Observable<PostResult>>() {
                     @Override
-                    public Observable<Goods> call(Player player) {
+                    public Observable<PostResult> call(Player player) {
                         if (player == null || !hasPassword()) {
                             return Observable.error(new Exception("用户信息过期,请重新登录"));
                         }
@@ -197,20 +197,20 @@ public class AccountManger {
                                 price,
                                 detail,
                                 pics.get(0)
-                        ).map(new HttpResultFunc<Goods>() {
+                        ).map(new HttpResultFunc<PostResult>() {
                             @Override
-                            public Goods call(HttpResult<Goods> httpResult) {
+                            public PostResult call(HttpResult<PostResult> httpResult) {
                                 return httpResult.getData();
                             }
-                        });
+                        }).subscribeOn(Schedulers.io());
                     }
-                });
+                }).subscribeOn(Schedulers.io());
 
 
             case 2:
-                return getCurrentUser().flatMap(new Func1<Player, Observable<Goods>>() {
+                return getCurrentUser().flatMap(new Func1<Player, Observable<PostResult>>() {
                     @Override
-                    public Observable<Goods> call(Player player) {
+                    public Observable<PostResult> call(Player player) {
                         if (player == null || !hasPassword()) {
                             return Observable.error(new Exception("用户信息过期,请重新登录"));
                         }
@@ -225,20 +225,20 @@ public class AccountManger {
                                 detail,
                                 pics.get(0),
                                 pics.get(1)
-                        ).map(new HttpResultFunc<Goods>() {
+                        ).map(new HttpResultFunc<PostResult>() {
                             @Override
-                            public Goods call(HttpResult<Goods> httpResult) {
+                            public PostResult call(HttpResult<PostResult> httpResult) {
                                 return httpResult.getData();
                             }
-                        });
+                        }).subscribeOn(Schedulers.io());
                     }
-                });
+                }).subscribeOn(Schedulers.io());
 
 
             case 3:
-                return getCurrentUser().flatMap(new Func1<Player, Observable<Goods>>() {
+                return getCurrentUser().flatMap(new Func1<Player, Observable<PostResult>>() {
                     @Override
-                    public Observable<Goods> call(Player player) {
+                    public Observable<PostResult> call(Player player) {
                         if (player == null || !hasPassword()) {
                             return Observable.error(new Exception("用户信息过期,请重新登录"));
                         }
@@ -254,14 +254,14 @@ public class AccountManger {
                                 pics.get(0),
                                 pics.get(1),
                                 pics.get(2)
-                        ).map(new HttpResultFunc<Goods>() {
+                        ).map(new HttpResultFunc<PostResult>() {
                             @Override
-                            public Goods call(HttpResult<Goods> httpResult) {
+                            public PostResult call(HttpResult<PostResult> httpResult) {
                                 return httpResult.getData();
                             }
-                        });
+                        }).subscribeOn(Schedulers.io());
                     }
-                });
+                }).subscribeOn(Schedulers.io());
         }
         return Observable.error(new Exception("未知错误"));
     }

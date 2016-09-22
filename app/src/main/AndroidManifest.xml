@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -21,7 +20,6 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.sinyuk.jianyi.utils.glide.SinyukGlideModule"
             android:value="GlideModule"/>
@@ -37,29 +35,26 @@
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:launchMode="singleTop"></activity>
-
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ui.player.PlayerActivity"
             android:launchMode="standard"
             android:theme="@style/AppTheme.Player"/>
-
         <activity
             android:name=".ui.detail.DetailActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".ui.login.JianyiLoginActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
-
         <activity
             android:name=".ui.post.PostGoodsActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
 
+        <activity android:name=".ui.post.PostNeedActivity"/>
     </application>
 
 </manifest>

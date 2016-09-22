@@ -8,10 +8,10 @@
     android:outAnimation="@android:anim/fade_out">
 
     <include
-        layout="@layout/common_list_loading"/>
+        layout="@layout/common_list_list_home"/>
 
     <include
-        layout="@layout/common_list_list_home"/>
+        layout="@layout/common_list_loading"/>
 
     <include
         layout="@layout/common_list_error"/>

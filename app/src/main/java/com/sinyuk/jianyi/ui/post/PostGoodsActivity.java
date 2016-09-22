@@ -35,6 +35,8 @@ import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.ui.FormActivity;
+import com.sinyuk.jianyi.ui.common.SortFilter;
+import com.sinyuk.jianyi.ui.events.SorterUpdateEvent;
 import com.sinyuk.jianyi.utils.ImeUtils;
 import com.sinyuk.jianyi.utils.ScreenUtils;
 import com.sinyuk.jianyi.utils.ToastUtils;
@@ -43,6 +45,10 @@ import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.LabelView;
 import com.sinyuk.jianyi.widgets.RatioImageView;
 import com.sinyuk.jianyi.widgets.ThirdRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -102,24 +108,43 @@ public class PostGoodsActivity extends FormActivity {
     private Observable<String> callback2;
     private Observable<String> callback3;
     private List<String> urlList = new ArrayList<>();
-    private Observer<String> callbackObserver = new Observer<String>() {
+    private String titleTag;
+    private String sortTag;
+    private Observer<PostResult> postObserver = new Observer<PostResult>() {
         @Override
         public void onCompleted() {
-            if (urlList.size() == getSize()) {
-                sendAll();
-            }
+            showSucceed("发布成功");
         }
 
         @Override
         public void onError(Throwable e) {
             showError(e.getLocalizedMessage());
+        }
+
+        @Override
+        public void onNext(PostResult result) {
+
+        }
+    };
+    private Observer<String> callbackObserver = new Observer<String>() {
+        @Override
+        public void onCompleted() {
+            if (urlList.size() == getSize()) {
+                attemptPost();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            toastUtils.toastShort("图片上传失败");
             e.printStackTrace();
         }
 
         @Override
         public void onNext(String url) {
-            Log.d(TAG, "onNext: " + url);
             urlList.add(url);
+            Log.d(TAG, "onNext: " + url);
+            Log.d(TAG, "urlList: " + urlList.size());
         }
     };
 
@@ -142,6 +167,7 @@ public class PostGoodsActivity extends FormActivity {
     protected void beforeInflating() {
         super.beforeInflating();
         App.get(this).getAppComponent().plus(new OauthModule()).inject(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -151,6 +177,7 @@ public class PostGoodsActivity extends FormActivity {
         initRecyclerView();
         initData();
         initThumbnails();
+
 
         Observable<CharSequence> titleObservable = RxTextView.textChanges(mTitleEt);
         Observable<CharSequence> detailObservable = RxTextView.textChanges(mDetailsEt);
@@ -197,6 +224,20 @@ public class PostGoodsActivity extends FormActivity {
                 .start();
     }
 
+    private void showSelector() {
+        SortFilter sortFilter = new SortFilter();
+        sortFilter.setCancelable(true);
+        sortFilter.show(getSupportFragmentManager(), SortFilter.TAG);
+
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void initRecyclerView() {
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, OrientationHelper.VERTICAL, false);
 
@@ -232,7 +273,6 @@ public class PostGoodsActivity extends FormActivity {
             if (TextUtils.isEmpty(paths.get(i)))
                 count++;
         }
-        Log.d(TAG, "getBlanks: " + count);
         return count;
     }
 
@@ -249,12 +289,18 @@ public class PostGoodsActivity extends FormActivity {
             toastUtils.toastShort("传张照骗看看呗");
             return;
         }
+        titleTag = null;
+        sortTag = null;
+        urlList.clear();
         mTitleInputArea.setError(null);
         mDetailsInputArea.setError(null);
         mPriceInputArea.setError(null);
         actionButton.setProgress(0);
 
         ImeUtils.hideIme(actionButton);
+
+        // 等键盘关闭
+        actionButton.postDelayed(this::showSelector, 250);
 
         if (!TextUtils.isEmpty(paths.get(0))) {
             Log.d(TAG, "path: " + paths.get(0));
@@ -276,34 +322,53 @@ public class PostGoodsActivity extends FormActivity {
                 addSubscription(Observable.concat(callback1, callback2, callback3)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(this::showProgress)
                         .subscribe(callbackObserver));
                 break;
             case 2:
                 addSubscription(Observable.concat(callback1, callback2)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(this::showProgress)
                         .subscribe(callbackObserver));
                 break;
             case 1:
                 addSubscription(callback1
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(this::showProgress)
                         .subscribe(callbackObserver));
                 break;
         }
     }
 
-    /**
-     *
-     */
-    private void sendAll() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSelected(SorterUpdateEvent event) {
+        titleTag = event.getTitle();
+        sortTag = event.getSort();
+        Log.d(TAG, "onSelected: " + titleTag);
+        Log.d(TAG, "onSelected: " + sortTag);
+        attemptPost();
+    }
+
+    private void attemptPost() {
+        if (urlList.size() != getSize()) {
+            Log.d(TAG, "attemptPost: urls " + urlList.toString());
+            Log.d(TAG, "attemptPost: should be " + getSize());
+            toastUtils.toastShort("服务器大姨妈了,等一哈");
+            return;
+        }
+        if (TextUtils.isEmpty(titleTag) || TextUtils.isEmpty(sortTag)) {
+            toastUtils.toastShort("添加标签 更容易被找到哦");
+            return;
+        }
+
         final String title = mTitleEt.getText().toString();
         final String detail = mDetailsEt.getText().toString();
         final String price = mPriceEt.getText().toString();
 
+        addSubscription(accountMangerLazy.get()
+                .postGoods(title, titleTag, sortTag, price, detail, urlList)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(this::showProgress)
+                .subscribe(postObserver));
     }
 
     private int getSize() {

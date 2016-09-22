@@ -1,8 +1,5 @@
 package com.sinyuk.jianyi.utils;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import java.util.regex.Pattern;
 
 /**
@@ -131,17 +128,6 @@ public class Validator {
 
     public static boolean isPrice(String price) {
         final String regex = "\\d+";
-        if (price.contains(".")) {
-            String[] strings = price.split(".");
-            if (strings.length != 2) return false;
-            if (TextUtils.isEmpty(strings[0]) || TextUtils.isEmpty(strings[1])) return false;
-            if (strings[1].length() != 1) return false;
-
-            Log.d("Sinyuk", "isPrice: " + strings[0]);
-            Log.d("Sinyuk", "isPrice: " + strings[1]);
-
-            return strings[0].matches(regex) && strings[1].matches(regex);
-        }
-        return price.matches(regex);
+        return price.contains(".") || price.matches(regex);
     }
 }

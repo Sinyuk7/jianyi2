@@ -81,7 +81,7 @@
     <Button
         android:id="@+id/logout_btn"
         style="@style/guillotine_menu_text"
-        android:drawableLeft="@drawable/close"
+        android:drawableLeft="@drawable/ic_close_circle"
         android:text="退出登录"/>
 
 </LinearLayout>

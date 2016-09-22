@@ -18,7 +18,7 @@ public class SortLayout {
     private  String[] books;
     private  String[] cards;
 
-//    category = getResources().getStringArray(R.array.category);
+//    categories = getResources().getStringArray(R.array.categories);
 //    clothing = getResources().getStringArray(R.array.clothing);
 //    office = getResources().getStringArray(R.array.office);
 //    daily = getResources().getStringArray(R.array.daily);

@@ -21,7 +21,6 @@ import com.sinyuk.jianyi.api.AccountManger;
 import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
-import com.sinyuk.jianyi.ui.common.SortFilter;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
@@ -249,9 +248,8 @@ public class HomeActivity extends BaseActivity {
     public void toggleSchoolSelector() {
 //        schoolSelectorLazy.get().setCancelable(true);
 //        schoolSelectorLazy.get().show(getSupportFragmentManager(), SchoolSelector.TAG);
-        SortFilter sortFilter = new SortFilter();
-        sortFilter.setCancelable(true);
-        sortFilter.show(getSupportFragmentManager(), sortFilter.getTag());
+
+//        startActivity(new Intent(HomeActivity.this, PostNeedActivity.class));
     }
 
     @Override
