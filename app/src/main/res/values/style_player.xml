@@ -14,10 +14,13 @@
     <eat-comment/>
 
 
-    <style name="player_tab_text">
-
-        <item name="android:textSize">@dimen/material_text_caption1</item>
+    <style name="player_tab_text" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:padding">0dp</item>
         <item name="android:gravity">center</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:textSize">@dimen/material_text_caption1</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -25,6 +28,7 @@
     </style>
 
     <eat-comment/>
+
     <style name="player_edit_text">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
@@ -37,6 +41,7 @@
         <item name="android:focusableInTouchMode">false</item>
         <item name="android:inputType">text</item>
     </style>
+
     <string-array name="player_tab_titles">
         <item>"发布"</item>
         <item>"收藏"</item>

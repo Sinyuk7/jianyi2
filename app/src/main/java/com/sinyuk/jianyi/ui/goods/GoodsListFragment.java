@@ -8,7 +8,6 @@ import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
@@ -42,8 +41,6 @@ public class GoodsListFragment extends BaseFragment {
     private static final int FIRST_PAGE = 1;
     //
     private static final String TAG = "GoodsListFragment";
-    @BindView(R.id.layout_loading)
-    FrameLayout mLayoutLoading;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.layout_list)

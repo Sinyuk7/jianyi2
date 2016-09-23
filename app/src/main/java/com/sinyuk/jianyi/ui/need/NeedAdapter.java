@@ -44,7 +44,6 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
 
     }
 
-
     public void appendAll(List<Need> items) {
         int startPosition = mDataSet.size();
         mDataSet.addAll(items);
@@ -104,6 +103,14 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
         holder.mExpandView.setVisibility(position == mSelected ? View.VISIBLE : View.GONE);
 
 
+    }
+
+    @Override
+    public long getItemId(int position) {
+        if (mDataSet != null && mDataSet.get(position) != null) {
+            return mDataSet.get(position).getId();
+        }
+        return RecyclerView.NO_ID;
     }
 
     @Override

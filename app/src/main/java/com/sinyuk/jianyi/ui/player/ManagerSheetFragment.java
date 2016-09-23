@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,12 +50,8 @@ public class ManagerSheetFragment extends BaseFragment {
     private static final int PRELOAD_THRESHOLD = 2;
     private static final int FIRST_PAGE = 1;
     private static final String KEY_PLAYER = "PLAYER";
-    @BindView(R.id.layout_loading)
-    FrameLayout mLayoutLoading;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.layout_empty)
-    FrameLayout mLayoutEmpty;
     @BindView(R.id.view_animator)
     BetterViewAnimator mViewAnimator;
     @Inject
@@ -70,7 +65,7 @@ public class ManagerSheetFragment extends BaseFragment {
         public void onCompleted() {
             page = FIRST_PAGE + 1;
             // 这里还是空就过分了
-            mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_empty : R.id.recycler_view);
+            mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_error : R.id.recycler_view);
         }
 
         @Override
@@ -83,6 +78,7 @@ public class ManagerSheetFragment extends BaseFragment {
             mAdapter.resetAll(items);
         }
     };
+
     private final Observer<List<Goods>> loadObserver = new Observer<List<Goods>>() {
         @Override
         public void onCompleted() {
@@ -99,6 +95,7 @@ public class ManagerSheetFragment extends BaseFragment {
             mAdapter.appendAll(items);
         }
     };
+
     private Player player;
     private ExplosionField explosionField;
 
@@ -121,8 +118,7 @@ public class ManagerSheetFragment extends BaseFragment {
     @Override
     protected void beforeInflate() {
         player = getArguments().getParcelable(KEY_PLAYER);
-//        id = player.getId();
-        id = 37;
+        id = player.getId();
     }
 
     @Override
@@ -136,6 +132,12 @@ public class ManagerSheetFragment extends BaseFragment {
         initData();
 
         refresh();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        explosionField.clear();
     }
 
     private void initRecyclerView() {
@@ -167,13 +169,11 @@ public class ManagerSheetFragment extends BaseFragment {
         });
     }
 
-
     private void initData() {
         mAdapter = new ManagerAdapter();
-//        mAdapter.setHasStableIds(true);
+        mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
     }
-
 
     private void loadMore() {
         addSubscription(playerRepository.getHisPosts(id, page).subscribe(loadObserver));
@@ -190,13 +190,7 @@ public class ManagerSheetFragment extends BaseFragment {
      */
     private void handleError(Throwable throwable) {
         throwable.printStackTrace();
-        mViewAnimator.setDisplayedChildId(R.id.layout_empty);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        explosionField.clear();
+        mViewAnimator.setDisplayedChildId(R.id.layout_error);
     }
 
     public class ManagerAdapter extends RecyclerView.Adapter<ManagerAdapter.ManagerItemHolder> {
@@ -219,6 +213,14 @@ public class ManagerSheetFragment extends BaseFragment {
         public void onBindViewHolder(ManagerItemHolder holder, int position) {
             if (mDataSet.get(position) == null) return;
             final Goods data = mDataSet.get(position);
+
+            if (data.getDel() == 1) {
+                holder.itemView.setVisibility(View.INVISIBLE);
+                return;
+            } else {
+                holder.itemView.setVisibility(View.VISIBLE);
+            }
+
             if (TextUtils.isEmpty(data.getPrice())) {
                 holder.mPriceLabelView.setVisibility(View.INVISIBLE);
             } else {
@@ -235,11 +237,13 @@ public class ManagerSheetFragment extends BaseFragment {
             shotBuilder.load(data.getCoverUrl()).into(holder.mShotIv);
 
             holder.mDeleteBtn.setOnClickListener(v -> {
+                final int index = holder.getAdapterPosition();
+                mDataSet.get(index).setDel(1);
                 explosionField.explode(holder.itemView);
                 v.postDelayed(() -> {
-                    holder.itemView.setVisibility(View.INVISIBLE);
-                    remove(holder.getAdapterPosition());
-                }, 400);
+//                    holder.itemView.setVisibility(View.INVISIBLE);
+                    remove(index);
+                }, 350);
 //                    explosionField.clear();
             });
 
@@ -249,11 +253,23 @@ public class ManagerSheetFragment extends BaseFragment {
             });
         }
 
+        @Override
+        public long getItemId(int position) {
+            if (mDataSet != null && mDataSet.get(position) != null) {
+                return mDataSet.get(position).getId();
+            }
+            return RecyclerView.NO_ID;
+        }
+
+        @Override
+        public int getItemCount() {
+            return mDataSet == null ? 0 : mDataSet.size();
+        }
+
         public void remove(int position) {
             if (mDataSet.get(position) == null) return;
             mDataSet.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, mDataSet.size());
         }
 
         public void appendAll(List<Goods> items) {
@@ -265,21 +281,7 @@ public class ManagerSheetFragment extends BaseFragment {
         public void resetAll(List<Goods> items) {
             mDataSet.clear();
             mDataSet.addAll(items);
-            notifyItemRangeInserted(0, items.size());
-        }
-
-
-//        @Override
-//        public long getItemId(int position) {
-//            if (mDataSet != null && mDataSet.get(position) != null) {
-//                return mDataSet.get(position).getId();
-//            }
-//            return RecyclerView.NO_ID;
-//        }
-
-        @Override
-        public int getItemCount() {
-            return mDataSet == null ? 0 : mDataSet.size();
+            notifyDataSetChanged();
         }
 
         public class ManagerItemHolder extends RecyclerView.ViewHolder {

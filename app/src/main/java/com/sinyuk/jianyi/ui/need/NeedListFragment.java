@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
@@ -33,8 +32,6 @@ public class NeedListFragment extends LazyFragment {
     private static final int PRELOAD_THRESHOLD = 3;
     private static final int FIRST_PAGE = 1;
     private static final String TAG = "NeedListFragment";
-    @BindView(R.id.layout_loading)
-    FrameLayout mLayoutLoading;
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.layout_list)
@@ -50,10 +47,12 @@ public class NeedListFragment extends LazyFragment {
     private boolean isLoading = false;
     private int mPage = 1;
     private NeedAdapter mAdapter;
+
     private final Observer<List<Need>> refreshObserver = new Observer<List<Need>>() {
         @Override
         public void onCompleted() {
             mPage = FIRST_PAGE + 1;
+            mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_error : R.id.layout_list);
         }
 
         @Override
@@ -67,6 +66,23 @@ public class NeedListFragment extends LazyFragment {
             for (int i = 0; i < items.size(); i++) {
                 Log.d(TAG, "onNext: " + items.get(i).toString());
             }
+        }
+    };
+
+    private final Observer<List<Need>> loadObserver = new Observer<List<Need>>() {
+        @Override
+        public void onCompleted() {
+            mPage++;
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            handleError(e);
+        }
+
+        @Override
+        public void onNext(List<Need> items) {
+            mAdapter.appendAll(items);
         }
     };
 
@@ -126,28 +142,29 @@ public class NeedListFragment extends LazyFragment {
         });
     }
 
-    private void loadNeeds(int page) {
-
-    }
-
     private void initData() {
         mAdapter = new NeedAdapter(getContext(), Glide.with(this));
 
-        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-                mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_loading : R.id.layout_list);
-            }
-        });
-
-//        mAdapter.setHasStableIds(true);
+        mAdapter.setHasStableIds(true);
 
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
+    private void loadNeeds(int page) {
+        addSubscription(needRepositoryLazy.get().getAll(page).doOnSubscribe(this::showProgress).subscribe(loadObserver));
+    }
+
     private void refreshNeeds() {
-        addSubscription(needRepositoryLazy.get().getAll(1).doAfterTerminate(this::hideRefreshView).subscribe(refreshObserver));
+        addSubscription(needRepositoryLazy.get().getAll(1).doAfterTerminate(this::hideRefreshView).doOnTerminate(this::hideProgress).subscribe(refreshObserver));
+    }
+
+    private void showProgress() {
+
+    }
+
+    private void hideProgress() {
+
     }
 
     /**
@@ -155,7 +172,7 @@ public class NeedListFragment extends LazyFragment {
      * 临时这么搞搞 有待优化
      */
     private void hideRefreshView() {
-        pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false),2000);
+        pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false), 2000);
     }
 
     @Override

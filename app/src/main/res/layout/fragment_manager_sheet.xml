@@ -7,13 +7,10 @@
     style="@style/view_animator">
 
     <include
-        layout="@layout/common_list_loading"/>
-
-    <include
         layout="@layout/manager_list_list"/>
 
     <include
-        layout="@layout/manager_list_empty"/>
+        layout="@layout/common_list_error"/>
 
 
 </com.sinyuk.jianyi.utils.BetterViewAnimator>

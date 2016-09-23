@@ -38,8 +38,7 @@
             android:launchMode="singleTop"/>
         <activity
             android:name=".ui.player.PlayerActivity"
-            android:launchMode="standard"
-            android:theme="@style/AppTheme.Player"/>
+            android:launchMode="standard"/>
         <activity
             android:name=".ui.detail.DetailActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
