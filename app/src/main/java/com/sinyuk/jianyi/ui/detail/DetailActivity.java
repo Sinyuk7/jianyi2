@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ import com.sinyuk.jianyi.utils.MathUtils;
 import com.sinyuk.jianyi.utils.NameGenerator;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
+import com.sinyuk.jianyi.utils.list.InsetDividerDecoration;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.BaselineGridTextView;
 import com.sinyuk.jianyi.widgets.MyCircleImageView;
@@ -64,6 +66,8 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
+import butterknife.BindColor;
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -125,7 +129,12 @@ public class DetailActivity extends BaseActivity {
     TextView mToolbarTitleTv;
     @BindView(R.id.search_btn)
     ImageView mSearchBtn;
-
+    @BindDimen(R.dimen.divider_height)
+    int dividerHeight;
+    @BindDimen(R.dimen.content_space_16)
+    int itemInset;
+    @BindColor(R.color.divider_color)
+    int dividerColor;
     private List<Pic> mShotList = new ArrayList<>();
     private Goods result;
     private ShotAdapter mShotAdapter;
@@ -175,7 +184,7 @@ public class DetailActivity extends BaseActivity {
 
         setupViewPager();
 
-        setupActionButtons();
+//        setupActionButtons();
         // optional
         if (result != null) {
             handleResult();
@@ -251,6 +260,8 @@ public class DetailActivity extends BaseActivity {
         mCommentsList.setLayoutManager(layoutManager);
 
         mCommentsList.setHasFixedSize(true);
+
+        mCommentsList.addItemDecoration(new InsetDividerDecoration(RelativeLayout.class, dividerHeight, itemInset, itemInset, dividerColor));
 
         mCommentsList.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
 

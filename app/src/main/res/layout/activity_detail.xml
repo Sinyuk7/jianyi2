@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                tools:visibility="gone">
+                tools:visibility="visible">
 
                 <FrameLayout
                     android:id="@+id/background"
@@ -40,13 +40,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
-                        app:ratio="0.75"/>
+                        app:ratio="0.75"
+                        tools:visibility="gone"/>
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/view_pager"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:background="#ccc"/>
+                        tools:background="#ccc"
+                        tools:visibility="gone"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -172,17 +174,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/content_space_16"
                 android:layout_marginRight="@dimen/content_space_16"
-                android:gravity="center"
+                android:gravity="start"
                 android:lineSpacingMultiplier="1.05"
                 android:textColor="@color/text_secondary_dark"
-                android:textSize="@dimen/material_text_body2"
+                android:textSize="15sp"
                 tools:text="@string/fake"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/details_footer_scrim"
-                android:gravity="center_vertical|end"
+                android:gravity="center_vertical|start"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/content_space_8"
                 android:paddingLeft="@dimen/content_space_16"
@@ -193,14 +195,15 @@
                     android:id="@+id/price_extra"
                     style="@style/detail_extras"
                     android:layout_marginBottom="@dimen/content_space_4"
-                    android:drawableRight="@drawable/ic_price_extra"
+                    android:layout_marginTop="@dimen/content_space_4"
+                    android:drawableLeft="@drawable/ic_price_extra"
                     android:textColor="@color/themeRed"
                     tools:text="100,0"/>
 
                 <TextView
                     android:id="@+id/school_extra"
                     style="@style/detail_extras"
-                    android:drawableRight="@drawable/ic_location_extra"
+                    android:drawableLeft="@drawable/ic_location_extra"
                     tools:text="浙江传媒学院"/>
 
 

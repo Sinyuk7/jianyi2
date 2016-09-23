@@ -8,9 +8,10 @@
     android:background="@drawable/need_item_background"
     android:foreground="?selectableItemBackground"
     android:minHeight="?android:listPreferredItemHeight"
+    android:paddingBottom="@dimen/content_space_8"
     android:paddingLeft="@dimen/content_space_16"
     android:paddingRight="@dimen/content_space_16"
-    android:paddingTop="@dimen/content_space_16">
+    android:paddingTop="@dimen/content_space_8">
 
     <ImageView
         android:id="@+id/avatar"
@@ -72,15 +73,6 @@
             android:id="@+id/reply_iv"
             style="@style/comment_list_item_button"
             android:src="@drawable/reply"
-        />
+            />
     </LinearLayout>
-
-    <include
-        layout="@layout/common_list_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/expand_view"
-        android:layout_marginTop="@dimen/content_space_8"/>
-
-
 </RelativeLayout>
