@@ -44,20 +44,20 @@
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/all_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/all"
+                android:drawableRight="@drawable/ic_all"
                 android:text="@string/category_all"
                 tools:checked="true"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/recommended_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/recommend"
+                android:drawableRight="@drawable/ic_recommend"
                 android:text="@string/category_recommended"/>
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/free_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/free"
+                android:drawableRight="@drawable/ic_free"
                 android:text="@string/category_free"/>
 
             <View
@@ -130,7 +130,7 @@
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/food_btn"
                 style="@style/drawer_radio_button"
-                android:drawableRight="@drawable/food"
+                android:drawableRight="@drawable/ic_food"
                 android:text="@string/category_food"/>
         </RadioGroup>
     </android.support.v4.widget.NestedScrollView>

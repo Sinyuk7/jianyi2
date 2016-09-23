@@ -96,7 +96,7 @@ public class GoodsListItemView extends CardView {
 
         mAvatar.setOnClickListener(v -> {
             if (data.getUser() != null) {
-                PlayerActivity.start(getContext(), data.getUser(), data.getSchool());
+                PlayerActivity.start(getContext(), data.getUser());
             }
         });
 

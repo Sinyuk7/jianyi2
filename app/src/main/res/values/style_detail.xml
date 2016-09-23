@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="detail_action_button">
-        <item name="android:minHeight">48dp</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:layout_width">0dp</item>
+
+    <style name="detail_actions_layout">
         <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <!--<item name="android:textAppearance">@style/detail_action_button_text</item>-->
-        <item name="android:drawablePadding">@dimen/content_space_4</item>
-        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="detail_action_button_text">
+    <style name="detail_action_button">
+        <!--<item name="android:minHeight">48dp</item>-->
+        <!--<item name="android:minWidth">48dp</item>-->
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!--<item name="android:textAppearance">@style/detail_action_button_text</item>-->
+        <!--<item name="android:drawablePadding">@dimen/content_space_4</item>-->
+        <!--<item name="android:background">?android:selectableItemBackgroundBorderless</item>-->
+    </style>
+
+    <style name="detail_action_text">
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:textColor">#757575</item>
         <item name="android:fontFeatureSettings">smcp, onum</item>
         <item name="android:letterSpacing">0.02</item>
@@ -31,7 +42,6 @@
         <item quantity="one">%s 看过</item>
         <item quantity="other">%s 看过</item>
     </plurals>
-    <string name="share">分享</string>
     <string name="hint_reply">在这里留言</string>
 
     <style name="comment_list_item_button">
@@ -49,6 +59,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">0dp</item>
     </style>
+
     <style name="detail_extras">
         <item name="android:textStyle">italic</item>
         <item name="android:gravity">center</item>

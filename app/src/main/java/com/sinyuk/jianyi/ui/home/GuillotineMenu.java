@@ -244,7 +244,6 @@ public class GuillotineMenu extends LazyFragment {
 
         Intent starter = new Intent(getContext(), PlayerActivity.class);
         starter.putExtra(PlayerActivity.KEY_PLAYER, mPlayer);
-        starter.putExtra(PlayerActivity.KEY_SCHOOL, school);
         startActivity(starter/*, options.toBundle()*/);
     }
 

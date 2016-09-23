@@ -2,18 +2,15 @@ package com.sinyuk.jianyi.ui.player;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,10 +19,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
+import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.player.Player;
-import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.utils.PrefsKeySet;
 import com.sinyuk.jianyi.utils.TextViewHelper;
@@ -40,6 +37,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import dagger.Lazy;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Sinyuk on 16/9/12.
@@ -70,18 +68,18 @@ public class PlayerActivity extends BaseActivity {
     AppBarLayout mAppBarLayout;
     @BindView(R.id.fab)
     FloatingActionButton mFab;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
     @Inject
     Lazy<RxSharedPreferences> preferenceLazy;
     private List<Fragment> fragmentList = new ArrayList<>();
-    private School mSchool;
     private boolean mIsSelf;
     private Player mPlayer;
 
 
-    public static void start(Context context, Player player, School school) {
+    public static void start(Context context, Player player) {
         Intent starter = new Intent(context, PlayerActivity.class);
         starter.putExtra(KEY_PLAYER, player);
-        starter.putExtra(KEY_SCHOOL, school);
         context.startActivity(starter);
     }
 
@@ -94,14 +92,14 @@ public class PlayerActivity extends BaseActivity {
     protected void beforeInflating() {
         App.get(this).getAppComponent().inject(this);
         mPlayer = getIntent().getParcelableExtra(KEY_PLAYER);
-        mSchool = getIntent().getParcelableExtra(KEY_SCHOOL);
 
         doubleCheckIsSelf();
-
     }
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
+
+        setupAppBar();
 
         setupToolbar();
 
@@ -112,11 +110,42 @@ public class PlayerActivity extends BaseActivity {
         initViewPager();
     }
 
+    private void setupAppBar() {
+        final int minHeight = collapsingToolbarLayout.getMinimumHeight();
+        addSubscription(RxAppBarLayout.offsetChanges(mAppBarLayout)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dy -> {
+                    if (minHeight >= mAppBarLayout.getTotalScrollRange() + dy) {
+                        showFab();
+                    } else if (-dy <= minHeight) {
+                        hideFab();
+                    }
+                }));
+    }
+
+    private void showFab() {
+        if (mFab != null) {
+            mFab.show();
+        }
+    }
+
+    private void hideFab() {
+        if (mFab != null) {
+            mFab.hide();
+        }
+    }
+
     private void initViewPager() {
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return fragmentList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
             }
 
             @Override
@@ -129,18 +158,13 @@ public class PlayerActivity extends BaseActivity {
                 }
                 return null;
             }
-
-            @Override
-            public int getCount() {
-                return 2;
-            }
         });
 
-        Drawable image = ContextCompat.getDrawable(this, R.drawable.ic_food_accent);
-        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
-        SpannableString sb = new SpannableString("哈哈");
-        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
-        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        Drawable image = ContextCompat.getDrawable(this, R.drawable.ic_food_accent);
+//        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+//        SpannableString sb = new SpannableString("哈哈");
+//        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+//        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
     }
 
@@ -155,8 +179,13 @@ public class PlayerActivity extends BaseActivity {
         if (mIsSelf) {
             mActionIv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_write));
             mActionIv.setOnClickListener(getEditorStater());
+            mFab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_write));
+            mFab.setOnClickListener(getEditorStater());
         } else {
             mActionIv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_reply_white));
+            mActionIv.setOnClickListener(getMessagerStater());
+            mFab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_reply_white));
+            mFab.setOnClickListener(getMessagerStater());
         }
     }
 
@@ -192,9 +221,7 @@ public class PlayerActivity extends BaseActivity {
 
         TextViewHelper.setText(mUserNameEt, mPlayer.getName(), mPlayer.getId() + "");
 
-        if (null != mSchool) {
-            TextViewHelper.setText(mLocationTv, mSchool.getName(), null);
-        }
+        TextViewHelper.setText(mLocationTv, mPlayer.getSchoolName(), null);
 
         Glide.with(this).load(mPlayer.getAvatar())
                 .priority(Priority.IMMEDIATE)

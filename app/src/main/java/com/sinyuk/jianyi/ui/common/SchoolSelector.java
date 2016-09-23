@@ -35,6 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import dagger.Lazy;
 import rx.Observer;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Sinyuk on 16/9/11.
@@ -57,6 +58,7 @@ public class SchoolSelector extends BottomSheetDialogFragment {
     List<School> schoolList = new ArrayList<>();
     @Inject
     Lazy<ToastUtils> toastUtilsLazy;
+    CompositeSubscription compositeSubscription = new CompositeSubscription();
     private Unbinder unbinder;
     private SchoolsAdapter mAdapter;
 
@@ -89,25 +91,27 @@ public class SchoolSelector extends BottomSheetDialogFragment {
     }
 
     private void fetchData() {
-        schoolManager.get().getSchools().subscribe(new Observer<List<School>>() {
-            @Override
-            public void onCompleted() {
-                configCurrentSchool();
-                mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_error : R.id.layout_list);
-            }
+        compositeSubscription.add(
+                schoolManager.get()
+                        .getSchools().subscribe(new Observer<List<School>>() {
+                    @Override
+                    public void onCompleted() {
+                        configCurrentSchool();
+                        mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_error : R.id.layout_list);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                handleError(e);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        handleError(e);
+                    }
 
-            @Override
-            public void onNext(List<School> schools) {
-                schoolList.clear();
-                schoolList.addAll(schools);
-                mAdapter.notifyItemRangeChanged(0, schools.size());
-            }
-        });
+                    @Override
+                    public void onNext(List<School> schools) {
+                        schoolList.clear();
+                        schoolList.addAll(schools);
+                        mAdapter.notifyItemRangeChanged(0, schools.size());
+                    }
+                }));
     }
 
     private void configCurrentSchool() {

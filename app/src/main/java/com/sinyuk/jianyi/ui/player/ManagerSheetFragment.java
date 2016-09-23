@@ -214,12 +214,12 @@ public class ManagerSheetFragment extends BaseFragment {
             if (mDataSet.get(position) == null) return;
             final Goods data = mDataSet.get(position);
 
-            if (data.getDel() == 1) {
-                holder.itemView.setVisibility(View.INVISIBLE);
-                return;
-            } else {
-                holder.itemView.setVisibility(View.VISIBLE);
-            }
+//            if (data.getDel() == 1) {
+//                holder.itemView.setVisibility(View.GONE);
+//                return;
+//            } else {
+//                holder.itemView.setVisibility(View.VISIBLE);
+//            }
 
             if (TextUtils.isEmpty(data.getPrice())) {
                 holder.mPriceLabelView.setVisibility(View.INVISIBLE);
@@ -241,8 +241,8 @@ public class ManagerSheetFragment extends BaseFragment {
                 mDataSet.get(index).setDel(1);
                 explosionField.explode(holder.itemView);
                 v.postDelayed(() -> {
-//                    holder.itemView.setVisibility(View.INVISIBLE);
-                    remove(index);
+                    holder.itemView.setVisibility(View.INVISIBLE);
+//                    remove(index);
                 }, 350);
 //                    explosionField.clear();
             });
@@ -269,7 +269,7 @@ public class ManagerSheetFragment extends BaseFragment {
         public void remove(int position) {
             if (mDataSet.get(position) == null) return;
             mDataSet.remove(position);
-            notifyItemRemoved(position);
+            notifyDataSetChanged();
         }
 
         public void appendAll(List<Goods> items) {

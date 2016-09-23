@@ -24,6 +24,7 @@
         app:elevation="0dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="@android:color/transparent"
@@ -87,18 +88,18 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <Button
+                    <TextView
                         android:id="@+id/post_tab"
                         style="@style/player_tab_text"
                         android:drawableTop="@drawable/ic_goods"
-                        android:text="发布 123"/>
+                        android:text="@string/player_post_count"/>
 
 
-                    <Button
+                    <TextView
                         android:id="@+id/like_tab"
                         style="@style/player_tab_text"
                         android:drawableTop="@drawable/ic_goods_favor"
-                        android:text="收藏 0"/>
+                        android:text="@string/player_like_count"/>
                 </LinearLayout>
             </RelativeLayout>
 
@@ -114,6 +115,7 @@
                     android:id="@+id/back_iv"
                     style="@style/toolbar_button"
                     android:layout_gravity="start"
+                    android:onClick="onBack"
                     android:src="@drawable/ic_back"/>
 
                 <ImageView
@@ -129,5 +131,7 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         style="@style/FAB.Large"
-        android:layout_gravity="bottom|end"/>
+        android:layout_gravity="bottom|end"
+        android:visibility="gone"
+        app:layout_behavior="com.sinyuk.jianyi.utils.ScrollAwareFABBehavior"/>
 </android.support.design.widget.CoordinatorLayout>

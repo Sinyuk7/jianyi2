@@ -7,6 +7,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -15,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,61 +79,64 @@ import rx.schedulers.Schedulers;
 public class DetailActivity extends BaseActivity {
     private static final String KEY_GOODS = "GOODS";
     private static final int PRELOAD_THRESHOLD = 2;
-    @BindView(R.id.avatar)
-    ImageView mAvatar;
-    @BindView(R.id.title)
-    BaselineGridTextView mTitle;
-    @BindView(R.id.user_name_tv)
-    BaselineGridTextView mUserNameTv;
-    @BindView(R.id.pub_date_tv)
-    BaselineGridTextView mPubDataTv;
-    @BindView(R.id.price_extra)
-    TextView mPriceTv;
-    @BindView(R.id.school_extra)
-    TextView mSchoolTv;
 
-    @BindView(R.id.back_btn)
-    ImageView mBackBtn;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout mAppBarLayout;
-    @BindView(R.id.description_tv)
-    TextView mDescriptionTv;
-    @BindView(R.id.comments_list)
-    RecyclerView mCommentsList;
-    @BindView(R.id.view_pager)
-    ViewPager mViewPager;
-
-    @BindView(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-
-    @BindView(R.id.like_btn)
-    TextView likeBtn;
-
-    @BindView(R.id.view_count_btn)
-    TextView viewCountBtn;
-
-    @BindView(R.id.share_btn)
-    TextView shareBtn;
 
     @Inject
     AccountManger accountManger;
     @Inject
     RxSharedPreferences preferences;
 
-    @BindView(R.id.background)
-    FrameLayout mBackground;
-    @BindView(R.id.toolbar_title_tv)
-    TextView mToolbarTitleTv;
-    @BindView(R.id.search_btn)
-    ImageView mSearchBtn;
+
     @BindDimen(R.dimen.divider_height)
     int dividerHeight;
     @BindDimen(R.dimen.content_space_16)
     int itemInset;
     @BindColor(android.R.color.white)
     int dividerColor;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.background)
+    FrameLayout background;
+    @BindView(R.id.avatar)
+    ImageView avatar;
+    @BindView(R.id.title)
+    BaselineGridTextView title;
+    @BindView(R.id.user_name_tv)
+    BaselineGridTextView userNameTv;
+    @BindView(R.id.pub_date_tv)
+    BaselineGridTextView pubDateTv;
+    @BindView(R.id.header)
+    LinearLayout header;
+    @BindView(R.id.back_btn)
+    ImageView backBtn;
+    @BindView(R.id.toolbar_title_tv)
+    TextView toolbarTitleTv;
+    @BindView(R.id.search_btn)
+    ImageView searchBtn;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+    @BindView(R.id.like_iv)
+    ImageView likeIv;
+    @BindView(R.id.like_count)
+    TextView likeCountTv;
+    @BindView(R.id.view_count_iv)
+    ImageView viewCountIv;
+    @BindView(R.id.view_count)
+    TextView viewCountTv;
+    @BindView(R.id.share_iv)
+    ImageView shareIv;
+    @BindView(R.id.description_tv)
+    TextView descriptionTv;
+    @BindView(R.id.school_extra)
+    TextView schoolExtra;
+    @BindView(R.id.price_extra)
+    TextView priceExtra;
+    @BindView(R.id.comments_list)
+    RecyclerView commentsList;
     private List<Pic> mShotList = new ArrayList<>();
     private Goods result;
     private ShotAdapter mShotAdapter;
@@ -165,57 +168,28 @@ public class DetailActivity extends BaseActivity {
         context.startActivity(starter);
     }
 
-    @Override
-    protected int getContentViewID() {
-        return R.layout.activity_detail;
-    }
-
-    @Override
-    protected void beforeInflating() {
-        App.get(this).getAppComponent().plus(new OauthModule()).inject(this);
-        result = getIntent().getParcelableExtra(KEY_GOODS);
-    }
-
-    @Override
-    protected void finishInflating(Bundle savedInstanceState) {
-
-        setupAppBarLayout();
-
-        setupViewPager();
-
-        // optional
-        if (result != null) {
-            handleResult();
-        }
-
-        initCommentList();
-
-        addCommentFooter();
-    }
-
     private void setupAppBarLayout() {
         int minHeight = collapsingToolbarLayout.getMinimumHeight();
-        addSubscription(RxAppBarLayout.offsetChanges(mAppBarLayout)
+        addSubscription(RxAppBarLayout.offsetChanges(appBarLayout)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .map(dy -> Math.abs(dy / (mAppBarLayout.getTotalScrollRange() * 1.f - minHeight)))
+                .map(dy -> Math.abs(dy / (appBarLayout.getTotalScrollRange() * 1.f - minHeight)))
                 .map(fraction -> MathUtils.constrain(0, 1, fraction))
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(fraction -> {
-                    Log.d(TAG, "setupAppBarLayout: " + fraction);
                     if (fraction < 0.8) {
-                        mToolbar.setAlpha(0);
+                        toolbar.setAlpha(0);
                     } else {
-                        mToolbar.setAlpha(fraction);
+                        toolbar.setAlpha(fraction);
                     }
-                    mSearchBtn.setClickable(fraction == 1);
-                    mBackBtn.setClickable(fraction == 1);
+                    searchBtn.setClickable(fraction == 1);
+                    backBtn.setClickable(fraction == 1);
                 }));
     }
 
     private void addCommentFooter() {
         if (null == commentFooter) {
-            commentFooter = LayoutInflater.from(this).inflate(R.layout.comment_list_footer, mCommentsList, false);
+            commentFooter = LayoutInflater.from(this).inflate(R.layout.comment_list_footer, commentsList, false);
             MyCircleImageView commentAvatar = (MyCircleImageView) commentFooter.findViewById(R.id.avatar);
             enterComment = (EditText) commentFooter.findViewById(R.id.comment);
             postComment = (ImageView) commentFooter.findViewById(R.id.post_btn);
@@ -237,6 +211,7 @@ public class DetailActivity extends BaseActivity {
                 Glide.with(DetailActivity.this).load(player.getAvatar()).bitmapTransform(new CropCircleTransformation(DetailActivity.this)).error(placeholder).into(commentAvatar);
             }));
         }
+
     }
 
     private void disableInputButton(Boolean noInput) {
@@ -250,15 +225,15 @@ public class DetailActivity extends BaseActivity {
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-        mCommentsList.setLayoutManager(layoutManager);
+        commentsList.setLayoutManager(layoutManager);
 
-        mCommentsList.setHasFixedSize(true);
+        commentsList.setHasFixedSize(true);
 
-        mCommentsList.addItemDecoration(new InsetDividerDecoration(CommentAdapter.CommentViewHolder.class, dividerHeight, itemInset, itemInset, dividerColor));
+        commentsList.addItemDecoration(new InsetDividerDecoration(CommentAdapter.CommentViewHolder.class, dividerHeight, itemInset, itemInset, dividerColor));
 
-        mCommentsList.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
+        commentsList.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
 
-        mCommentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        commentsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 //                if (postComment != null) {
@@ -282,7 +257,7 @@ public class DetailActivity extends BaseActivity {
 
         mCommentAdapter.setHasStableIds(true);
 
-        mCommentsList.setAdapter(mCommentAdapter);
+        commentsList.setAdapter(mCommentAdapter);
 
         List<Comment> comments = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
@@ -300,59 +275,49 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void setupActionButtons() {
-        likeAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_likes);
-        viewsAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_views);
-        shareAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_share);
-
-        if (viewsAvd != null) {
-            viewsAvd.setBounds(0, 0, viewsAvd.getMinimumWidth(), viewsAvd.getMinimumHeight());
-            viewCountBtn.setCompoundDrawables(null, viewsAvd, null, null);
-        }
-
-        if (likeAvd != null) {
-            likeAvd.setBounds(0, 0, likeAvd.getMinimumWidth(), likeAvd.getMinimumHeight());
-            likeBtn.setCompoundDrawables(null, likeAvd, null, null);
-        }
-        if (shareAvd != null) {
-            shareAvd.setBounds(0, 0, shareAvd.getMinimumWidth(), shareAvd.getMinimumHeight());
-            shareBtn.setCompoundDrawables(null, shareAvd, null, null);
+        try {
+            viewCountIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_likes, null));
+            likeIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_likes, null));
+            shareIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_likes, null));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     private void setupViewPager() {
         mShotAdapter = new ShotAdapter();
-        mViewPager.setAdapter(mShotAdapter);
+        viewPager.setAdapter(mShotAdapter);
     }
 
     private void handleResult() {
         // 标题
-        TextViewHelper.setText(mTitle, result.getName(), null);
+        TextViewHelper.setText(title, result.getName(), null);
 
-        TextViewHelper.setText(mToolbarTitleTv, result.getName(), null);
+        TextViewHelper.setText(toolbarTitleTv, result.getName(), null);
         //
-        TextViewHelper.setText(mDescriptionTv, result.getDetail(), null);
+        TextViewHelper.setText(descriptionTv, result.getDetail(), null);
 
         NumberFormat nf = NumberFormat.getInstance();
         final int viewCount = result.getViewCount();
-        viewCountBtn.setText(getResources().getQuantityString(R.plurals.views, viewCount, nf.format(viewCount)));
+        viewCountTv.setText(getResources().getQuantityString(R.plurals.views, viewCount, nf.format(viewCount)));
 
         // fake
         final int likeCount = viewCount / 8;
-        likeBtn.setText(getResources().getQuantityString(R.plurals.likes, likeCount, nf.format(likeCount)));
+        likeCountTv.setText(getResources().getQuantityString(R.plurals.likes, likeCount, nf.format(likeCount)));
 
         try {
-            TextViewHelper.setText(mPubDataTv, FuzzyDateFormater.getParsedDate(this, result.getTime()), "爱在西元前");
+            TextViewHelper.setText(pubDateTv, FuzzyDateFormater.getParsedDate(this, result.getTime()), "爱在西元前");
         } catch (Exception e) {
-            mPubDataTv.setText("爱在西元前");
+            pubDateTv.setText("爱在西元前");
         }
 
-        TextViewHelper.setText(mPriceTv, String.format("¥%s&#160", result.getPrice()), "9999");
+        TextViewHelper.setText(priceExtra, String.format("¥%s", " " + result.getPrice()), " 9999");
 
 
         if (result.getSchool() != null) {
-            TextViewHelper.setText(mSchoolTv, String.format("@%s&#160", result.getSchool().getName()), null);
+            TextViewHelper.setText(schoolExtra, String.format("@%s", " " + result.getSchool().getName()), null);
         } else {
-            mSchoolTv.setVisibility(View.GONE);
+            schoolExtra.setVisibility(View.GONE);
         }
 
         if (result.getUser() != null) {
@@ -363,36 +328,14 @@ public class DetailActivity extends BaseActivity {
                     .placeholder(android.R.color.white)
                     .error(placeHolder)
                     .bitmapTransform(new CropCircleTransformation(this))
-                    .into(mAvatar);
+                    .into(avatar);
 
 
-            TextViewHelper.setText(mUserNameTv, result.getUser().getName(), null);
+            TextViewHelper.setText(userNameTv, result.getUser().getName(), null);
         }
 
         loadShots();
     }
-
-//    @OnClick({R.id.like_btn, R.id.view_count_btn, R.id.share_btn})
-//    public void onActionButtonClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.like_btn:
-//                if (likeAvd != null) {
-//                    likeAvd.start();
-//                }
-//                break;
-//            case R.id.view_count_btn:
-//                if (viewsAvd != null) {
-//                    viewsAvd.start();
-//                }
-//                break;
-//            case R.id.share_btn:
-//                if (shareAvd != null) {
-//                    shareAvd.start();
-//                }
-//                v.postDelayed(this::shareTo, 500);
-//                break;
-//        }
-//    }
 
     private void shareTo() {
         if (result == null) return;
@@ -416,17 +359,66 @@ public class DetailActivity extends BaseActivity {
     @OnClick(R.id.avatar)
     public void gotoPlayerActivity(View v) {
         if (result.getUser() != null) {
-            Pair<View, String> p1 = Pair.create(mAvatar, getString(R.string.transition_avatar));
-            Pair<View, String> p2 = Pair.create(mBackground, getString(R.string.transition_reveal_view));
+            Pair<View, String> p1 = Pair.create(avatar, getString(R.string.transition_avatar));
+            Pair<View, String> p2 = Pair.create(background, getString(R.string.transition_reveal_view));
 
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
             Intent starter = new Intent(this, PlayerActivity.class);
             starter.putExtra(PlayerActivity.KEY_PLAYER, result.getUser());
-            starter.putExtra(PlayerActivity.KEY_SCHOOL, result.getSchool());
             startActivity(starter/*, options.toBundle()*/);
         }
     }
 
+    @OnClick({R.id.like_iv, R.id.view_count_iv, R.id.share_iv})
+    public void onActionButtonClick(ImageView v) {
+        animatedVectorDrawable(v);
+        switch (v.getId()) {
+            case R.id.like_iv:
+                break;
+            case R.id.view_count_iv:
+                break;
+            case R.id.share_iv:
+                v.postDelayed(this::shareTo, 500);
+                break;
+        }
+    }
+
+    private void animatedVectorDrawable(ImageView v) {
+        if (v.getDrawable() instanceof AnimatedVectorDrawableCompat) {
+            ((AnimatedVectorDrawableCompat) v.getDrawable()).start();
+        }
+    }
+
+
+    @Override
+    protected int getContentViewID() {
+        return R.layout.activity_detail;
+    }
+
+    @Override
+    protected void beforeInflating() {
+        App.get(this).getAppComponent().plus(new OauthModule()).inject(this);
+        result = getIntent().getParcelableExtra(KEY_GOODS);
+    }
+
+    @Override
+    protected void finishInflating(Bundle savedInstanceState) {
+
+        setupAppBarLayout();
+
+        setupViewPager();
+
+        setupActionButtons();
+
+        // optional
+        if (result != null) {
+            handleResult();
+        }
+
+        initCommentList();
+
+        addCommentFooter();
+    }
 
     private class ShotAdapter extends PagerAdapter {
 
@@ -580,7 +572,7 @@ public class DetailActivity extends BaseActivity {
                     notifyItemChanged(position);
                     holder.mReplyIv.jumpDrawablesToCurrentState();
                     enterComment.requestFocus();
-                    mCommentsList.smoothScrollToPosition(getDataItemCount());
+                    commentsList.smoothScrollToPosition(getDataItemCount());
                 }
             });
         }

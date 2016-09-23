@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animated-vector
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/ic_heart_full_24dp_grey">
+    android:drawable="@drawable/ic_like_full_24dp_grey">
 
     <target
         android:name="heart"

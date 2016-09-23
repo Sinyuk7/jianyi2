@@ -26,6 +26,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:includeFontPadding="false"
             android:lineSpacingExtra="1sp"
             android:textColor="@color/text_primary_dark"
@@ -43,8 +44,8 @@
                 android:id="@+id/user_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_secondary_dark"
-                android:textSize="@dimen/material_text_caption2"
+                android:textColor="@color/text_primary_dark"
+                android:textSize="12sp"
                 tools:text="波哥"/>
 
             <com.sinyuk.jianyi.widgets.BaselineGridTextView
@@ -52,9 +53,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/content_space_4"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/material_text_caption1"
+                android:textColor="@color/colorAccentDark"
+                android:textSize="11sp"
+                android:textStyle="italic"
                 tools:text="几天前"/>
+
         </LinearLayout>
 
     </LinearLayout>
