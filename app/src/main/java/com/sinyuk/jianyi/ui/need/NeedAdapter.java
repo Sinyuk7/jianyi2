@@ -107,7 +107,7 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
 
             });
         }
-        
+
         try {
             TextViewHelper.setText(holder.mPubDateTv, FuzzyDateFormater.getParsedDate(context, data.getTime()), "一千年以前");
         } catch (Exception e) {

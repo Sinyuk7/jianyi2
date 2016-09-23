@@ -17,6 +17,7 @@ import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.GoodsRepository;
 import com.sinyuk.jianyi.ui.BaseFragment;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
+import com.sinyuk.jianyi.ui.events.HomeAppBarOffsetEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.phoenix.PullToRefreshView;
@@ -117,6 +118,12 @@ public class GoodsListFragment extends BaseFragment {
         initData();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void setupRefreshLayout() {
         pullToRefreshView.setOnRefreshListener(this::refreshResult);
     }
@@ -148,12 +155,6 @@ public class GoodsListFragment extends BaseFragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     private void loadGoods() {
@@ -197,6 +198,13 @@ public class GoodsListFragment extends BaseFragment {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAppBarOffset(HomeAppBarOffsetEvent event) {
+        if (pullToRefreshView != null) {
+            pullToRefreshView.setEnabled(event.isTop());
+        }
+    }
+
     private void refreshResult() {
         addSubscription(goodsRepository.filter(title, school, FIRST_PAGE)
                 .doAfterTerminate(this::hideRefreshView)
@@ -208,7 +216,9 @@ public class GoodsListFragment extends BaseFragment {
      * 临时这么搞搞 有待优化
      */
     private void hideRefreshView() {
-        pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false),2000);
+        if (pullToRefreshView != null) {
+            pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false), 2000);
+        }
     }
 
     /**

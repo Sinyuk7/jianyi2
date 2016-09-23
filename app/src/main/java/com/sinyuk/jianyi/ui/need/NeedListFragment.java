@@ -13,8 +13,13 @@ import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.need.Need;
 import com.sinyuk.jianyi.data.need.NeedRepository;
 import com.sinyuk.jianyi.ui.LazyFragment;
+import com.sinyuk.jianyi.ui.events.HomeAppBarOffsetEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
 import com.sinyuk.jianyi.widgets.phoenix.PullToRefreshView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -93,7 +98,7 @@ public class NeedListFragment extends LazyFragment {
 
     @Override
     protected void beforeInflate() {
-
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -111,6 +116,12 @@ public class NeedListFragment extends LazyFragment {
     @Override
     public void fetchData() {
         refreshNeeds();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void setupRefreshLayout() {
@@ -151,6 +162,13 @@ public class NeedListFragment extends LazyFragment {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAppBarOffset(HomeAppBarOffsetEvent event) {
+        if (pullToRefreshView != null) {
+            pullToRefreshView.setEnabled(event.isTop());
+        }
+    }
+
     private void loadNeeds(int page) {
         addSubscription(needRepositoryLazy.get().getAll(page).doOnSubscribe(this::showProgress).subscribe(loadObserver));
     }
@@ -172,7 +190,9 @@ public class NeedListFragment extends LazyFragment {
      * 临时这么搞搞 有待优化
      */
     private void hideRefreshView() {
-        pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false), 2000);
+        if (pullToRefreshView != null) {
+            pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false), 2000);
+        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.sinyuk.jianyi.ui.home;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.api.AccountManger;
@@ -22,6 +24,7 @@ import com.sinyuk.jianyi.api.oauth.OauthModule;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
+import com.sinyuk.jianyi.ui.events.HomeAppBarOffsetEvent;
 import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
@@ -60,6 +63,9 @@ public class HomeActivity extends BaseActivity {
     ViewPager mViewPager;
     @BindView(R.id.indicator)
     ToolbarIndicator mIndicator;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBarLayout;
+
     @Inject
     Lazy<GoodsListFragment> goodListFragmentLazy;
     @Inject
@@ -82,6 +88,8 @@ public class HomeActivity extends BaseActivity {
     private boolean isGuillotineOpened;
     private Handler myHandler = new Handler();
 
+    private Boolean isAppBarAtTop;
+
     @Override
     protected int getContentViewID() {
         return R.layout.activity_home;
@@ -94,6 +102,8 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
+
+        setupAppBar();
 
         setupToolbar();
 
@@ -109,6 +119,17 @@ public class HomeActivity extends BaseActivity {
     protected void onDestroy() {
         myHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
+    }
+
+    private void setupAppBar() {
+        addSubscription(RxAppBarLayout.offsetChanges(appBarLayout)
+                .map(offset -> offset <= 0)
+                .subscribe(isTop -> {
+                    if (isTop != isAppBarAtTop) {
+                        EventBus.getDefault().post(new HomeAppBarOffsetEvent(isTop));
+                        isAppBarAtTop = isTop;
+                    }
+                }));
     }
 
     private void setupDrawerLayout() {

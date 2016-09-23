@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:background="@drawable/need_item_background"
     android:foreground="?selectableItemBackground"
@@ -38,8 +39,9 @@
         android:layout_marginLeft="@dimen/content_space_8"
         android:layout_toLeftOf="@+id/price_tv"
         android:layout_toRightOf="@+id/username_tv"
-        android:textColor="@color/colorPrimaryLt"
+        android:textColor="@color/colorAccentDark"
         android:textSize="@dimen/material_text_caption1"
+        android:textStyle="italic"
         tools:text="1天前"/>
 
     <TextView
@@ -50,7 +52,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/content_space_16"
         android:gravity="center_vertical"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccentDark"
         android:textSize="@dimen/material_text_body1"
         android:textStyle="bold"
         tools:text="100"/>
@@ -92,6 +94,7 @@
         android:gravity="end"
         android:orientation="horizontal"
         android:visibility="gone">
+
         <ImageView
             android:id="@+id/tel_iv"
             style="@style/need_list_item_button"
@@ -101,7 +104,7 @@
             android:id="@+id/chat_iv"
             style="@style/need_list_item_button"
             android:src="@drawable/reply"
-        />
+            />
     </LinearLayout>
 
     <include

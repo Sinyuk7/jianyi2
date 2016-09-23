@@ -1,21 +1,16 @@
 package com.sinyuk.jianyi.ui.goods;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.goods.Goods;
-import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.ui.detail.DetailActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.FormatUtils;
@@ -33,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Sinyuk on 16/9/10.
  */
-public class GoodsListItemView extends LinearLayout {
+public class GoodsListItemView extends CardView {
     @BindView(R.id.shot_iv)
     RatioImageView mShotIv;
     @BindView(R.id.price_label_view)
@@ -99,6 +94,11 @@ public class GoodsListItemView extends LinearLayout {
 
         shotBuilder.load(data.getCoverUrl()).into(mShotIv);
 
+        mAvatar.setOnClickListener(v -> {
+            if (data.getUser() != null) {
+                PlayerActivity.start(getContext(), data.getUser(), data.getSchool());
+            }
+        });
 
         mShotIv.setOnClickListener(v -> DetailActivity.start(getContext(), data));
     }
