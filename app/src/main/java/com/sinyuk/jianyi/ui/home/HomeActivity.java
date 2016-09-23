@@ -75,7 +75,7 @@ public class HomeActivity extends BaseActivity {
     FloatingActionButton fab;
     // 延迟加载列表
     private final Runnable mLoadingGoodsRunnable = () -> {
-        EventBus.getDefault().post(new FilterUpdateEvent("all", 0));
+        EventBus.getDefault().post(new FilterUpdateEvent("all", accountMangerLazy.get().getSchoolReduceOne(), null));
         showFab();
     };
     private GuillotineAnimation guillotineAnimation;

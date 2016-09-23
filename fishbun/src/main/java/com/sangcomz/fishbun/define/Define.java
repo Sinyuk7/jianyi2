@@ -17,9 +17,9 @@ public class Define {
 
 
     //    public static int ACTIONBAR_COLOR = "#3F51B5";
-    public static int ACTIONBAR_COLOR = Color.parseColor("#3F51B5");
+    public static int ACTIONBAR_COLOR = Color.parseColor("#01D8A9");
     //    public static int STATUS_BAR_COLOR = "#303F9F";
-    public static int STATUS_BAR_COLOR = Color.parseColor("#303F9F");
+    public static int STATUS_BAR_COLOR = Color.parseColor("#019B79");
 
     public static boolean IS_CAMERA = false;
 

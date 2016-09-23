@@ -20,6 +20,7 @@ import com.sinyuk.jianyi.data.school.School;
 import com.sinyuk.jianyi.data.school.SchoolManager;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
+import com.sinyuk.jianyi.utils.ToastUtils;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,6 +55,8 @@ public class SchoolSelector extends BottomSheetDialogFragment {
     Lazy<SchoolManager> schoolManager;
 
     List<School> schoolList = new ArrayList<>();
+    @Inject
+    Lazy<ToastUtils> toastUtilsLazy;
     private Unbinder unbinder;
     private SchoolsAdapter mAdapter;
 
@@ -79,6 +82,12 @@ public class SchoolSelector extends BottomSheetDialogFragment {
         fetchData();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
     private void fetchData() {
         schoolManager.get().getSchools().subscribe(new Observer<List<School>>() {
             @Override
@@ -102,11 +111,11 @@ public class SchoolSelector extends BottomSheetDialogFragment {
     }
 
     private void configCurrentSchool() {
-        mAdapter.setSelected(schoolManager.get().getCurrentLocation());
+        mAdapter.setSelected(schoolManager.get().getCurrentSchoolReduceOne());
     }
 
     private void handleError(Throwable e) {
-
+        toastUtilsLazy.get().toastShort(e.getLocalizedMessage());
     }
 
     private void initRecyclerView() {
@@ -135,12 +144,6 @@ public class SchoolSelector extends BottomSheetDialogFragment {
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
     public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.SchoolItemViewHolder> {
         int mSelected = RecyclerView.NO_POSITION;
 
@@ -149,13 +152,12 @@ public class SchoolSelector extends BottomSheetDialogFragment {
             return new SchoolItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.school_list_item, parent, false));
         }
 
-        public void setSelected(int selected) {
-            if (getItemCount() > selected && selected > -1) {
-                int oldPos = mSelected;
-                this.mSelected = selected;
-                notifyItemChanged(oldPos);
-                notifyItemChanged(mSelected);
+        @Override
+        public void onBindViewHolder(SchoolsAdapter.SchoolItemViewHolder holder, int position) {
+            if (!TextUtils.isEmpty(schoolList.get(position).getName())) {
+                holder.radioButton.setText(schoolList.get(position).getName());
             }
+            holder.radioButton.setChecked(position == mSelected);
         }
 
         @Override
@@ -168,16 +170,17 @@ public class SchoolSelector extends BottomSheetDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(SchoolsAdapter.SchoolItemViewHolder holder, int position) {
-            if (!TextUtils.isEmpty(schoolList.get(position).getName())) {
-                holder.radioButton.setText(schoolList.get(position).getName());
-            }
-            holder.radioButton.setChecked(position == mSelected);
-        }
-
-        @Override
         public int getItemCount() {
             return schoolList == null ? 0 : schoolList.size();
+        }
+
+        public void setSelected(int selected) {
+            if (getItemCount() > selected && selected > -1) {
+                int oldPos = mSelected;
+                this.mSelected = selected;
+                notifyItemChanged(oldPos);
+                notifyItemChanged(mSelected);
+            }
         }
 
         public class SchoolItemViewHolder extends RecyclerView.ViewHolder {
@@ -192,8 +195,7 @@ public class SchoolSelector extends BottomSheetDialogFragment {
                     mSelected = getAdapterPosition();
                     notifyItemChanged(temp);
                     notifyItemChanged(mSelected);
-                    EventBus.getDefault().post(new FilterUpdateEvent(null, mSelected));
-                    schoolManager.get().updateCurrentLocation(mSelected);
+                    EventBus.getDefault().post(new FilterUpdateEvent(null, mSelected, radioButton.getText().toString()));
                     dismiss();
                 });
             }

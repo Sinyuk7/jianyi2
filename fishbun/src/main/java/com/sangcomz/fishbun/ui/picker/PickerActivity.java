@@ -5,13 +5,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -205,12 +203,12 @@ public class PickerActivity extends AppCompatActivity {
     private void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(Define.ACTIONBAR_COLOR);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            uiUtil.setStatusBarColor(this);
-        }
-        ActionBar bar = getSupportActionBar();
-        if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
+//        toolbar.setBackgroundColor(Define.ACTIONBAR_COLOR);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            uiUtil.setStatusBarColor(this);
+//        }
+//        ActionBar bar = getSupportActionBar();
+//        if (bar != null) bar.setDisplayHomeAsUpEnabled(true);
     }
 
 

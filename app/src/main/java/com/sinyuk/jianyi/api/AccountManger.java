@@ -110,7 +110,7 @@ public class AccountManger {
         sex.set(player.getSex());
         school.set(player.getSchool());
         currentSchool.set(player.getCurrentSchool());
-        schoolName.set(/*player.getSchoolName()*/"这里我要说一句大傻逼吴结巴");
+        schoolName.set(player.getSchoolName());
         password.set(psw);
     }
 
@@ -287,5 +287,13 @@ public class AccountManger {
         if (tel.isSet())
             return tel.get();
         return "";
+    }
+
+
+    public int getSchoolReduceOne() {
+        if (school.isSet()) {
+            return Math.max(0, school.get() - 1);
+        }
+        return 0;
     }
 }

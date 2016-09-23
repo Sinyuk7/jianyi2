@@ -6,6 +6,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.ui.BaseFragment;
@@ -13,7 +14,10 @@ import com.sinyuk.jianyi.ui.common.SchoolSelector;
 import com.sinyuk.jianyi.ui.events.FilterUpdateEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -21,12 +25,15 @@ import butterknife.OnClick;
  */
 public class DrawerMenu extends BaseFragment {
 
+    @BindView(R.id.school_tv)
+    TextView schoolTv;
     private DrawerLayout drawerLayout;
     private String mTitle;
     private boolean isClickSchool = false;
 
     @Override
     protected void beforeInflate() {
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -42,6 +49,7 @@ public class DrawerMenu extends BaseFragment {
     @Override
     public void onDestroy() {
         drawerLayout = null;
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -68,7 +76,7 @@ public class DrawerMenu extends BaseFragment {
                     schoolSelector.show(getChildFragmentManager(), SchoolSelector.TAG);
                     isClickSchool = false;
                 } else if (!TextUtils.isEmpty(mTitle)) {
-                    EventBus.getDefault().post(new FilterUpdateEvent(mTitle));
+                    EventBus.getDefault().post(new FilterUpdateEvent(mTitle,null));
                 }
             }
 
@@ -81,7 +89,7 @@ public class DrawerMenu extends BaseFragment {
 
     @OnClick(
             {
-                    R.id.switch_school_btn,
+                    R.id.school_tv,
                     R.id.all_btn,
                     R.id.recommended_btn,
                     R.id.free_btn,
@@ -99,14 +107,14 @@ public class DrawerMenu extends BaseFragment {
             })
     public void onMenuItemClick(View button) {
         switch (button.getId()) {
-            case R.id.switch_school_btn:
+            case R.id.school_tv:
                 isClickSchool = true;
                 break;
             case R.id.all_btn:
                 mTitle = "all";
                 break;
             case R.id.recommended_btn:
-                //
+                mTitle = "hot";
                 break;
             case R.id.free_btn:
                 mTitle = "free";
@@ -151,5 +159,12 @@ public class DrawerMenu extends BaseFragment {
         }
 
         drawerLayout.closeDrawer(GravityCompat.END);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCategoryChange(FilterUpdateEvent event) {
+        if (!TextUtils.isEmpty(event.getSchoolName())) {
+            schoolTv.setText(event.getSchoolName());
+        }
     }
 }

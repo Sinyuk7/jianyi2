@@ -1,5 +1,6 @@
 package com.sinyuk.jianyi.data.school;
 
+import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.api.HttpResult;
 import com.sinyuk.jianyi.api.HttpResultFunc;
@@ -52,23 +53,12 @@ public class SchoolManager {
         }
     }
 
-    public Observable<String> getSchoolNameByIndex(int index) {
-        return getSchools()
-                .map(schools -> schools.get(index - 1))
-                .map(School::getName)
-                .doOnError(Throwable::printStackTrace)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
 
-    public int getCurrentLocation() {
-        if (preferences.getInteger(PrefsKeySet.KEY_CURRENT_SCHOOL).isSet()) {
-            return preferences.getInteger(PrefsKeySet.KEY_CURRENT_SCHOOL).get();
+    public int getCurrentSchoolReduceOne() {
+        Preference<Integer> currentSchool = preferences.getInteger(PrefsKeySet.KEY_CURRENT_SCHOOL);
+        if (currentSchool.isSet()) {
+            return Math.max(0, currentSchool.get() - 1);
         }
         return 0;
-    }
-
-    public void updateCurrentLocation(int index) {
-        preferences.getInteger(PrefsKeySet.KEY_CURRENT_SCHOOL).set(index);
     }
 }

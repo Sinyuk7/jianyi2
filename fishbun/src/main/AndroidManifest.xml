@@ -6,10 +6,10 @@
         <activity
             android:name="com.sangcomz.fishbun.ui.album.AlbumActivity"
             android:label="@string/album"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme" />
         <activity
             android:name="com.sangcomz.fishbun.ui.picker.PickerActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

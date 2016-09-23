@@ -6,6 +6,5 @@
         <item name="android:layout_width">24dp</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:layout_margin">8dp</item>
-        <item name="android:background">?selectableItemBackgroundBorderless</item>
     </style>
 </resources>

@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -133,7 +132,7 @@ public class DetailActivity extends BaseActivity {
     int dividerHeight;
     @BindDimen(R.dimen.content_space_16)
     int itemInset;
-    @BindColor(R.color.divider_color)
+    @BindColor(android.R.color.white)
     int dividerColor;
     private List<Pic> mShotList = new ArrayList<>();
     private Goods result;
@@ -184,7 +183,6 @@ public class DetailActivity extends BaseActivity {
 
         setupViewPager();
 
-//        setupActionButtons();
         // optional
         if (result != null) {
             handleResult();
@@ -213,11 +211,6 @@ public class DetailActivity extends BaseActivity {
                     mSearchBtn.setClickable(fraction == 1);
                     mBackBtn.setClickable(fraction == 1);
                 }));
-    }
-
-    @OnClick(R.id.back_btn)
-    public void onBack() {
-        onBackPressed();
     }
 
     private void addCommentFooter() {
@@ -261,7 +254,7 @@ public class DetailActivity extends BaseActivity {
 
         mCommentsList.setHasFixedSize(true);
 
-        mCommentsList.addItemDecoration(new InsetDividerDecoration(RelativeLayout.class, dividerHeight, itemInset, itemInset, dividerColor));
+        mCommentsList.addItemDecoration(new InsetDividerDecoration(CommentAdapter.CommentViewHolder.class, dividerHeight, itemInset, itemInset, dividerColor));
 
         mCommentsList.setItemAnimator(new SlideInUpAnimator(new FastOutSlowInInterpolator()));
 
@@ -353,11 +346,11 @@ public class DetailActivity extends BaseActivity {
             mPubDataTv.setText("爱在西元前");
         }
 
-        TextViewHelper.setText(mPriceTv, result.getPrice(), "9999");
+        TextViewHelper.setText(mPriceTv, String.format("¥%s&#160", result.getPrice()), "9999");
 
 
         if (result.getSchool() != null) {
-            TextViewHelper.setText(mSchoolTv, result.getSchool().getName(), null);
+            TextViewHelper.setText(mSchoolTv, String.format("@%s&#160", result.getSchool().getName()), null);
         } else {
             mSchoolTv.setVisibility(View.GONE);
         }
@@ -379,27 +372,27 @@ public class DetailActivity extends BaseActivity {
         loadShots();
     }
 
-    @OnClick({R.id.like_btn, R.id.view_count_btn, R.id.share_btn})
-    public void onActionButtonClick(View v) {
-        switch (v.getId()) {
-            case R.id.like_btn:
-                if (likeAvd != null) {
-                    likeAvd.start();
-                }
-                break;
-            case R.id.view_count_btn:
-                if (viewsAvd != null) {
-                    viewsAvd.start();
-                }
-                break;
-            case R.id.share_btn:
-                if (shareAvd != null) {
-                    shareAvd.start();
-                }
-                v.postDelayed(this::shareTo, 500);
-                break;
-        }
-    }
+//    @OnClick({R.id.like_btn, R.id.view_count_btn, R.id.share_btn})
+//    public void onActionButtonClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.like_btn:
+//                if (likeAvd != null) {
+//                    likeAvd.start();
+//                }
+//                break;
+//            case R.id.view_count_btn:
+//                if (viewsAvd != null) {
+//                    viewsAvd.start();
+//                }
+//                break;
+//            case R.id.share_btn:
+//                if (shareAvd != null) {
+//                    shareAvd.start();
+//                }
+//                v.postDelayed(this::shareTo, 500);
+//                break;
+//        }
+//    }
 
     private void shareTo() {
         if (result == null) return;
@@ -433,6 +426,7 @@ public class DetailActivity extends BaseActivity {
             startActivity(starter/*, options.toBundle()*/);
         }
     }
+
 
     private class ShotAdapter extends PagerAdapter {
 
@@ -634,9 +628,7 @@ public class DetailActivity extends BaseActivity {
             public CommentViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
-
                 itemView.setOnClickListener(listener);
-
             }
         }
     }

@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/area_album"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground">
+    android:background="?selectableItemBackground">
 
 
     <RelativeLayout
         android:id="@+id/area_thum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#d9d9d9">
+        android:background="@color/grey_200">
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerInParent="true"
-            android:background="@drawable/ic_photo_white_24dp" />
+            android:background="@drawable/ic_photo_white_24dp"/>
 
         <com.sangcomz.fishbun.util.SquareImageView
             android:id="@+id/img_album"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -39,18 +41,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="#000"
-            android:textSize="16dp" />
+            android:textSize="14sp"
+            tools:text="dsadasdsad"/>
 
         <TextView
             android:id="@+id/txt_album_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:singleLine="true"
-            android:textSize="12dp" />
-
+            android:maxLines="1"
+            android:textSize="12sp"/>
     </LinearLayout>
 
 

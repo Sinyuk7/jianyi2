@@ -1,6 +1,8 @@
 package com.sinyuk.jianyi.ui.need;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -79,6 +81,33 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
             holder.mPriceTv.setText(FormatUtils.formatPrice(data.getPrice()));
         }
 
+        if (TextUtils.isEmpty(data.getDetail())) {
+            holder.mTelIv.setEnabled(false);
+            holder.mTelIv.setClickable(false);
+        } else {
+            holder.mTelIv.setEnabled(true);
+            holder.mTelIv.setClickable(true);
+            holder.mTelIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Uri uri = Uri.parse("tel:" + data.getTel());
+                    Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+                    context.startActivity(intent);
+                }
+            });
+        }
+
+        if (TextUtils.isEmpty(data.getUsername())) {
+            holder.mChatIv.setEnabled(false);
+            holder.mChatIv.setClickable(false);
+        } else {
+            holder.mChatIv.setEnabled(true);
+            holder.mChatIv.setClickable(true);
+            holder.mChatIv.setOnClickListener(v -> {
+
+            });
+        }
+        
         try {
             TextViewHelper.setText(holder.mPubDateTv, FuzzyDateFormater.getParsedDate(context, data.getTime()), "一千年以前");
         } catch (Exception e) {

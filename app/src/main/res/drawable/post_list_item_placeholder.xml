@@ -4,7 +4,5 @@
 
     <corners android:radius="@dimen/cardView_distinct_corner_radius"/>
 
-    <stroke
-        android:width="@dimen/divider_height"
-        android:color="@color/grey_200"/>
+    <solid android:color="@color/grey_200"/>
 </shape>

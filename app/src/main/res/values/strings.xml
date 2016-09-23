@@ -25,4 +25,5 @@
     <string name="activity_post_need">发布需求</string>
     <string name="hint_post_succeed">发布成功</string>
     <string name="hint_post_failed">发布失败</string>
+    <string name="select_school">选择学校</string>
 </resources>

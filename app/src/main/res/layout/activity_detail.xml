@@ -80,6 +80,7 @@
                     android:id="@+id/back_btn"
                     style="@style/toolbar_button"
                     android:clickable="false"
+                    android:onClick="onBack"
                     android:src="@drawable/ic_back"/>
 
                 <TextView
@@ -136,26 +137,40 @@
 
                 <TextView
                     android:id="@+id/like_btn"
-                    style="@style/detail_action_button"
-                    android:layout_gravity="start"
-                    android:background="@null"
-                    tools:drawableTop="@drawable/avd_likes"
-                    tools:text="1234 likes"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/view_count_btn"
-                    style="@style/detail_action_button"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@null"
-                    tools:drawableTop="@drawable/avd_views"
-                    tools:text="33 views"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
                 <TextView
                     android:id="@+id/share_btn"
-                    style="@style/detail_action_button"
-                    android:layout_gravity="end"
-                    android:text="@string/share"
-                    tools:drawableTop="@drawable/avd_share"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <!--<TextView-->
+                <!--android:id="@+id/like_btn"-->
+                <!--style="@style/detail_action_button"-->
+                <!--android:layout_gravity="start"-->
+                <!--android:background="@null"-->
+                <!--tools:drawableTop="@drawable/avd_likes"-->
+                <!--tools:text="1234 likes"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/view_count_btn"-->
+                <!--style="@style/detail_action_button"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:background="@null"-->
+                <!--tools:drawableTop="@drawable/avd_views"-->
+                <!--tools:text="33 views"/>-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/share_btn"-->
+                <!--style="@style/detail_action_button"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:text="@string/share"-->
+                <!--tools:drawableTop="@drawable/avd_share"/>-->
 
             </LinearLayout>
 
@@ -174,38 +189,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/content_space_16"
                 android:layout_marginRight="@dimen/content_space_16"
-                android:gravity="start"
+                android:gravity="center"
                 android:lineSpacingMultiplier="1.05"
                 android:textColor="@color/text_secondary_dark"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 tools:text="@string/fake"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/details_footer_scrim"
-                android:gravity="center_vertical|start"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="@dimen/content_space_8"
+                android:paddingBottom="@dimen/content_space_16"
                 android:paddingLeft="@dimen/content_space_16"
                 android:paddingRight="@dimen/content_space_16">
-
-
-                <TextView
-                    android:id="@+id/price_extra"
-                    style="@style/detail_extras"
-                    android:layout_marginBottom="@dimen/content_space_4"
-                    android:layout_marginTop="@dimen/content_space_4"
-                    android:drawableLeft="@drawable/ic_price_extra"
-                    android:textColor="@color/themeRed"
-                    tools:text="100,0"/>
 
                 <TextView
                     android:id="@+id/school_extra"
                     style="@style/detail_extras"
-                    android:drawableLeft="@drawable/ic_location_extra"
-                    tools:text="浙江传媒学院"/>
+                    android:layout_marginBottom="@dimen/content_space_2"
+                    android:layout_marginTop="@dimen/content_space_8"
+                    tools:text="\@\浙江传媒学院"/>
 
+                <TextView
+                    android:id="@+id/price_extra"
+                    style="@style/detail_extras"
+                    android:textColor="@color/themeRed"
+                    tools:text="100,0"/>
 
             </LinearLayout>
 

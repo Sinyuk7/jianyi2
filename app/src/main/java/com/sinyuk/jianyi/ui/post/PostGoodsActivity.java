@@ -220,6 +220,11 @@ public class PostGoodsActivity extends FormActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     protected void onCircularRevealEnd() {
@@ -238,13 +243,6 @@ public class PostGoodsActivity extends FormActivity {
         SortFilter sortFilter = new SortFilter();
         sortFilter.setCancelable(true);
         sortFilter.show(getSupportFragmentManager(), SortFilter.TAG);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     private void initRecyclerView() {
@@ -389,13 +387,9 @@ public class PostGoodsActivity extends FormActivity {
     public void addPhoto() {
         FishBun.with(PostGoodsActivity.this)
                 .setAlbumThumbnailSize(ALBUM_SIZE)//you can resize album thumnail size
-                //        .setActionBarColor(Color.BLACK)           // only actionbar color
                 .setPickerCount(getBlanks())//you can restrict photo count
-//                .setArrayPaths(paths)//you can choice again.
                 .setPickerSpanCount(3)
                 .setCamera(true)//you can use camera
-                .textOnImagesSelectionLimitReached("Limit Reached!")
-                .textOnNothingSelected("Nothing Selected")
                 .setButtonInAlbumActivity(true)
                 .setReachLimitAutomaticClose(false)
                 .setAlbumSpanCount(2, 4)
@@ -518,6 +512,7 @@ public class PostGoodsActivity extends FormActivity {
             @BindView(R.id.container)
             FrameLayout mContainer;
 
+
             ItemViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
@@ -529,6 +524,12 @@ public class PostGoodsActivity extends FormActivity {
                     // last item needs update
                     mAdapter.notifyItemChanged(2);
                     onDataSetChange();
+                });
+
+                mThumbnailIv.setOnClickListener(v -> {
+                    if (((ImageView) v).getDrawable() == null) {
+                        addPhoto();
+                    }
                 });
             }
         }
