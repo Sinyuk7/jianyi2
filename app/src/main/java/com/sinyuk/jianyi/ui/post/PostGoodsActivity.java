@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -71,7 +72,6 @@ import rx.schedulers.Schedulers;
  */
 public class PostGoodsActivity extends FormActivity {
 
-    private static final long TOOLBAR_OFFSET_DURATION = 200;
     private static final String FAKE_PATH = "";
 
     @BindView(R.id.toolbar)
@@ -113,12 +113,13 @@ public class PostGoodsActivity extends FormActivity {
     private Observer<PostResult> postObserver = new Observer<PostResult>() {
         @Override
         public void onCompleted() {
-            showSucceed("发布成功");
+            showSucceed(getString(R.string.hint_post_succeed));
         }
 
         @Override
         public void onError(Throwable e) {
-            showError(e.getLocalizedMessage());
+            showError();
+            toastUtils.toastShort(e.getLocalizedMessage());
         }
 
         @Override
@@ -136,15 +137,13 @@ public class PostGoodsActivity extends FormActivity {
 
         @Override
         public void onError(Throwable e) {
-            toastUtils.toastShort("图片上传失败");
+            toastUtils.toastShort(e.getLocalizedMessage());
             e.printStackTrace();
         }
 
         @Override
         public void onNext(String url) {
             urlList.add(url);
-            Log.d(TAG, "onNext: " + url);
-            Log.d(TAG, "urlList: " + urlList.size());
         }
     };
 
@@ -174,6 +173,8 @@ public class PostGoodsActivity extends FormActivity {
     protected void finishInflating(Bundle savedInstanceState) {
         super.finishInflating(savedInstanceState);
         ALBUM_SIZE = ScreenUtils.getScreenWidth(this) / 3;
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+
         initRecyclerView();
         initData();
         initThumbnails();
@@ -209,7 +210,16 @@ public class PostGoodsActivity extends FormActivity {
                     return true;
                 }).subscribe(super::toggleActionButton));
 
+        addSubscription(RxTextView.editorActions(mPriceEt)
+                .map(actionId -> actionId == EditorInfo.IME_ACTION_DONE)
+                .subscribe(done -> {
+                    if (done) {
+                        onPost();
+                    }
+                }));
+
     }
+
 
     @Override
     protected void onCircularRevealEnd() {
@@ -228,7 +238,6 @@ public class PostGoodsActivity extends FormActivity {
         SortFilter sortFilter = new SortFilter();
         sortFilter.setCancelable(true);
         sortFilter.show(getSupportFragmentManager(), SortFilter.TAG);
-
     }
 
 
@@ -289,6 +298,7 @@ public class PostGoodsActivity extends FormActivity {
             toastUtils.toastShort("传张照骗看看呗");
             return;
         }
+
         titleTag = null;
         sortTag = null;
         urlList.clear();

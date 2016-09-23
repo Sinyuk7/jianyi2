@@ -1,50 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<io.codetail.widget.RevealFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.sinyuk.jianyi.ui.post.PostNeedActivity">
+    android:layout_height="match_parent">
 
-    <com.sinyuk.jianyi.widgets.phoenix.PullToRefreshView
-        android:id="@+id/pull_to_refresh"
+    <View
+        android:id="@+id/mask"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
-        <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:clipToPadding="false"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:overScrollMode="never">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/content_space_8">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="32dp"
+                android:paddingLeft="56dp"
+                android:paddingRight="56dp"
+                android:paddingTop="@dimen/content_space_16">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"
-                    android:background="@color/grey_300"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"
-                    android:background="@color/grey_300"/>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/description_input_area"
+                    style="@style/input_text_layout"
+                    android:layout_marginBottom="@dimen/content_space_16"
+                    android:visibility="gone"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="@integer/max_description_count"
+                    tools:visibility="visible">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"
-                    android:background="@color/grey_300"/>
+                    <EditText
+                        android:id="@+id/description_et"
+                        style="@style/form_edit_text.multiline"
+                        android:gravity="start"
+                        android:hint="@string/post_need_hint_description"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:maxHeight="96dp"
+                        android:minHeight="96dp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="8dp"
-                    android:background="@color/grey_300"/>
+                </android.support.design.widget.TextInputLayout>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tel_input_area"
+                    style="@style/input_text_layout"
+                    android:layout_marginBottom="@dimen/content_space_16"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/tel_et"
+                        style="@style/form_edit_text"
+                        android:hint="@string/post_need_hint_tel"
+                        android:imeOptions="actionNext"
+                        android:inputType="phone"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/price_input_area"
+                    style="@style/input_text_layout"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/price_et"
+                        style="@style/form_edit_text.singline"
+                        android:hint="@string/post_hint_price"
+                        android:imeActionLabel="@string/action_post"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberDecimal"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <com.dd.CircularProgressButton
+                    android:id="@+id/action_btn"
+                    style="@style/custom_button"
+                    android:layout_marginBottom="32dp"
+                    android:layout_marginTop="@dimen/content_space_16"
+                    android:visibility="gone"
+                    app:cpb_colorIndicator="@android:color/white"
+                    app:cpb_colorIndicatorBackground="@color/colorAccent"
+                    app:cpb_colorProgress="@color/colorAccent"
+                    app:cpb_textComplete="@string/hint_post_succeed"
+                    app:cpb_textError="@string/hint_post_failed"
+                    app:cpb_textIdle="@string/action_post"
+                    tools:visibility="visible"/>
 
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </com.sinyuk.jianyi.widgets.phoenix.PullToRefreshView>
-</RelativeLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:visibility="gone"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/activity_post_need"
+        app:titleTextColor="@color/white"
+        tools:visibility="visible">
+
+        <ImageView
+            android:id="@+id/check_btn"
+            style="@style/toolbar_button"
+            android:layout_gravity="end"
+            android:src="@drawable/selector_check_button"/>
+    </android.support.v7.widget.Toolbar>
+
+</io.codetail.widget.RevealFrameLayout>

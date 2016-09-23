@@ -267,4 +267,25 @@ public class AccountManger {
     }
 
 
+    public Observable<String> postNeeds(String description, String price) {
+        if (!tel.isSet() || !password.isSet())
+            return Observable.error(new Exception("用户信息过期,请重新登录"));
+
+        return jianyiService.postNeed(tel.get(), password.get(), description, price)
+                .map(new HttpResultFunc<String>() {
+                    @Override
+                    public String call(HttpResult<String> httpResult) {
+                        return httpResult.getData();
+                    }
+                })
+                .onErrorResumeNext(Observable::error)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public String getTel() {
+        if (tel.isSet())
+            return tel.get();
+        return "";
+    }
 }

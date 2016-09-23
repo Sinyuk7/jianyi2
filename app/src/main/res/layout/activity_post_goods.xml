@@ -76,7 +76,7 @@
 
                     <EditText
                         android:id="@+id/details_et"
-                        style="@style/form_edit_text"
+                        style="@style/form_edit_text.multiline"
                         android:gravity="start"
                         android:hint="@string/post_hint_details"
                         android:inputType="text"
@@ -112,8 +112,8 @@
                     app:cpb_colorIndicator="@android:color/white"
                     app:cpb_colorIndicatorBackground="@color/colorAccent"
                     app:cpb_colorProgress="@color/colorAccent"
-                    app:cpb_textComplete="发布成功"
-                    app:cpb_textError="发布失败"
+                    app:cpb_textComplete="@string/hint_post_succeed"
+                    app:cpb_textError="@string/hint_post_failed"
                     app:cpb_textIdle="@string/action_post"
                     tools:visibility="visible"/>
 

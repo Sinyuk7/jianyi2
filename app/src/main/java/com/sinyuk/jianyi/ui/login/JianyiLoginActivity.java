@@ -10,7 +10,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
@@ -93,15 +92,15 @@ public class JianyiLoginActivity extends FormActivity {
                     @Override
                     public void onError(Throwable e) {
                         if (e instanceof ApiException) {
-                            showFailed(e.getLocalizedMessage());
+                            showFailed();
                         } else {
-                            showError(e.getLocalizedMessage());
+                            showError();
                         }
+                        toastUtils.toastShort(e.getLocalizedMessage());
                     }
 
                     @Override
                     public void onNext(Player player) {
-                        Log.d(TAG, "onNext: " + player.toString());
                     }
                 }));
 

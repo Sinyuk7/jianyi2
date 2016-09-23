@@ -53,7 +53,11 @@
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
 
-        <activity android:name=".ui.post.PostNeedActivity"/>
+        <activity
+            android:name=".ui.post.PostNeedActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.Transparent"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
     </application>
 
 </manifest>

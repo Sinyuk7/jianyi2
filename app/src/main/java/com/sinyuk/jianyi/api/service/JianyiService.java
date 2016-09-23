@@ -61,39 +61,53 @@ public interface JianyiService {
     @Headers("Cache-Control: no-cache")
     @POST("goods/create")
     @FormUrlEncoded
-    Observable<HttpResult<PostResult>> postGoods(@Field("tel") String id,
-                                                 @Field("password") String password,
-                                                 @Field("name") String title,
-                                                 @Field("title") String parentSort,
-                                                 @Field("sort") String childSort,
-                                                 @Field("price") String price,
-                                                 @Field("detail") String detail,
-                                                 @Field("pic[0]") String first,
-                                                 @Field("pic[1]") String second,
-                                                 @Field("pic[2]") String third);
+    Observable<HttpResult<PostResult>> postGoods(
+            @Field("tel") String id,
+            @Field("password") String password,
+            @Field("name") String title,
+            @Field("title") String parentSort,
+            @Field("sort") String childSort,
+            @Field("price") String price,
+            @Field("detail") String detail,
+            @Field("pic[0]") String first,
+            @Field("pic[1]") String second,
+            @Field("pic[2]") String third);
 
     @Headers("Cache-Control: no-cache")
     @POST("goods/create")
     @FormUrlEncoded
-    Observable<HttpResult<PostResult>> postGoods(@Field("tel") String id,
-                                            @Field("password") String password,
-                                            @Field("name") String title,
-                                            @Field("title") String parentSort,
-                                            @Field("sort") String childSort,
-                                            @Field("price") String price,
-                                            @Field("detail") String detail,
-                                            @Field("pic[0]") String first,
-                                            @Field("pic[1]") String second);
+    Observable<HttpResult<PostResult>> postGoods(
+            @Field("tel") String id,
+            @Field("password") String password,
+            @Field("name") String title,
+            @Field("title") String parentSort,
+            @Field("sort") String childSort,
+            @Field("price") String price,
+            @Field("detail") String detail,
+            @Field("pic[0]") String first,
+            @Field("pic[1]") String second);
 
     @Headers("Cache-Control: no-cache")
     @POST("goods/create")
     @FormUrlEncoded
-    Observable<HttpResult<PostResult>> postGoods(@Field("tel") String id,
-                                            @Field("password") String password,
-                                            @Field("name") String title,
-                                            @Field("title") String parentSort,
-                                            @Field("sort") String childSort,
-                                            @Field("price") String price,
-                                            @Field("detail") String detail,
-                                            @Field("pic[0]") String first);
+    Observable<HttpResult<PostResult>> postGoods(
+            @Field("tel") String id,
+            @Field("password") String password,
+            @Field("name") String title,
+            @Field("title") String parentSort,
+            @Field("sort") String childSort,
+            @Field("price") String price,
+            @Field("detail") String detail,
+            @Field("pic[0]") String first);
+
+
+    @Headers("Cache-Control: no-cache")
+    @POST("needs/create")
+    @FormUrlEncoded
+    Observable<HttpResult<String>> postNeed(
+            @Field("tel") String id,
+            @Field("password") String password,
+            @Field("detail") String detail,
+            @Field("price") String price);
+
 }

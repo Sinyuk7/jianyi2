@@ -6,6 +6,7 @@ import com.sinyuk.jianyi.ui.home.HomeComponent;
 import com.sinyuk.jianyi.ui.home.HomeModule;
 import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.post.PostGoodsActivity;
+import com.sinyuk.jianyi.ui.post.PostNeedActivity;
 
 import javax.inject.Singleton;
 
@@ -30,4 +31,6 @@ public interface OauthComponent {
     HomeComponent plus(HomeModule module);
 
     void inject(PostGoodsActivity target);
+
+    void inject(PostNeedActivity target);
 }

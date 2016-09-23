@@ -20,4 +20,9 @@
     <string name="post_hint_price">价格</string>
     <string name="action_post">发布</string>
     <string name="activity_post_goods">发布闲置</string>
+    <string name="post_need_hint_description">你想要什么?</string>
+    <string name="post_need_hint_tel">联系方式</string>
+    <string name="activity_post_need">发布需求</string>
+    <string name="hint_post_succeed">发布成功</string>
+    <string name="hint_post_failed">发布失败</string>
 </resources>

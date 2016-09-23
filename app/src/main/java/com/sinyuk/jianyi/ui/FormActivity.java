@@ -25,6 +25,9 @@ import com.sinyuk.jianyi.utils.animator.AnimatorPath;
 import com.sinyuk.jianyi.utils.animator.PathEvaluator;
 import com.sinyuk.jianyi.utils.animator.PathPoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindColor;
@@ -40,10 +43,11 @@ public abstract class FormActivity extends BaseActivity {
     protected static final String KEY_RIGHT = "RIGHT";
     protected static final String KEY_TOP = "TOP";
     protected static final String KEY_BOTTOM = "BOTTOM";
-    protected static final long REVEAL_DURATION = 500;
-    protected static final long CHILD_CHANGE_IN_DURATION = 200;
-    protected static final long CHILD_STAGGER = 50;
+    protected static final long REVEAL_DURATION = 388;
+    protected static final long CHILD_CHANGE_IN_DURATION = 160;
+    protected static final long CHILD_STAGGER = 40;
     protected static final long CHILD_RAISE_DURATION = 200;
+    protected static final long TOOLBAR_OFFSET_DURATION = 145;
 
     @BindView(R.id.action_btn)
     protected CircularProgressButton actionButton;
@@ -56,6 +60,7 @@ public abstract class FormActivity extends BaseActivity {
     int colorTo;
     @Inject
     ToastUtils toastUtils;
+    List<Animator> animatorList = new ArrayList<>();
     private Rect bounds = new Rect();
     private Rect maskBounds = new Rect();
 
@@ -87,6 +92,18 @@ public abstract class FormActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (animatorList != null && !animatorList.isEmpty()) {
+            for (int i = 0; i < animatorList.size(); i++) {
+                if (animatorList.get(i).isRunning()) {
+                    animatorList.get(i).cancel();
+                }
+            }
+        }
+    }
+
     public void showProgress() {
         actionButton.setProgress(1);
         actionButton.setClickable(false);
@@ -99,19 +116,17 @@ public abstract class FormActivity extends BaseActivity {
         actionButton.postDelayed(this::finish, 1000);
     }
 
-
-    public void showFailed(String message) {
+    public void showFailed() {
         actionButton.setProgress(-1);
-        toastUtils.toastShort(message);
         actionButton.setClickable(true);
     }
 
-    public void showError(String message) {
+    public void showError() {
         actionButton.setProgress(-1);
-        toastUtils.toastShort(message);
         actionButton.setClickable(true);
     }
 
+    @CallSuper
     public void toggleActionButton(boolean activated) {
         actionButton.setClickable(activated);
         actionButton.setEnabled(activated);
@@ -161,6 +176,7 @@ public abstract class FormActivity extends BaseActivity {
                     }
                 });
                 set.start();
+                animatorList.add(set);
             }
         });
     }
@@ -193,10 +209,37 @@ public abstract class FormActivity extends BaseActivity {
                 .setDuration(CHILD_RAISE_DURATION);
         animator.setStartDelay(CHILD_STAGGER * i);
         animator.setInterpolator(new FastOutSlowInInterpolator());
-        animator.addUpdateListener(animation -> {
-            view.setElevation((Float) animation.getAnimatedValue());
-        });
+        animator.addUpdateListener(animation -> view.setElevation((Float) animation.getAnimatedValue()));
         animator.start();
+        animatorList.add(animator);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (animatorList != null && !animatorList.isEmpty()) {
+                for (int i = 0; i < animatorList.size(); i++) {
+                    if (animatorList.get(i) != null) {
+                        animatorList.get(i).pause();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (animatorList != null && !animatorList.isEmpty()) {
+                for (int i = 0; i < animatorList.size(); i++) {
+                    if (animatorList.get(i) != null && animatorList.get(i).isPaused()) {
+                        animatorList.get(i).resume();
+                    }
+                }
+            }
+        }
     }
 
     public void setMaskLocation(PathPoint location) {

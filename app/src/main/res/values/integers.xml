@@ -2,4 +2,5 @@
 <resources>
     <integer name="max_detail_count">80</integer>
     <integer name="max_title_count">22</integer>
+    <integer name="max_description_count">160</integer>
 </resources>

@@ -26,6 +26,7 @@ import com.sinyuk.jianyi.ui.goods.GoodsListFragment;
 import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.ui.post.PostGoodsActivity;
+import com.sinyuk.jianyi.ui.post.PostNeedActivity;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.sinyuk.jianyi.utils.BlackMagics;
 import com.sinyuk.jianyi.widgets.ToolbarIndicator;
@@ -236,6 +237,7 @@ public class HomeActivity extends BaseActivity {
                         BlackMagics.hideAndGo(this, target, PostGoodsActivity.class);
                         break;
                     case 1:
+                        BlackMagics.hideAndGo(this, target, PostNeedActivity.class);
                         break;
                 }
             }

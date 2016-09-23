@@ -90,6 +90,11 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="form_edit_text.multiline">
+        <item name="android:singleLine">false</item>
+        <item name="android:scrollHorizontally">false</item>
+    </style>
+
     <style name="avatar_border">
         <item name="border_color">@android:color/white</item>
         <item name="border_width">2dp</item>
