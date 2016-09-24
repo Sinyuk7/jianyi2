@@ -55,10 +55,10 @@ public class GuillotineMenu extends LazyFragment {
     private static final int BLUR_RADIUS = 28;
     private static final int BLUR_SAMPLING = 14;
     private static final String TAG = "GuillotineMenu";
-    private static final long CHILD_STAGGER = 60;
-    private static final long CHILD_CHANGE_IN_DURATION = 200;
-    private static final int IN_DELAY = 1200 / 60;
-    private static final int OUT_DELAY = 300 / 60;
+    private static final long CHILD_STAGGER = 45;
+    private static final long CHILD_CHANGE_IN_DURATION = 165;
+    private static final int IN_DELAY = 300 / 45;
+    private static final int OUT_DELAY = 200 / 45;
 
     @Inject
     Lazy<AccountManger> accountMangerLazy;
@@ -151,7 +151,7 @@ public class GuillotineMenu extends LazyFragment {
 
             Glide.with(this).load(mPlayer.getAvatar()).bitmapTransform(new CropCircleTransformation(getContext())).error(errorPlaceholder).dontAnimate().into(mAvatar);
 
-            Glide.with(this).load(mPlayer.getAvatar()).crossFade(1200).diskCacheStrategy(DiskCacheStrategy.ALL)
+            Glide.with(this).load(mPlayer.getAvatar()).crossFade(600).diskCacheStrategy(DiskCacheStrategy.ALL)
                     .bitmapTransform(new BlurTransformation(getContext(), BLUR_RADIUS, BLUR_SAMPLING)).listener(new RequestListener<String, GlideDrawable>() {
                 @Override
                 public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -170,9 +170,10 @@ public class GuillotineMenu extends LazyFragment {
 
             Glide.with(this).load(R.drawable.boy).bitmapTransform(new CropCircleTransformation(getContext())).into(mAvatar);
             mBackground.setImageDrawable(null);
-
             startLayoutTransition(isLoggedIn);
+
         }
+
 
     }
 
@@ -264,12 +265,10 @@ public class GuillotineMenu extends LazyFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.inbox_btn:
-                Log.d(TAG, "onClick: " + "inbox");
                 break;
             case R.id.profile_btn:
                 break;
             case R.id.logout_btn:
-                Log.d(TAG, "onClick: " + "logout");
                 accountMangerLazy.get().logout();
                 toastUtilsLazy.get().toastShort("退出登录");
                 break;

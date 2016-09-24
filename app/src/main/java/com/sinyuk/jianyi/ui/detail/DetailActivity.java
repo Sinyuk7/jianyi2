@@ -316,8 +316,8 @@ public class DetailActivity extends BaseActivity {
 
         if (result.getSchool() != null) {
             TextViewHelper.setText(schoolExtra, String.format("@%s", " " + result.getSchool().getName()), null);
-        } else {
-            schoolExtra.setVisibility(View.GONE);
+        } else if (result.getUser() != null) {
+            TextViewHelper.setText(schoolExtra, String.format("@%s", " " + result.getUser().getSchoolName()), null);
         }
 
         if (result.getUser() != null) {

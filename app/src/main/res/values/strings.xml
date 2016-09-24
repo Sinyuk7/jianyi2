@@ -29,4 +29,5 @@
     <string name="player_post_count">发布 %d</string>
     <string name="player_like_count">收藏 %d</string>
     <string name="action_share">分享</string>
+    <string name="hint_exception">未知的错误</string>
 </resources>

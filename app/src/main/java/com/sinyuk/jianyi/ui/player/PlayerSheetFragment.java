@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.data.player.PlayerRepository;
 import com.sinyuk.jianyi.data.player.PlayerRepositoryModule;
-import com.sinyuk.jianyi.ui.BaseFragment;
+import com.sinyuk.jianyi.ui.LazyFragment;
 import com.sinyuk.jianyi.ui.detail.DetailActivity;
 import com.sinyuk.jianyi.ui.goods.GoodsItemDecoration;
 import com.sinyuk.jianyi.utils.BetterViewAnimator;
@@ -40,20 +41,27 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.Observer;
-import tyrantgit.explosionfield.ExplosionField;
+import rx.functions.Func1;
 
 /**
  * Created by Sinyuk on 16/9/14.
  */
-public class ManagerSheetFragment extends BaseFragment {
+public class PlayerSheetFragment extends LazyFragment {
+    public static final int TYPE_POSTED = -1;
+    public static final int TYPE_LIKED = -2;
+    public static final int TYPE_DELETED = -3;
+    public static final String TAG = "PlayerSheetFragment";
     private static final int PRELOAD_THRESHOLD = 2;
     private static final int FIRST_PAGE = 1;
     private static final String KEY_PLAYER = "PLAYER";
+    private static final String KEY_TYPE = "TYPE";
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.view_animator)
     BetterViewAnimator mViewAnimator;
+
     @Inject
     PlayerRepository playerRepository;
     private int id = 0;
@@ -65,7 +73,7 @@ public class ManagerSheetFragment extends BaseFragment {
         public void onCompleted() {
             page = FIRST_PAGE + 1;
             // 这里还是空就过分了
-            mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_error : R.id.recycler_view);
+            mViewAnimator.setDisplayedChildId(mAdapter.getItemCount() == 0 ? R.id.layout_empty : R.id.recycler_view);
         }
 
         @Override
@@ -76,9 +84,9 @@ public class ManagerSheetFragment extends BaseFragment {
         @Override
         public void onNext(List<Goods> items) {
             mAdapter.resetAll(items);
+            Log.d(TAG, "refresh: " + items.toString());
         }
     };
-
     private final Observer<List<Goods>> loadObserver = new Observer<List<Goods>>() {
         @Override
         public void onCompleted() {
@@ -93,17 +101,17 @@ public class ManagerSheetFragment extends BaseFragment {
         @Override
         public void onNext(List<Goods> items) {
             mAdapter.appendAll(items);
+            Log.d(TAG, "load: " + items.toString());
         }
     };
-
     private Player player;
-    private ExplosionField explosionField;
+    private int sheetType;
 
-    public static ManagerSheetFragment newInstance(Player player) {
-
+    public static PlayerSheetFragment newInstance(Player player, int type) {
         Bundle args = new Bundle();
         args.putParcelable(KEY_PLAYER, player);
-        ManagerSheetFragment fragment = new ManagerSheetFragment();
+        args.putInt(KEY_TYPE, type);
+        PlayerSheetFragment fragment = new PlayerSheetFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,18 +120,20 @@ public class ManagerSheetFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         App.get(context).getAppComponent().plus(new PlayerRepositoryModule()).inject(this);
-        explosionField = ExplosionField.attach2Window(getActivity());
     }
 
     @Override
     protected void beforeInflate() {
         player = getArguments().getParcelable(KEY_PLAYER);
         id = player.getId();
+        sheetType = getArguments().getInt(KEY_TYPE);
+
+        Log.d(TAG, "type: " + sheetType);
     }
 
     @Override
     protected int getRootViewId() {
-        return R.layout.fragment_manager_sheet;
+        return R.layout.fragment_player_sheet;
     }
 
     @Override
@@ -131,13 +141,16 @@ public class ManagerSheetFragment extends BaseFragment {
         initRecyclerView();
         initData();
 
-        refresh();
+        if (sheetType == TYPE_POSTED) {
+            refresh();
+        }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        explosionField.clear();
+    protected void fetchData() {
+        if (sheetType != TYPE_POSTED) {
+            refresh();
+        }
     }
 
     private void initRecyclerView() {
@@ -170,17 +183,46 @@ public class ManagerSheetFragment extends BaseFragment {
     }
 
     private void initData() {
-        mAdapter = new ManagerAdapter();
+        mAdapter = new ManagerAdapter(sheetType);
         mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private Observable<List<Goods>> getObservable(int page) {
+        switch (sheetType) {
+            case TYPE_DELETED:
+                return playerRepository.getHisPosts(id, page)
+                        .flatMap(new Func1<List<Goods>, Observable<Goods>>() {
+                            @Override
+                            public Observable<Goods> call(List<Goods> items) {
+                                return Observable.from(items);
+                            }
+                        })
+                        .filter(goods -> goods.getDel() == 1)
+                        .toList();
+            case TYPE_POSTED:
+                return playerRepository.getHisPosts(id, page)
+                        .flatMap(new Func1<List<Goods>, Observable<Goods>>() {
+                            @Override
+                            public Observable<Goods> call(List<Goods> items) {
+                                return Observable.from(items);
+                            }
+                        })
+                        .filter(goods -> goods.getDel() == 0)
+                        .toList();
+            case TYPE_LIKED:
+                return Observable.empty();
+            default:
+                return Observable.error(new Throwable(getString(R.string.hint_exception)));
+        }
+    }
+
     private void loadMore() {
-        addSubscription(playerRepository.getHisPosts(id, page).subscribe(loadObserver));
+        addSubscription(getObservable(page).subscribe(loadObserver));
     }
 
     private void refresh() {
-        addSubscription(playerRepository.getHisPosts(id, 1).subscribe(refreshObserver));
+        addSubscription(getObservable(1).subscribe(refreshObserver));
     }
 
     /**
@@ -193,24 +235,34 @@ public class ManagerSheetFragment extends BaseFragment {
         mViewAnimator.setDisplayedChildId(R.id.layout_error);
     }
 
-    public class ManagerAdapter extends RecyclerView.Adapter<ManagerAdapter.ManagerItemHolder> {
-
+    public class ManagerAdapter extends RecyclerView.Adapter<ManagerAdapter.GoodsItemHolder> {
         private final static int CROSS_FADE_DURATION = 1500;
         private final DrawableRequestBuilder<String> shotBuilder;
+        private final int type;
 
         private List<Goods> mDataSet = new ArrayList<>();
 
-        public ManagerAdapter() {
-            shotBuilder = Glide.with(ManagerSheetFragment.this).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).crossFade(CROSS_FADE_DURATION).centerCrop();
+        public ManagerAdapter(int type) {
+            shotBuilder = Glide.with(PlayerSheetFragment.this).fromString().diskCacheStrategy(DiskCacheStrategy.RESULT).crossFade(CROSS_FADE_DURATION).centerCrop();
+            this.type = type;
         }
 
         @Override
-        public ManagerItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ManagerItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.manager_list_item, parent, false));
+        public ManagerAdapter.GoodsItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            switch (viewType) {
+                case TYPE_POSTED:
+                    return new PostedItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_posted_list_item, parent, false));
+                case TYPE_DELETED:
+                    return new DeletedItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_deleted_list_item, parent, false));
+                case TYPE_LIKED:
+                    return new LikedItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_liked_list_item, parent, false));
+
+            }
+            return null;
         }
 
         @Override
-        public void onBindViewHolder(ManagerItemHolder holder, int position) {
+        public void onBindViewHolder(ManagerAdapter.GoodsItemHolder holder, int position) {
             if (mDataSet.get(position) == null) return;
             final Goods data = mDataSet.get(position);
 
@@ -222,35 +274,45 @@ public class ManagerSheetFragment extends BaseFragment {
 //            }
 
             if (TextUtils.isEmpty(data.getPrice())) {
-                holder.mPriceLabelView.setVisibility(View.INVISIBLE);
+                holder.priceLabelView.setVisibility(View.INVISIBLE);
             } else {
-                holder.mPriceLabelView.setText(FormatUtils.formatPrice(data.getPrice()));
+                holder.priceLabelView.setText(FormatUtils.formatPrice(data.getPrice()));
             }
 
-            TextViewHelper.setText(holder.mTitleTv, data.getName(), "嘛玩意儿?");
+            TextViewHelper.setText(holder.titleTv, data.getName(), "嘛玩意儿?");
 
             try {
-                TextViewHelper.setText(holder.mPubDateTv, FuzzyDateFormater.getParsedDate(getContext(), data.getTime()), "一千年以前");
+                TextViewHelper.setText(holder.pubDateTv, FuzzyDateFormater.getParsedDate(getContext(), data.getTime()), "一千年以前");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            shotBuilder.load(data.getCoverUrl()).into(holder.mShotIv);
 
-            holder.mDeleteBtn.setOnClickListener(v -> {
-                final int index = holder.getAdapterPosition();
-                mDataSet.get(index).setDel(1);
-                explosionField.explode(holder.itemView);
-                v.postDelayed(() -> {
-                    holder.itemView.setVisibility(View.INVISIBLE);
-//                    remove(index);
-                }, 350);
-//                    explosionField.clear();
-            });
+            shotBuilder.load(data.getCoverUrl()).into(holder.shotIv);
 
-            holder.mShotIv.setOnClickListener(v -> {
+            holder.shotIv.setOnClickListener(v -> {
                 data.setUser(player);
                 DetailActivity.start(getContext(), data);
             });
+
+            if (holder instanceof PostedItemHolder) {
+                ((PostedItemHolder) holder).deleteButton.setOnClickListener(v -> {
+                    final int index = holder.getAdapterPosition();
+                });
+            } else if (holder instanceof DeletedItemHolder) {
+                ((DeletedItemHolder) holder).undoButton.setOnClickListener(v -> {
+                    final int index = holder.getAdapterPosition();
+                });
+            } else if (holder instanceof LikedItemHolder) {
+                ((LikedItemHolder) holder).likeButton.setOnClickListener(v -> {
+                    final int index = holder.getAdapterPosition();
+                });
+            }
+
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return type;
         }
 
         @Override
@@ -284,19 +346,44 @@ public class ManagerSheetFragment extends BaseFragment {
             notifyDataSetChanged();
         }
 
-        public class ManagerItemHolder extends RecyclerView.ViewHolder {
-            @BindView(R.id.shot_iv)
-            RatioImageView mShotIv;
-            @BindView(R.id.price_label_view)
-            LabelView mPriceLabelView;
-            @BindView(R.id.title_tv)
-            TextView mTitleTv;
+        public class PostedItemHolder extends GoodsItemHolder {
             @BindView(R.id.delete_btn)
-            ImageView mDeleteBtn;
-            @BindView(R.id.pub_date_tv)
-            TextView mPubDateTv;
+            ImageView deleteButton;
 
-            public ManagerItemHolder(View itemView) {
+            public PostedItemHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+        public class DeletedItemHolder extends GoodsItemHolder {
+            @BindView(R.id.undo_btn)
+            ImageView undoButton;
+
+            public DeletedItemHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+        public class LikedItemHolder extends GoodsItemHolder {
+            @BindView(R.id.like_btn)
+            ImageView likeButton;
+
+            public LikedItemHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+        public class GoodsItemHolder extends RecyclerView.ViewHolder {
+            @BindView(R.id.shot_iv)
+            RatioImageView shotIv;
+            @BindView(R.id.price_label_view)
+            LabelView priceLabelView;
+            @BindView(R.id.title_tv)
+            TextView titleTv;
+            @BindView(R.id.pub_date_tv)
+            TextView pubDateTv;
+
+            public GoodsItemHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
             }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/good_list_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.sinyuk.jianyi.widgets.RatioImageView
+            android:id="@+id/shot_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            app:ratio="1.3333"
+            tools:src="#ccc"/>
+
+        <com.sinyuk.jianyi.widgets.LabelView
+            android:id="@+id/price_label_view"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            app:lv_background_color="@color/grey_600"
+            app:lv_gravity="TOP_RIGHT"
+            app:lv_text="123"
+            app:lv_text_bold="true"
+            app:lv_text_size="@dimen/material_text_caption1"/>
+
+        <TextView
+            android:id="@+id/title_tv"
+            style="@style/player_list_item_title"
+            android:layout_alignTop="@+id/undo_btn"
+            android:layout_marginLeft="@dimen/content_space_8"
+            android:layout_toLeftOf="@+id/undo_btn"
+            tools:text="string/dummy_thrift_description"/>
+
+
+        <ImageView
+            android:id="@+id/undo_btn"
+            style="@style/player_list_item_button"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/shot_iv"
+            android:layout_margin="@dimen/content_space_8"
+            android:src="@drawable/ic_shelf_on"/>
+
+        <TextView
+            android:id="@+id/pub_date_tv"
+            style="@style/player_list_item_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title_tv"
+            android:layout_marginLeft="@dimen/content_space_8"
+            android:layout_marginTop="@dimen/content_space_4"
+            android:layout_toLeftOf="@+id/undo_btn"
+            tools:text="五天前"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

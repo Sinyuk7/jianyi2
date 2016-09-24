@@ -2,15 +2,20 @@ package com.sinyuk.jianyi.ui.player;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -70,12 +75,13 @@ public class PlayerActivity extends BaseActivity {
     FloatingActionButton mFab;
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
     @Inject
     Lazy<RxSharedPreferences> preferenceLazy;
-    private List<Fragment> fragmentList = new ArrayList<>();
+    List<Fragment> fragmentList = new ArrayList<>();
     private boolean mIsSelf;
     private Player mPlayer;
-
 
     public static void start(Context context, Player player) {
         Intent starter = new Intent(context, PlayerActivity.class);
@@ -116,9 +122,10 @@ public class PlayerActivity extends BaseActivity {
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(dy -> {
-                    if (minHeight >= mAppBarLayout.getTotalScrollRange() + dy) {
-                        showFab();
-                    } else if (-dy <= minHeight) {
+//                    if (minHeight >= mAppBarLayout.getTotalScrollRange() + dy) {
+//                        showFab();
+//                    } else
+                    if (-dy <= minHeight) {
                         hideFab();
                     }
                 }));
@@ -137,6 +144,8 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private void initViewPager() {
+        mViewPager.setOffscreenPageLimit(2);
+
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -145,33 +154,40 @@ public class PlayerActivity extends BaseActivity {
 
             @Override
             public int getCount() {
-                return 2;
+                return fragmentList.size();
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
                 switch (position) {
                     case 0:
-                        return "发布";
+                        return buildSpan(/*"发布", */R.drawable.ic_goods);
                     case 1:
-                        return "收藏";
+                        return buildSpan(/*"收藏", */R.drawable.ic_goods_favor);
+                    case 2:
+                        return buildSpan(/*"下架",*/ R.drawable.ic_goods_delete);
                 }
                 return null;
             }
         });
 
-//        Drawable image = ContextCompat.getDrawable(this, R.drawable.ic_food_accent);
-//        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
-//        SpannableString sb = new SpannableString("哈哈");
-//        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
-//        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tabLayout.setupWithViewPager(mViewPager);
+    }
 
+    private CharSequence buildSpan(int resId) {
+        Drawable image = ContextCompat.getDrawable(this, resId);
+        image.setBounds(0, 0, image.getIntrinsicWidth(), image.getIntrinsicHeight());
+        SpannableString sb = new SpannableString(" ");
+        ImageSpan imageSpan = new ImageSpan(image, ImageSpan.ALIGN_BOTTOM);
+        sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return sb;
     }
 
     private void initFragments() {
         //
-        fragmentList.add(ManagerSheetFragment.newInstance(mPlayer));
-        fragmentList.add(ManagerSheetFragment.newInstance(mPlayer));
+        fragmentList.add(PlayerSheetFragment.newInstance(mPlayer, PlayerSheetFragment.TYPE_POSTED));
+        fragmentList.add(PlayerSheetFragment.newInstance(mPlayer, PlayerSheetFragment.TYPE_LIKED));
+        fragmentList.add(PlayerSheetFragment.newInstance(mPlayer, PlayerSheetFragment.TYPE_DELETED));
 
     }
 
@@ -190,20 +206,12 @@ public class PlayerActivity extends BaseActivity {
     }
 
     private View.OnClickListener getEditorStater() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        return v -> {
         };
     }
 
     private View.OnClickListener getMessagerStater() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        return v -> {
         };
     }
 

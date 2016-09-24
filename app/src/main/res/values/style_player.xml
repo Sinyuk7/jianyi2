@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--    <style name="player_tab_layout">
+       <style name="player_tab_layout">
             <item name="android:layout_width">match_parent</item>
             <item name="android:layout_height">56dp</item>
-            <item name="tabIndicatorColor">@color/colorPrimaryDark</item>
-            <item name="tabIndicatorHeight">4dp</item>
+            <item name="tabIndicatorColor">@color/colorAccentDark</item>
+            <item name="tabIndicatorHeight">2dp</item>
             <item name="tabMinWidth">@dimen/tab_min_width</item>
             <item name="tabPadding">@dimen/content_space_8</item>
-            <item name="tabSelectedTextColor">@color/colorPrimaryDark</item>
-            <item name="tabTextAppearance">@style/player_tab_text_appearance</item>
-            <item name="tabTextColor">@color/grey_600</item>
-        </style>-->
+            <item name="tabSelectedTextColor">@color/text_primary_dark</item>
+            <item name="tabTextAppearance">@style/player_tab_text</item>
+        </style>
     <eat-comment/>
 
 
@@ -24,7 +23,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:drawablePadding">@dimen/content_space_4</item>
+        <item name="android:drawablePadding">@dimen/content_space_2</item>
     </style>
 
     <eat-comment/>
@@ -46,4 +45,35 @@
         <item>"发布"</item>
         <item>"收藏"</item>
     </string-array>
+
+
+    <style name="player_list_item_label">
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="lv_background_color">@color/grey_600</item>
+        <item name="lv_text">0</item>
+        <item name="lv_text_bold">true</item>
+        <item name="lv_text_size">@dimen/material_text_caption1</item>
+    </style>
+
+    <style name="player_list_item_title" parent="SingleLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_primary_dark</item>
+        <item name="android:textSize">@dimen/material_text_body2</item>
+    </style>
+
+    <style name="player_list_item_date" parent="SingleLine">
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:textSize">@dimen/material_text_caption1</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="player_list_item_button">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+        <item name="android:padding">@dimen/content_space_8</item>
+    </style>
 </resources>

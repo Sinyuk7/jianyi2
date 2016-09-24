@@ -80,27 +80,34 @@
                     tools:text="浙江传媒学院"/>
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="?actionBarSize"-->
+                    <!--android:layout_below="@+id/school_tv"-->
+                    <!--android:layout_marginTop="@dimen/content_space_16"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="horizontal">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/post_tab"-->
+                        <!--style="@style/player_tab_text"-->
+                        <!--android:drawableTop="@drawable/ic_goods"-->
+                        <!--android:text="@string/player_post_count"/>-->
+
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/like_tab"-->
+                        <!--style="@style/player_tab_text"-->
+                        <!--android:drawableTop="@drawable/ic_goods_favor"-->
+                        <!--android:text="@string/player_like_count"/>-->
+                <!--</LinearLayout>-->
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    style="@style/player_tab_layout"
                     android:layout_below="@+id/school_tv"
-                    android:layout_marginTop="@dimen/content_space_16"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/post_tab"
-                        style="@style/player_tab_text"
-                        android:drawableTop="@drawable/ic_goods"
-                        android:text="@string/player_post_count"/>
-
-
-                    <TextView
-                        android:id="@+id/like_tab"
-                        style="@style/player_tab_text"
-                        android:drawableTop="@drawable/ic_goods_favor"
-                        android:text="@string/player_like_count"/>
-                </LinearLayout>
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    tools:background="@color/grey_600"/>
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar

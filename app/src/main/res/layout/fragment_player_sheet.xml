@@ -2,12 +2,15 @@
 <com.sinyuk.jianyi.utils.BetterViewAnimator
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/view_animator"
+    style="@style/view_animator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    style="@style/view_animator">
+    android:layout_height="match_parent">
 
     <include
-        layout="@layout/manager_list_list"/>
+        layout="@layout/player_sheet_list"/>
+
+    <include
+        layout="@layout/common_list_empty"/>
 
     <include
         layout="@layout/common_list_error"/>

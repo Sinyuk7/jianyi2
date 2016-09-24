@@ -1,6 +1,6 @@
 package com.sinyuk.jianyi.data.player;
 
-import com.sinyuk.jianyi.ui.player.ManagerSheetFragment;
+import com.sinyuk.jianyi.ui.player.PlayerSheetFragment;
 import com.sinyuk.jianyi.utils.dagger.PerActivity;
 
 import dagger.Subcomponent;
@@ -15,5 +15,5 @@ import dagger.Subcomponent;
         }
 )
 public interface PlayerRepositoryComponent {
-    void inject(ManagerSheetFragment target);
+    void inject(PlayerSheetFragment target);
 }

@@ -191,4 +191,14 @@ public class Goods implements Parcelable {
         dest.writeParcelable(this.school, flags);
         dest.writeTypedList(this.pic);
     }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", del=" + del +
+                ", uid=" + uid +
+                '}';
+    }
 }
