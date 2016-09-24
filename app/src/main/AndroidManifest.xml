@@ -24,6 +24,13 @@
             android:name="com.sinyuk.jianyi.utils.glide.SinyukGlideModule"
             android:value="GlideModule"/>
 
+        <provider
+            android:name="br.com.mauker.materialsearchview.db.HistoryProvider"
+            android:authorities="br.com.mauker.materialsearchview.defaultsearchhistorydatabase"
+            android:exported="false"
+            android:protectionLevel="signature"
+            android:syncable="true"/>
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/AppTheme.Splash">
@@ -41,23 +48,30 @@
             android:launchMode="standard"/>
         <activity
             android:name=".ui.detail.DetailActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.login.JianyiLoginActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.post.PostGoodsActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <activity
             android:name=".ui.post.PostNeedActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.Transparent"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
     </application>
 
 </manifest>

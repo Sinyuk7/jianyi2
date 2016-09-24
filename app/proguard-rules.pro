@@ -27,9 +27,15 @@
 #You have an alternative to keep all possible GlideModule modules:
 -keep public class * implements com.bumptech.glide.module.GlideModule
 
--keepnames com.sinyuk.yuk.utils.glide.okhttp3.SinyukGlideModule
+#-keepnames com.sinyuk.yuk.utils.glide.okhttp3.SinyukGlideModule
 # or more generally:
-#-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * implements com.bumptech.glide.module.GlideModule
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+#Some of you might experience some problems with Proguard deleting the authority class,
+#to solve those problems, add the following lines on your proguard file:
+
+-keep class br.com.mauker.MsvAuthority
+-keepclassmembers class br.com.mauker.** { *; }

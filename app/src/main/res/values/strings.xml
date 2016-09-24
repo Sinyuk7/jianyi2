@@ -4,7 +4,7 @@
     <string name="transition_username">username</string>
     <string name="transition_school">school</string>
     <string name="transition_reveal_view">reveal_view</string>
-    <string name="fake">"所以那些可能都不是真的 董小姐 你才不是一个没有故事的女同学 爱上一匹野马 可我的家里没有草原 这让我感到绝望 董小姐"</string>
+    <string name="fake">"厉害了 我的哥"</string>
     <string name="action_login">登录</string>
     <string name="hint_forget_password">忘记密码</string>
     <string name="hint_input_password">输入密码</string>

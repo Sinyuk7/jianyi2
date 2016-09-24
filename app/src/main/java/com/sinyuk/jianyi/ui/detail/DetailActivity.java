@@ -260,13 +260,12 @@ public class DetailActivity extends BaseActivity {
         commentsList.setAdapter(mCommentAdapter);
 
         List<Comment> comments = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
+        if (result.getId() % 2 == 0) {
             Comment fake = new Comment();
-            fake.setSession(i);
+            fake.setSession(result.getId());
             fake.setUserName(NameGenerator.generateName());
             comments.add(fake);
         }
-
         mCommentAdapter.resetAll(comments);
     }
 
@@ -276,9 +275,9 @@ public class DetailActivity extends BaseActivity {
 
     private void setupActionButtons() {
         try {
-            viewCountIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_likes, null));
+            viewCountIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_views, null));
             likeIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_likes, null));
-            shareIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_likes, null));
+            shareIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_share, null));
         } catch (Exception e) {
             e.printStackTrace();
         }

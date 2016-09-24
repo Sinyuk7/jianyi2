@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/fishbun" />
             <option value="$PROJECT_DIR$/guillotinemenu" />
             <option value="$PROJECT_DIR$/progressbutton" />
+            <option value="$PROJECT_DIR$/searchview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

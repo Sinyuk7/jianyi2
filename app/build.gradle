@@ -60,7 +60,7 @@ dependencies {
     compile rootProject.ext.dependencies["rxbinding"]
     compile rootProject.ext.dependencies["rxbinding-design"]
     compile rootProject.ext.dependencies["rx-preferences"]
-//    compile rootProject.ext.dependencies["rx-lifecycle"]
+    //    compile rootProject.ext.dependencies["rx-lifecycle"]
     compile rootProject.ext.dependencies["eventbus"]
     compile rootProject.ext.dependencies["butterknife"]
     apt rootProject.ext.dependencies["butterknife-compiler"]
@@ -72,15 +72,16 @@ dependencies {
     //    compile rootProject.ext.dependencies["stetho-okhttp3"]
     compile rootProject.ext.dependencies["smooth-progress-bar"]
     //    compile project(':yukloadinglayout')
-//    compile rootProject.ext.dependencies["rebound"]
+
+    //    compile rootProject.ext.dependencies["rebound"]
     debugCompile rootProject.ext.dependencies["leakcanary"]
     releaseCompile rootProject.ext.dependencies["leakcanary-no-op"]
     testCompile rootProject.ext.dependencies["leakcanary-no-op"]
     //    compile project(':guillotinemenu')
     compile project(':guillotinemenu')
-    compile 'tyrantgit:explosionfield:1.0.1'
     compile 'com.github.ozodrukh:CircularReveal:2.0.1'
     compile project(':progressbutton')
     compile project(path: ':fishbun')
     compile 'top.zibin:Luban:1.0.8'
+    compile project(path: ':searchview')
 }

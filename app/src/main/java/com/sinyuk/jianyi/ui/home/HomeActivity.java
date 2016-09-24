@@ -1,5 +1,6 @@
 package com.sinyuk.jianyi.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -30,6 +31,7 @@ import com.sinyuk.jianyi.ui.login.JianyiLoginActivity;
 import com.sinyuk.jianyi.ui.need.NeedListFragment;
 import com.sinyuk.jianyi.ui.post.PostGoodsActivity;
 import com.sinyuk.jianyi.ui.post.PostNeedActivity;
+import com.sinyuk.jianyi.ui.search.SearchActivity;
 import com.sinyuk.jianyi.utils.ActivityUtils;
 import com.sinyuk.jianyi.utils.BlackMagics;
 import com.sinyuk.jianyi.widgets.ToolbarIndicator;
@@ -272,7 +274,7 @@ public class HomeActivity extends BaseActivity {
 //        schoolSelectorLazy.get().setCancelable(true);
 //        schoolSelectorLazy.get().show(getSupportFragmentManager(), SchoolSelector.TAG);
 
-//        startActivity(new Intent(HomeActivity.this, PostNeedActivity.class));
+        startActivity(new Intent(HomeActivity.this, SearchActivity.class));
     }
 
     @Override
