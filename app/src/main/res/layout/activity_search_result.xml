@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/window_background"
+        android:visibility="gone"/>
+
+    <com.sinyuk.jianyi.utils.BetterViewAnimator
+        android:id="@+id/view_animator"
+        style="@style/view_animator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <include layout="@layout/common_recycler_view"/>
+
+        <include layout="@layout/common_list_empty"/>
+
+        <include layout="@layout/common_list_error"/>
+
+
+    </com.sinyuk.jianyi.utils.BetterViewAnimator>
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@color/colorPrimary"
+            android:visibility="gone"
+            app:layout_scrollFlags="snap|scroll|enterAlways">
+
+            <ImageView
+                android:id="@+id/back_btn"
+                style="@style/toolbar_button"
+                android:onClick="onBack"
+                android:src="@drawable/ic_back"/>
+
+            <TextView
+                android:id="@+id/toolbar_title_tv"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_space_16"
+                android:layout_marginRight="72dp"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                tools:text="Titldsadsadfdsfdsfdsfdsfdsfdsfdssfdssadsadsadsadsadsae"/>
+
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -7,7 +7,7 @@
     style="@style/view_animator">
 
     <include
-        layout="@layout/common_list_list"/>
+        layout="@layout/common_pull_to_refresh_view"/>
 
     <include
         layout="@layout/common_list_error"/>

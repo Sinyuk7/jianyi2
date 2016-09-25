@@ -4,12 +4,12 @@
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/design/24.2.1/res/layout/design_layout_tab_text.xml"
     },
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/release/layout/abc_screen_simple.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_screen_simple.xml"
-    },
-    {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/release/layout/abc_action_bar_up_container.xml",
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/release/layout/abc_screen_simple.xml",
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_screen_simple.xml"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/release/layout/abc_expanded_menu_layout.xml",

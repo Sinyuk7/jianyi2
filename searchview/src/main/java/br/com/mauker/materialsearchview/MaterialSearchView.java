@@ -290,12 +290,12 @@ public class MaterialSearchView extends CoordinatorLayout {
 
             if (typedArray.hasValue(R.styleable.MaterialSearchView_android_textColor)) {
                 setTextColor(typedArray.getColor(R.styleable.MaterialSearchView_android_textColor,
-                        ContextCompat.getColor(mContext,R.color.black)));
+                        ContextCompat.getColor(mContext,R.color.text_primary_dark)));
             }
 
             if (typedArray.hasValue(R.styleable.MaterialSearchView_android_textColorHint)) {
                 setHintTextColor(typedArray.getColor(R.styleable.MaterialSearchView_android_textColorHint,
-                        ContextCompat.getColor(mContext,R.color.gray_50)));
+                        ContextCompat.getColor(mContext,R.color.text_secondary_dark)));
             }
 
             if (typedArray.hasValue(R.styleable.MaterialSearchView_android_hint)) {

@@ -100,7 +100,7 @@
                     style="@style/toolbar_button"
                     android:layout_gravity="end"
                     android:clickable="false"
-                    android:src="@drawable/ic_search"/>
+                    android:src="@drawable/ic_search_white_24dp"/>
             </android.support.v7.widget.Toolbar>
 
 

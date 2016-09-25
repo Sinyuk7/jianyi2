@@ -72,6 +72,11 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.Transparent"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
+
+        <activity
+            android:name=".ui.search.SearchResultActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.Transparent"/>
     </application>
 
 </manifest>

@@ -39,5 +39,19 @@ public class GoodsRepository {
 
     }
 
+    public Observable<List<Goods>> search(String content, int page) {
+        return jianyiService.search(content, page)
+                .map(new HttpResultFunc<GoodsResult>() {
+                    @Override
+                    public GoodsResult call(HttpResult<GoodsResult> httpResult) {
+                        return httpResult.getData();
+                    }
+                })
+                .map(GoodsResult::getItems)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+    }
+
 
 }

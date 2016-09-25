@@ -30,4 +30,5 @@
     <string name="player_like_count">收藏 %d</string>
     <string name="action_share">分享</string>
     <string name="hint_exception">未知的错误</string>
+    <string name="search_for">搜索: %s</string>
 </resources>

@@ -61,7 +61,7 @@ public class GoodsListFragment extends BaseFragment {
      */
     private String title;
     private int school;
-    private int page = 3;
+    private int page = 1;
 
     //
     private final Observer<List<Goods>> refreshObserver = new Observer<List<Goods>>() {

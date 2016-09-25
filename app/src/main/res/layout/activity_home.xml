@@ -68,7 +68,7 @@
                     android:id="@+id/search_btn"
                     style="@style/toolbar_button"
                     android:layout_gravity="end"
-                    android:src="@drawable/ic_search"/>
+                    android:src="@drawable/ic_search_white_24dp"/>
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>

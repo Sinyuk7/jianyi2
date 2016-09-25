@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <include
-        layout="@layout/player_sheet_list"/>
+        layout="@layout/common_recycler_view"/>
 
     <include
         layout="@layout/common_list_empty"/>

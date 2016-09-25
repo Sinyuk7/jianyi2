@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="MaterialSearchViewStyle">
-        <item name="searchBackground">@color/white_ish</item>
-        <item name="searchVoiceIcon">@drawable/ic_action_voice_search</item>
-        <item name="searchCloseIcon">@drawable/ic_action_navigation_close</item>
-        <item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back</item>
-        <item name="searchSuggestionBackground">@color/search_layover_bg</item>
-        <item name="android:textColor">@color/text_primary_dark</item>
-        <item name="android:textColorHint">@color/text_secondary_dark</item>
+        <!--<item name="searchBackground">@color/white_ish</item>-->
+        <!--<item name="searchVoiceIcon">@drawable/ic_action_voice_search</item>-->
+        <!--<item name="searchCloseIcon">@drawable/ic_action_navigation_close</item>-->
+        <!--<item name="searchBackIcon">@drawable/ic_action_navigation_arrow_back</item>-->
+        <!--<item name="searchSuggestionBackground">@color/white</item>-->
+        <!--<item name="android:textColor">@color/text_primary_dark</item>-->
+        <!--<item name="android:textColorHint">@color/text_secondary_dark</item>-->
         <item name="android:hint">@string/hint_search</item>
         <item name="android:inputType">textCapWords</item>
     </style>

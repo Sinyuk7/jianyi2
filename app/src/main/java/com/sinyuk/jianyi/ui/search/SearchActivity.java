@@ -25,33 +25,12 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.search_view)
     MaterialSearchView searchView;
 
-    @Override
-    protected int getContentViewID() {
-        return R.layout.search_activity;
-    }
-
-    @Override
-    protected void beforeInflating() {
-
-    }
-
-    @Override
-    protected void finishInflating(Bundle savedInstanceState) {
-        setupSearchView();
-        searchView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                searchView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                searchView.openSearch();
-            }
-        });
-    }
-
     private void setupSearchView() {
 
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                SearchResultActivity.start(SearchActivity.this, query);
                 return false;
             }
 
@@ -70,6 +49,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onSearchViewClosed() {
                 // Do something once the view is closed.
+                finish();
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -78,8 +59,7 @@ public class SearchActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Do something when the suggestion list is clicked.
                 String suggestion = searchView.getSuggestionAtPosition(position);
-
-                searchView.setQuery(suggestion, false);
+                searchView.setQuery(suggestion, true);
             }
         });
 
@@ -87,13 +67,6 @@ public class SearchActivity extends BaseActivity {
         searchView.adjustTintAlpha(0.8f);
 
         final Context context = this;
-        searchView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(context, "Long clicked position: " + i, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
 
         searchView.setOnVoiceClickedListener(new MaterialSearchView.OnVoiceClickedListener() {
             @Override
@@ -101,8 +74,6 @@ public class SearchActivity extends BaseActivity {
                 Toast.makeText(context, "Voice clicked!", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     @Override
@@ -115,7 +86,6 @@ public class SearchActivity extends BaseActivity {
                     searchView.setQuery(searchWrd, false);
                 }
             }
-
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -142,7 +112,6 @@ public class SearchActivity extends BaseActivity {
         super.onResume();
         searchView.activityResumed();
         String[] arr = getResources().getStringArray(R.array.suggestions);
-
         searchView.addSuggestions(arr);
     }
 
@@ -156,5 +125,27 @@ public class SearchActivity extends BaseActivity {
 
     private void clearAll() {
         searchView.clearAll();
+    }
+
+    @Override
+    protected int getContentViewID() {
+        return R.layout.activity_search;
+    }
+
+    @Override
+    protected void beforeInflating() {
+
+    }
+
+    @Override
+    protected void finishInflating(Bundle savedInstanceState) {
+        setupSearchView();
+        searchView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                searchView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                searchView.openSearch();
+            }
+        });
     }
 }

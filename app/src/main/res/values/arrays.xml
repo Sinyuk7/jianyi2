@@ -113,20 +113,87 @@
     </string-array>
 
     <string-array name="suggestions">
+        <item>IPhone</item>
+        <item>iphone</item>
+        <item>Samsung</item>
+        <item>HUAWEI</item>
+        <item>huawei</item>
+        <item>Nokia</item>
         <item>Apple</item>
-        <item>Apricot</item>
-        <item>Avocado</item>
-        <item>Banana</item>
-        <item>Blueberry</item>
-        <item>Blackberry</item>
-        <item>Carrot</item>
-        <item>Cherry</item>
-        <item>Orange</item>
-        <item>Potato</item>
-        <item>Peach</item>
-        <item>Passion fruit</item>
-        <item>Pear</item>
-        <item>Strawberry</item>
+        <item>测试</item>
+        <item>简易</item>
+        <item>波哥</item>
+        <item>小电驴</item>
+        <item>简易</item>
+        <item>华为</item>
+        <item>三星</item>
+        <item>mp3</item>
+        <item>口红</item>
+        <item>耳机</item>
+        <item>闪讯r</item>
+        <item>英语等级</item>
+        <item>考研公务员</item>
+        <item>文学图书</item>
+        <item>动漫图书</item>
+        <item>外语学习</item>
+        <item>音像资料</item>
+        <item>专业教材</item>
+        <item>报刊杂志</item>
+        <item>双肩包</item>
+        <item>单肩包</item>
+        <item>钱包</item>
+        <item>行李箱</item>
+
+        <item>水卡</item>
+        <item>优惠券/代金券</item>
+        <item>门票转让</item>
+        <item>会员卡转让</item>
+        <item>宽带转让</item>
+
+        <item>男鞋</item>
+        <item>女鞋</item>
+        <item>男士服装</item>
+        <item>女士上装</item>
+        <item>女士下装</item>
+        <item>首饰</item>
+        <item>帽子</item>
+        <item>围巾</item>
+        <item>眼镜</item>
+        <item>手表</item>
+        <item>文具</item>
+        <item>乐器</item>
+        <item>玩具</item>
+        <item>办公</item>
+
+
+        <item>床上用品</item>
+        <item>家居电器</item>
+        <item>餐饮用品</item>
+        <item>医药用品</item>
+        <item>居家日用</item>
+        <item>整理收纳</item>
+
+        <item>美妆护肤</item>
+        <item>洗护清洁</item>
+        <item>香水</item>
+        <item>手足护理</item>
+
+
+        <item>球拍</item>
+        <item>球类</item>
+        <item>健身器材</item>
+        <item>户外运动用品</item>
+
+
+        <item>自行车</item>
+        <item>轮滑/滑板</item>
+        <item>电瓶车</item>
+        <item>手机</item>
+        <item>手机壳</item>
+        <item>电脑外设</item>
+        <item>影音电器</item>
+        <item>相机</item>
+        <item>其他</item>
     </string-array>
 
 </resources>
