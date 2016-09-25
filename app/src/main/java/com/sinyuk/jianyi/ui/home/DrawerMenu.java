@@ -57,6 +57,7 @@ public class DrawerMenu extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         drawerLayout = (DrawerLayout) ((Activity) context).findViewById(R.id.drawer_layout);
+        if (drawerLayout == null) return;
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -76,7 +77,7 @@ public class DrawerMenu extends BaseFragment {
                     schoolSelector.show(getChildFragmentManager(), SchoolSelector.TAG);
                     isClickSchool = false;
                 } else if (!TextUtils.isEmpty(mTitle)) {
-                    EventBus.getDefault().post(new FilterUpdateEvent(mTitle,null));
+                    EventBus.getDefault().post(new FilterUpdateEvent(mTitle, null));
                 }
             }
 

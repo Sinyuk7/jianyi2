@@ -65,5 +65,9 @@ public class FuzzyDateFormater {
         return getTimeAgo(context, date);
     }
 
+    public static String getTimeNow(Context context) {
+        return getTimeAgo(context, new Date(System.currentTimeMillis()));
+    }
+
 
 }

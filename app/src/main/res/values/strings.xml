@@ -31,4 +31,6 @@
     <string name="action_share">分享</string>
     <string name="hint_exception">未知的错误</string>
     <string name="search_for">搜索: %s</string>
+    <string name="hint_fail_to_get_user_info">获取用户信息失败</string>
+    <string name="hint_login_first">请先登录</string>
 </resources>

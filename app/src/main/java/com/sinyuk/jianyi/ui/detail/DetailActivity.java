@@ -2,12 +2,12 @@ package com.sinyuk.jianyi.ui.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -42,14 +42,15 @@ import com.sinyuk.jianyi.data.BaseRVAdapter;
 import com.sinyuk.jianyi.data.comment.Comment;
 import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.Pic;
+import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.AvatarHelper;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.ImeUtils;
 import com.sinyuk.jianyi.utils.MathUtils;
-import com.sinyuk.jianyi.utils.NameGenerator;
 import com.sinyuk.jianyi.utils.TextViewHelper;
+import com.sinyuk.jianyi.utils.ToastUtils;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.utils.list.InsetDividerDecoration;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
@@ -70,6 +71,7 @@ import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -85,7 +87,8 @@ public class DetailActivity extends BaseActivity {
     AccountManger accountManger;
     @Inject
     RxSharedPreferences preferences;
-
+    @Inject
+    ToastUtils toastUtils;
 
     @BindDimen(R.dimen.divider_height)
     int dividerHeight;
@@ -144,6 +147,9 @@ public class DetailActivity extends BaseActivity {
     private AnimatedVectorDrawableCompat viewsAvd;
     private AnimatedVectorDrawableCompat shareAvd;
     private boolean isLoading;
+
+    private List<Comment> comments = new ArrayList<>();
+
     private CommentAdapter mCommentAdapter;
     private DrawableRequestBuilder<String> avatarBuilder;
     private View commentFooter;
@@ -152,12 +158,38 @@ public class DetailActivity extends BaseActivity {
     private View.OnClickListener onPostButtonClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (accountManger.isLoggedIn()) {
+            if (!accountManger.isLoggedIn()) {
                 //
-                Toast.makeText(DetailActivity.this, "登录了", Toast.LENGTH_LONG).show();
+                Toast.makeText(DetailActivity.this, getString(R.string.hint_login_first), Toast.LENGTH_LONG).show();
             } else {
                 //
-                Toast.makeText(DetailActivity.this, "没登录", Toast.LENGTH_LONG).show();
+                if (commentsList != null) {
+                    enterComment.setEnabled(false);
+                    Comment comment = new Comment();
+                    comment.setMessage(enterComment.getText().toString());
+                    comment.setTime(FuzzyDateFormater.getTimeNow(DetailActivity.this));
+                    accountManger.getCurrentUser()
+                            .doOnTerminate(() -> enterComment.setEnabled(true))
+                            .subscribe(new Observer<Player>() {
+                                @Override
+                                public void onCompleted() {
+                                    mCommentAdapter.addNew(comment);
+//                                  loadComments();
+                                    enterComment.getText().clear();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    toastUtils.toastShort(getString(R.string.hint_fail_to_get_user_info));
+                                }
+
+                                @Override
+                                public void onNext(Player player) {
+                                    comment.setPlayer(player);
+                                }
+                            });
+
+                }
             }
         }
     };
@@ -259,29 +291,18 @@ public class DetailActivity extends BaseActivity {
 
         commentsList.setAdapter(mCommentAdapter);
 
-        List<Comment> comments = new ArrayList<>();
-        if (result.getId() % 2 == 0) {
-            Comment fake = new Comment();
-            fake.setSession(result.getId());
-            fake.setUserName(NameGenerator.generateName());
-            comments.add(fake);
-        }
-        mCommentAdapter.resetAll(comments);
+//        if (result.getId() % 2 == 0) {
+//            Comment fake = new Comment();
+//            comments.add(fake);
+//        }
+//
+//        mCommentAdapter.resetAll(comments);
     }
 
     private void loadComment() {
 
     }
 
-    private void setupActionButtons() {
-        try {
-            viewCountIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_views, null));
-            likeIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_likes, null));
-            shareIv.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.avd_share, null));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void setupViewPager() {
         mShotAdapter = new ShotAdapter();
@@ -368,23 +389,41 @@ public class DetailActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.like_iv, R.id.view_count_iv, R.id.share_iv})
-    public void onActionButtonClick(ImageView v) {
-        animatedVectorDrawable(v);
-        switch (v.getId()) {
-            case R.id.like_iv:
-                break;
-            case R.id.view_count_iv:
-                break;
-            case R.id.share_iv:
-                v.postDelayed(this::shareTo, 500);
-                break;
+    private void setupActionButtons() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            likeAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_likes);
+            shareAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_share);
+            viewsAvd = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_views);
+            likeIv.setImageDrawable(likeAvd);
+            shareIv.setImageDrawable(shareAvd);
+            viewCountIv.setImageDrawable(viewsAvd);
+        } else {
+            // no-op
         }
     }
 
-    private void animatedVectorDrawable(ImageView v) {
-        if (v.getDrawable() instanceof AnimatedVectorDrawableCompat) {
-            ((AnimatedVectorDrawableCompat) v.getDrawable()).start();
+    @OnClick({R.id.like_iv, R.id.like_count, R.id.view_count, R.id.share_tv, R.id.view_count_iv, R.id.share_iv})
+    public void onActionButtonClick(View v) {
+        switch (v.getId()) {
+            case R.id.like_iv:
+            case R.id.like_count:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && likeAvd != null) {
+                    likeAvd.start();
+                }
+                break;
+            case R.id.view_count_iv:
+            case R.id.view_count:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && viewsAvd != null) {
+                    viewsAvd.start();
+                }
+                break;
+            case R.id.share_iv:
+            case R.id.share_tv:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && shareAvd != null) {
+                    shareAvd.start();
+                }
+                v.postDelayed(this::shareTo, 500);
+                break;
         }
     }
 
@@ -545,34 +584,36 @@ public class DetailActivity extends BaseActivity {
 
             holder.mExpandView.setVisibility(position == mSelected ? View.VISIBLE : View.GONE);
 
-            TextViewHelper.setText(holder.mUserNameTv, data.getUserName(), null);
+            TextViewHelper.setText(holder.mUserNameTv, data.getPlayer().getName(), null);
 
-            TextViewHelper.setText(holder.mPubDateTv, FuzzyDateFormater.getTimeAgo(DetailActivity.this, new Date(System.currentTimeMillis() - 600000 * new Random().nextInt(position + 1) - position * 6000000)), null);
+            TextViewHelper.setText(holder.mPubDateTv, data.getTime(),
+                    FuzzyDateFormater.getTimeAgo(DetailActivity.this, new Date(System.currentTimeMillis() - 600000 * new Random().nextInt(position + 1) - position * 6000000)));
 
-            TextViewHelper.setText(holder.mDetailsTv, getString(R.string.fake), null);
+            TextViewHelper.setText(holder.mDetailsTv, data.getMessage(), getString(R.string.fake));
 
-            int index = position % avatarUrls.length;
-            if (index > avatarUrls.length || index < 0) {
-                index = new Random().nextInt(20);
-            }
-            avatarBuilder.load(avatarUrls[index]).into(holder.mAvatar);
-
-            holder.mReplyIv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final int position = holder.getAdapterPosition();
-                    if (position == RecyclerView.NO_POSITION) return;
-
-                    enterComment.setText("@" + data.getUserName() + " ");
-                    enterComment.setSelection(enterComment.getText().length());
-
-                    // collapse the comment and scroll the reply box (in the footer) into view
-                    mSelected = RecyclerView.NO_POSITION;
-                    notifyItemChanged(position);
-                    holder.mReplyIv.jumpDrawablesToCurrentState();
-                    enterComment.requestFocus();
-                    commentsList.smoothScrollToPosition(getDataItemCount());
+            if (TextUtils.isEmpty(data.getPlayer().getAvatar())) {
+                int index = position % avatarUrls.length;
+                if (index > avatarUrls.length || index < 0) {
+                    index = new Random().nextInt(20);
                 }
+                avatarBuilder.load(avatarUrls[index]).into(holder.mAvatar);
+            } else {
+                avatarBuilder.load(data.getPlayer().getAvatar()).into(holder.mAvatar);
+            }
+
+            holder.mReplyIv.setOnClickListener(v -> {
+                final int position1 = holder.getAdapterPosition();
+                if (position1 == RecyclerView.NO_POSITION) return;
+
+                enterComment.setText("@" + data.getPlayer().getName() + " ");
+                enterComment.setSelection(enterComment.getText().length());
+
+                // collapse the comment and scroll the reply box (in the footer) into view
+                mSelected = RecyclerView.NO_POSITION;
+                notifyItemChanged(position1);
+                holder.mReplyIv.jumpDrawablesToCurrentState();
+                enterComment.requestFocus();
+                commentsList.smoothScrollToPosition(getDataItemCount());
             });
         }
 
@@ -580,6 +621,14 @@ public class DetailActivity extends BaseActivity {
             mDataSet.clear();
             mDataSet.addAll(comments);
             notifyItemRangeInserted(0, comments.size());
+        }
+
+        void addNew(Comment comment) {
+            mDataSet.add(0, comment);
+            notifyItemInserted(0);
+            if (commentsList != null) {
+                commentsList.smoothScrollToPosition(0);
+            }
         }
 
         public class CommentViewHolder extends RecyclerView.ViewHolder {

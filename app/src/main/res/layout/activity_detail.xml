@@ -107,138 +107,133 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <include
+            layout="@layout/common_list_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:layout_marginTop="@dimen/content_space_16"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include
-                layout="@layout/common_list_divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginBottom="12dp"
-                android:layout_marginLeft="@dimen/content_space_16"
-                android:layout_marginRight="@dimen/content_space_16"
-                android:layout_marginTop="@dimen/content_space_16"/>
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/content_space_16"
-                android:layout_marginRight="@dimen/content_space_16"
-                android:orientation="horizontal">
+                style="@style/detail_actions_layout">
 
-                <LinearLayout
-                    style="@style/detail_actions_layout">
+                <ImageView
+                    android:id="@+id/like_iv"
+                    style="@style/detail_action_button"
+                    android:src="@drawable/ic_like_full_24dp_grey"/>
 
-                    <ImageView
-                        android:id="@+id/like_iv"
-                        style="@style/detail_action_button"
-                        android:src="@drawable/ic_like_full_24dp_grey"/>
-
-                    <TextView
-                        android:id="@+id/like_count"
-                        style="@style/detail_action_text"
-                        tools:text="12 喜欢"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/detail_actions_layout">
-
-                    <ImageView
-                        android:id="@+id/view_count_iv"
-                        style="@style/detail_action_button"
-                        android:src="@drawable/ic_views"
-                        tools:text="33 views"/>
-
-                    <TextView
-                        android:id="@+id/view_count"
-                        style="@style/detail_action_text"
-                        tools:text="12 看过"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/detail_actions_layout">
-
-                    <ImageView
-                        android:id="@+id/share_iv"
-                        style="@style/detail_action_button"
-                        android:src="@drawable/ic_share_avd"/>
-
-                    <TextView
-                        style="@style/detail_action_text"
-                        android:text="@string/action_share"/>
-                </LinearLayout>
-
-
+                <TextView
+                    android:id="@+id/like_count"
+                    style="@style/detail_action_text"
+                    tools:text="12 喜欢"/>
             </LinearLayout>
-
-            <include
-                layout="@layout/common_list_divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginBottom="@dimen/content_space_16"
-                android:layout_marginLeft="@dimen/content_space_16"
-                android:layout_marginRight="@dimen/content_space_16"
-                android:layout_marginTop="@dimen/content_space_8"/>
-
-            <TextView
-                android:id="@+id/description_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/content_space_16"
-                android:layout_marginRight="@dimen/content_space_16"
-                android:gravity="center"
-                android:lineSpacingMultiplier="1.05"
-                android:textColor="@color/text_secondary_dark"
-                android:textSize="14sp"
-                tools:text="@string/fake"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/details_footer_scrim"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/content_space_16"
-                android:paddingLeft="@dimen/content_space_16"
-                android:paddingRight="@dimen/content_space_16">
+                style="@style/detail_actions_layout">
+
+                <ImageView
+                    android:id="@+id/view_count_iv"
+                    style="@style/detail_action_button"
+                    android:src="@drawable/ic_views"
+                    tools:text="33 views"/>
 
                 <TextView
-                    android:id="@+id/school_extra"
-                    style="@style/detail_extras"
-                    android:layout_marginBottom="@dimen/content_space_2"
-                    android:layout_marginTop="@dimen/content_space_8"
-                    tools:text="\@\浙江传媒学院"/>
-
-                <TextView
-                    android:id="@+id/price_extra"
-                    style="@style/detail_extras"
-                    android:textColor="@color/themeRed"
-                    tools:text="100,0"/>
-
+                    android:id="@+id/view_count"
+                    style="@style/detail_action_text"
+                    tools:text="12 看过"/>
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/comments_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/grey_100"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                android:paddingBottom="@dimen/content_space_16"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:listitem="@layout/comment_list_item"/>
+            <LinearLayout
+                style="@style/detail_actions_layout">
+
+                <ImageView
+                    android:id="@+id/share_iv"
+                    style="@style/detail_action_button"
+                    android:src="@drawable/ic_share_avd"/>
+
+                <TextView
+                    android:id="@+id/share_tv"
+                    style="@style/detail_action_text"
+                    android:text="@string/action_share"/>
+            </LinearLayout>
+
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+        <include
+            layout="@layout/common_list_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="@dimen/content_space_16"
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:layout_marginTop="@dimen/content_space_8"/>
+
+        <TextView
+            android:id="@+id/description_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/content_space_16"
+            android:layout_marginRight="@dimen/content_space_16"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.05"
+            android:textColor="@color/text_secondary_dark"
+            android:textSize="14sp"
+            tools:text="@string/fake"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/details_footer_scrim"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/content_space_16"
+            android:paddingLeft="@dimen/content_space_16"
+            android:paddingRight="@dimen/content_space_16">
+
+            <TextView
+                android:id="@+id/school_extra"
+                style="@style/detail_extras"
+                android:layout_marginBottom="@dimen/content_space_2"
+                android:layout_marginTop="@dimen/content_space_8"
+                tools:text="\@\浙江传媒学院"/>
+
+            <TextView
+                android:id="@+id/price_extra"
+                style="@style/detail_extras"
+                android:textColor="@color/themeRed"
+                tools:text="100,0"/>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comments_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/window_background"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:listitem="@layout/comment_list_item"/>
+
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
 
 

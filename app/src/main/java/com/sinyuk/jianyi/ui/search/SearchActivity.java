@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.sinyuk.jianyi.R;
@@ -54,13 +52,10 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Do something when the suggestion list is clicked.
-                String suggestion = searchView.getSuggestionAtPosition(position);
-                searchView.setQuery(suggestion, true);
-            }
+        searchView.setOnItemClickListener((parent, view, position, id) -> {
+            // Do something when the suggestion list is clicked.
+            String suggestion = searchView.getSuggestionAtPosition(position);
+            searchView.setQuery(suggestion, true);
         });
 
         //        searchView.setTintAlpha(200);
