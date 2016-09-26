@@ -16,12 +16,12 @@
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/design/24.2.1/res/layout/design_text_input_password_icon.xml"
     },
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_select_dialog_material.xml"
-    },
-    {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/design_navigation_item.xml",
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/design/24.2.1/res/layout/design_navigation_item.xml"
+    },
+    {
+        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/abc_select_dialog_material.xml",
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_select_dialog_material.xml"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/abc_action_menu_item_layout.xml",
@@ -32,12 +32,12 @@
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_popup_menu_item_layout.xml"
     },
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/abc_action_mode_close_item_material.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_mode_close_item_material.xml"
-    },
-    {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/notification_template_part_chronometer.xml",
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/abc_action_mode_close_item_material.xml",
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_mode_close_item_material.xml"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/layout/notification_template_big_media.xml",

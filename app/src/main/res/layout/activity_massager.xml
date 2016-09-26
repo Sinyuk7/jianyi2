@@ -1,0 +1,91 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:layout_marginStart="32dp"
+    android:background="@drawable/rounded_rect_white"
+    android:elevation="4dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:transitionName="transition_dialog"
+    android:translationZ="4dp">
+
+    <TextView
+        android:id="@+id/send_to_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/send_to_tv"
+        android:text="@string/hint_send_to"
+        android:textColor="@color/text_secondary_dark"
+        android:textSize="@dimen/material_text_title"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/send_to_tv"
+        style="@style/SingleLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/content_space_4"
+        android:layout_toRightOf="@+id/send_to_hint"
+        android:textSize="@dimen/material_text_headline"
+        android:textStyle="bold"
+        tools:text="Sinyuk"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/message_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/send_to_tv"
+        android:textColorHint="@color/text_secondary_dark">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/message_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:maxHeight="48dp"
+            android:minHeight="48dp"
+            android:scrollHorizontally="false"
+            android:textColor="@color/text_primary_dark"
+            android:textSize="@dimen/material_text_body1"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/send_btn"
+        style="?borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/message_input_layout"
+        android:layout_marginTop="16dp"
+        android:minWidth="0dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/action_send"
+        android:textColor="@color/colorAccent"/>
+
+    <Button
+        android:id="@+id/cancel_btn"
+        style="?borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/send_btn"
+        android:layout_toLeftOf="@+id/send_btn"
+        android:minWidth="0dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:text="@string/action_cancel"
+        android:textColor="@color/grey_600"/>
+
+</RelativeLayout>

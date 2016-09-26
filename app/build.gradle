@@ -17,7 +17,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -84,4 +85,7 @@ dependencies {
     compile project(path: ':fishbun')
     compile 'top.zibin:Luban:1.0.8'
     compile project(path: ':searchview')
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0'
+    compile 'hanks.xyz:smallbang-library:0.1.2'
+
 }

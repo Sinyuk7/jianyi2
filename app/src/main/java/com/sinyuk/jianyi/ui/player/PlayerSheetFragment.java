@@ -1,6 +1,8 @@
 package com.sinyuk.jianyi.ui.player;
 
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.GridLayoutManager;
@@ -297,10 +299,15 @@ public class PlayerSheetFragment extends LazyFragment {
             if (holder instanceof PostedItemHolder) {
                 ((PostedItemHolder) holder).deleteButton.setOnClickListener(v -> {
                     final int index = holder.getAdapterPosition();
+                   ((PostedItemHolder) holder).deleteButton.setOnClickListener(v1 -> notifyItemRemoved(index));
                 });
             } else if (holder instanceof DeletedItemHolder) {
                 ((DeletedItemHolder) holder).undoButton.setOnClickListener(v -> {
                     final int index = holder.getAdapterPosition();
+                    ColorMatrix mMatrix = new ColorMatrix();
+                    mMatrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(mMatrix);
+                    holder.shotIv.setColorFilter(filter);
                 });
             } else if (holder instanceof LikedItemHolder) {
                 ((LikedItemHolder) holder).likeButton.setOnClickListener(v -> {
@@ -309,6 +316,7 @@ public class PlayerSheetFragment extends LazyFragment {
             }
 
         }
+
 
         @Override
         public int getItemViewType(int position) {

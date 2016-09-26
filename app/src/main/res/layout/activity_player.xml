@@ -81,25 +81,25 @@
 
 
                 <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="?actionBarSize"-->
-                    <!--android:layout_below="@+id/school_tv"-->
-                    <!--android:layout_marginTop="@dimen/content_space_16"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:orientation="horizontal">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="?actionBarSize"-->
+                <!--android:layout_below="@+id/school_tv"-->
+                <!--android:layout_marginTop="@dimen/content_space_16"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal">-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/post_tab"-->
-                        <!--style="@style/player_tab_text"-->
-                        <!--android:drawableTop="@drawable/ic_goods"-->
-                        <!--android:text="@string/player_post_count"/>-->
+                <!--<TextView-->
+                <!--android:id="@+id/post_tab"-->
+                <!--style="@style/player_tab_text"-->
+                <!--android:drawableTop="@drawable/ic_goods"-->
+                <!--android:text="@string/player_post_count"/>-->
 
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/like_tab"-->
-                        <!--style="@style/player_tab_text"-->
-                        <!--android:drawableTop="@drawable/ic_goods_favor"-->
-                        <!--android:text="@string/player_like_count"/>-->
+                <!--<TextView-->
+                <!--android:id="@+id/like_tab"-->
+                <!--style="@style/player_tab_text"-->
+                <!--android:drawableTop="@drawable/ic_goods_favor"-->
+                <!--android:text="@string/player_like_count"/>-->
                 <!--</LinearLayout>-->
 
                 <android.support.design.widget.TabLayout
@@ -139,6 +139,7 @@
         android:id="@+id/fab"
         style="@style/FAB.Large"
         android:layout_gravity="bottom|end"
+        android:transitionName="transition_dialog"
         android:visibility="gone"
         app:layout_behavior="com.sinyuk.jianyi.utils.ScrollAwareFABBehavior"/>
 </android.support.design.widget.CoordinatorLayout>

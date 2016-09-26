@@ -18,6 +18,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.need.Need;
+import com.sinyuk.jianyi.ui.player.MessageView;
 import com.sinyuk.jianyi.utils.FormatUtils;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.StringUtils;
@@ -104,7 +105,7 @@ public class NeedAdapter extends RecyclerView.Adapter<NeedAdapter.NeedItemViewHo
             holder.mChatIv.setEnabled(true);
             holder.mChatIv.setClickable(true);
             holder.mChatIv.setOnClickListener(v -> {
-
+                context.startActivity(MessageView.newIntent(context, data.getUsername(), data.getTel()));
             });
         }
 

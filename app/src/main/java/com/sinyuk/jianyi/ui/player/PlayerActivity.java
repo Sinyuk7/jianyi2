@@ -1,5 +1,7 @@
 package com.sinyuk.jianyi.ui.player;
 
+import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -19,12 +21,14 @@ import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
+import com.jakewharton.rxbinding.view.RxView;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
 import com.sinyuk.jianyi.data.player.Player;
@@ -34,6 +38,7 @@ import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.glide.BlurTransformation;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.widgets.RatioImageView;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +55,7 @@ import rx.android.schedulers.AndroidSchedulers;
 public class PlayerActivity extends BaseActivity {
     public static final String KEY_PLAYER = "PLAYER";
     public static final String KEY_SCHOOL = "SCHOOL";
-
+    public static final int REQUEST_MESSAGE = 0X22;
     private static final int BLUR_RADIUS = 28;
     private static final int BLUR_SAMPLING = 14;
     @BindView(R.id.view_pager)
@@ -199,9 +204,31 @@ public class PlayerActivity extends BaseActivity {
             mFab.setOnClickListener(getEditorStater());
         } else {
             mActionIv.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_reply_white));
-            mActionIv.setOnClickListener(getMessagerStater());
+            getMessagerStater(mFab);
             mFab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_reply_white));
-            mFab.setOnClickListener(getMessagerStater());
+            mActionIv.setOnClickListener(v -> startActivityForResult(MessageView.newIntent(PlayerActivity.this, mPlayer.getName(), mPlayer.getTel()), REQUEST_MESSAGE));
+        }
+    }
+
+    private void getMessagerStater(View v) {
+        addSubscription(
+                RxView.clicks(v).compose(RxPermissions.getInstance(this)
+                        .ensure(Manifest.permission.SEND_SMS))
+                        .subscribe(granted -> {
+                            if (granted) {
+                                startMessageDialog();
+                            } else {
+                                Toast.makeText(this, getString(R.string.hint_permission_denied), Toast.LENGTH_SHORT).show();
+                            }
+                        }));
+    }
+
+    private void startMessageDialog() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(PlayerActivity.this, mFab, "transition_dialog");
+            startActivityForResult(MessageView.newIntent(this, mPlayer.getName(), mPlayer.getTel()), REQUEST_MESSAGE, options.toBundle());
+        } else {
+            startActivityForResult(MessageView.newIntent(this, mPlayer.getName(), mPlayer.getTel()), REQUEST_MESSAGE);
         }
     }
 
@@ -210,10 +237,6 @@ public class PlayerActivity extends BaseActivity {
         };
     }
 
-    private View.OnClickListener getMessagerStater() {
-        return v -> {
-        };
-    }
 
     private void doubleCheckIsSelf() {
         if (preferenceLazy.get().getInteger(PrefsKeySet.KEY_USER_ID).isSet()) {

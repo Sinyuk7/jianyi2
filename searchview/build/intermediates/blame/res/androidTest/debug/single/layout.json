@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_icon.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_list_menu_item_icon.xml"
-    },
-    {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_checkbox.xml",
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/layout/abc_list_menu_item_icon.xml",
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_list_menu_item_icon.xml"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/layout/notification_template_lines.xml",

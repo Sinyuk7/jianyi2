@@ -33,4 +33,9 @@
     <string name="search_for">搜索: %s</string>
     <string name="hint_fail_to_get_user_info">获取用户信息失败</string>
     <string name="hint_login_first">请先登录</string>
+    <string name="hint_send_to">\@\ </string>
+    <string name="action_send">发送</string>
+    <string name="action_cancel">取消</string>
+    <string name="hint_empty_content">说点什么啊</string>
+    <string name="hint_permission_denied">操作未被允许</string>
 </resources>

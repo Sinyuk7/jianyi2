@@ -5,7 +5,7 @@
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_navigation_arrow_back.png",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/src/main/res/drawable-xxhdpi/ic_action_navigation_arrow_back.png"
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/generated/res/pngs/debug/drawable-xxhdpi/ic_action_navigation_arrow_back.png"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/abc_btn_radio_to_on_mtrl_015.png",
@@ -18,10 +18,6 @@
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/abc_list_pressed_holo_dark.9.png",
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xxhdpi-v4/abc_list_pressed_holo_dark.9.png"
-    },
-    {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_action_search.png",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/src/main/res/drawable-xxhdpi/ic_action_action_search.png"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/abc_list_divider_mtrl_alpha.9.png",
@@ -60,12 +56,12 @@
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xxhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
     },
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_navigation_close.png",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/src/main/res/drawable-xxhdpi/ic_action_navigation_close.png"
-    },
-    {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_history_white_24dp.png",
         "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/src/main/res/drawable-xxhdpi/ic_history_white_24dp.png"
+    },
+    {
+        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_navigation_close.png",
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/generated/res/pngs/debug/drawable-xxhdpi/ic_action_navigation_close.png"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/abc_ic_star_black_36dp.png",
@@ -77,7 +73,7 @@
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_search_white_24dp.png",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/src/main/res/drawable-xxhdpi/ic_search_white_24dp.png"
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/generated/res/pngs/debug/drawable-xxhdpi/ic_search_white_24dp.png"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/abc_ic_star_half_black_48dp.png",
@@ -173,7 +169,7 @@
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/ic_action_voice_search.png",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/src/main/res/drawable-xxhdpi/ic_action_voice_search.png"
+        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/generated/res/pngs/debug/drawable-xxhdpi/ic_action_voice_search.png"
     },
     {
         "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/debug/drawable-xxhdpi-v4/abc_popup_background_mtrl_mult.9.png",

@@ -217,7 +217,11 @@ public class GoodsListFragment extends BaseFragment {
      */
     private void hideRefreshView() {
         if (pullToRefreshView != null) {
-            pullToRefreshView.postDelayed(() -> pullToRefreshView.setRefreshing(false), 2000);
+            pullToRefreshView.postDelayed(() -> {
+                if (pullToRefreshView != null) {
+                    pullToRefreshView.setRefreshing(false);
+                }
+            }, 2000);
         }
     }
 

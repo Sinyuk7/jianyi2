@@ -145,7 +145,7 @@ public class PostNeedActivity extends FormActivity {
         telEt.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 final String tel = accountMangerLazy.get().getTel();
-                if (TextUtils.isEmpty(tel)) {
+                if (!TextUtils.isEmpty(tel)) {
                     telEt.setText(tel);
                 }
             }
