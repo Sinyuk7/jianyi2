@@ -14,6 +14,17 @@ android {
         buildConfigField "String", "CLIENT_ID", "\"${rootProject.ext.jianyiClient.id}\""
         buildConfigField "String", "CLIENT_SECRET", "\"${rootProject.ext.jianyiClient.secret}\""
         buildConfigField "String", "CLIENT_ACCESS_TOKEN", "\"${rootProject.ext.jianyiClient.accessToken}\""
+
+
+        splits {
+            density {
+                enable true
+                include "xxhdpi"
+                compatibleScreens 'large', 'xlarge'
+            }
+        }
+
+        resConfigs "en", "cn"
     }
     buildTypes {
         release {
@@ -30,6 +41,10 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
     signingConfigs {
@@ -67,7 +82,7 @@ dependencies {
     apt rootProject.ext.dependencies["butterknife-compiler"]
     compile rootProject.ext.dependencies["dagger"]
     apt rootProject.ext.dependencies["dagger-compiler"]
-    debugCompile rootProject.ext.dependencies["timber"]
+    compile rootProject.ext.dependencies["timber"]
     //    compile rootProject.ext.dependencies["stetho"]
 
     //    compile rootProject.ext.dependencies["stetho-okhttp3"]
