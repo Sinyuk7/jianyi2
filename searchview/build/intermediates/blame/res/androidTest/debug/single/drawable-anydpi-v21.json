@@ -1,18 +1,18 @@
 [
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/ic_action_voice_search.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/bundles/debug/res/drawable-anydpi-v21/ic_action_voice_search.xml"
+        "merged": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-anydpi-v21\\ic_action_navigation_close.xml",
+        "source": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\bundles\\debug\\res\\drawable-anydpi-v21\\ic_action_navigation_close.xml"
     },
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/ic_action_navigation_arrow_back.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/bundles/debug/res/drawable-anydpi-v21/ic_action_navigation_arrow_back.xml"
+        "merged": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-anydpi-v21\\ic_action_voice_search.xml",
+        "source": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\bundles\\debug\\res\\drawable-anydpi-v21\\ic_action_voice_search.xml"
     },
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/ic_action_navigation_close.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/bundles/debug/res/drawable-anydpi-v21/ic_action_navigation_close.xml"
+        "merged": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-anydpi-v21\\ic_search_white_24dp.xml",
+        "source": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\bundles\\debug\\res\\drawable-anydpi-v21\\ic_search_white_24dp.xml"
     },
     {
-        "merged": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/res/merged/androidTest/debug/drawable-anydpi-v21/ic_search_white_24dp.xml",
-        "source": "/Users/Sinyuk/Documents/Dev/jianyi2/searchview/build/intermediates/bundles/debug/res/drawable-anydpi-v21/ic_search_white_24dp.xml"
+        "merged": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-anydpi-v21\\ic_action_navigation_arrow_back.xml",
+        "source": "D:\\Workplace\\jianyi2\\jianyi2\\searchview\\build\\intermediates\\bundles\\debug\\res\\drawable-anydpi-v21\\ic_action_navigation_arrow_back.xml"
     }
 ]
