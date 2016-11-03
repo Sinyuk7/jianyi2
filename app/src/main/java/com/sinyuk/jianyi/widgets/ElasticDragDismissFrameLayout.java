@@ -121,6 +121,14 @@ public class ElasticDragDismissFrameLayout extends FrameLayout {
         }
     }
 
+
+    public void setElasticDragDismissCallback(ElasticDragDismissCallback listener) {
+        if (callbacks == null) {
+            callbacks = new ArrayList<>();
+        }
+        callbacks.add(listener);
+    }
+
     public void addListener(ElasticDragDismissCallback listener) {
         if (callbacks == null) {
             callbacks = new ArrayList<>();

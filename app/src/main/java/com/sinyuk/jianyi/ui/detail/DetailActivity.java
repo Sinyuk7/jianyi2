@@ -6,23 +6,18 @@ import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,10 +25,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
-import com.jakewharton.rxbinding.support.design.widget.RxAppBarLayout;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
@@ -48,18 +41,17 @@ import com.sinyuk.jianyi.data.player.Player;
 import com.sinyuk.jianyi.databinding.ActivityDetailBinding;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
-import com.sinyuk.jianyi.utils.AvatarHelper;
 import com.sinyuk.jianyi.utils.FuzzyDateFormater;
 import com.sinyuk.jianyi.utils.ImeUtils;
-import com.sinyuk.jianyi.utils.MathUtils;
+import com.sinyuk.jianyi.utils.NameGenerator;
 import com.sinyuk.jianyi.utils.TextViewHelper;
 import com.sinyuk.jianyi.utils.ToastUtils;
 import com.sinyuk.jianyi.utils.glide.CropCircleTransformation;
 import com.sinyuk.jianyi.utils.list.InsetDividerDecoration;
 import com.sinyuk.jianyi.utils.list.SlideInUpAnimator;
 import com.sinyuk.jianyi.widgets.BaselineGridTextView;
+import com.sinyuk.jianyi.widgets.ElasticDragDismissFrameLayout;
 import com.sinyuk.jianyi.widgets.MyCircleImageView;
-import com.sinyuk.jianyi.widgets.TextDrawable;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -75,8 +67,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Sinyuk on 16/9/12.
@@ -97,32 +87,16 @@ public class DetailActivity extends BaseActivity {
     int dividerHeight;
     @BindDimen(R.dimen.content_space_16)
     int itemInset;
-    @BindColor(android.R.color.white)
+    @BindColor(R.color.divider_color)
     int dividerColor;
 
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @BindView(R.id.background)
-    FrameLayout background;
-//    @BindView(R.id.avatar)
-//    ImageView avatar;
+
     @BindView(R.id.pub_date_tv)
     BaselineGridTextView pubDateTv;
-//    @BindView(R.id.header)
-//    LinearLayout header;
-//    @BindView(R.id.back_btn)
-//    ImageView backBtn;
-//    @BindView(R.id.toolbar_title_tv)
-//    TextView toolbarTitleTv;
-//    @BindView(R.id.search_btn)
-//    ImageView searchBtn;
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
-//    @BindView(R.id.collapsing_toolbar_layout)
-//    CollapsingToolbarLayout collapsingToolbarLayout;
-//    @BindView(R.id.app_bar_layout)
-//    AppBarLayout appBarLayout;
+
     @BindView(R.id.like_iv)
     ImageView likeIv;
     @BindView(R.id.like_count)
@@ -133,8 +107,7 @@ public class DetailActivity extends BaseActivity {
     TextView viewCountTv;
     @BindView(R.id.share_iv)
     ImageView shareIv;
-    @BindView(R.id.description_tv)
-    TextView descriptionTv;
+
     @BindView(R.id.school_extra)
     TextView schoolExtra;
     @BindView(R.id.price_extra)
@@ -211,13 +184,21 @@ public class DetailActivity extends BaseActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
+        binding.dragDismissFrameLayout.addListener(new ElasticDragDismissFrameLayout.SystemChromeFader(this) {
+            @Override
+            public void onDragDismissed() {
+                // if we drag dismiss downward then the default reversal of the enter
+                // transition would slide content upward which looks weird. So reverse it.
+                ActivityCompat.finishAfterTransition(DetailActivity.this);
+            }
+        });
+
         ButterKnife.bind(this);
 
         result = getIntent().getParcelableExtra(KEY_GOODS);
 
         binding.setGoods(result);
 
-//        setupAppBarLayout();
 
         setupViewPager();
 
@@ -230,24 +211,6 @@ public class DetailActivity extends BaseActivity {
         addCommentFooter();
     }
 
-    private void setupAppBarLayout() {
-//        int minHeight = collapsingToolbarLayout.getMinimumHeight();
-//        addSubscription(RxAppBarLayout.offsetChanges(appBarLayout)
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .map(dy -> Math.abs(dy / (appBarLayout.getTotalScrollRange() * 1.f - minHeight)))
-//                .map(fraction -> MathUtils.constrain(0, 1, fraction))
-//                .subscribeOn(Schedulers.computation())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(fraction -> {
-//                    if (fraction < 0.8) {
-//                        toolbar.setAlpha(0);
-//                    } else {
-//                        toolbar.setAlpha(fraction);
-//                    }
-//                    searchBtn.setClickable(fraction == 1);
-//                    backBtn.setClickable(fraction == 1);
-//                }));
-    }
 
     private void addCommentFooter() {
         if (null == commentFooter) {
@@ -321,12 +284,16 @@ public class DetailActivity extends BaseActivity {
 
         commentsList.setAdapter(mCommentAdapter);
 
-//        if (result.getId() % 2 == 0) {
-//            Comment fake = new Comment();
-//            comments.add(fake);
-//        }
-//
-//        mCommentAdapter.resetAll(comments);
+        for (int i = 0; i < 8; i++) {
+            Comment fake = new Comment();
+            Player player = new Player();
+            player.setName(NameGenerator.generateName());
+            fake.setPlayer(player);
+            fake.setSession(new Random().nextInt(100) + i * 1000);
+            comments.add(fake);
+        }
+
+        mCommentAdapter.resetAll(comments);
     }
 
     private void loadComment() {
@@ -370,19 +337,6 @@ public class DetailActivity extends BaseActivity {
             TextViewHelper.setText(schoolExtra, String.format("@%s", " " + result.getUser().getSchoolName()), null);
         }
 
-        if (result.getUser() != null) {
-            final TextDrawable placeHolder = AvatarHelper.createTextDrawable(result.getUser().getName(), this);
-//            Glide.with(this).load(result.getUser().getAvatar())
-//                    .priority(Priority.IMMEDIATE)
-//                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-//                    .placeholder(android.R.color.white)
-//                    .error(placeHolder)
-//                    .bitmapTransform(new CropCircleTransformation(this))
-//                    .into(avatar);
-
-
-//            TextViewHelper.setText(userNameTv, result.getUser().getName(), null);
-        }
 
         loadShots();
     }
@@ -406,7 +360,7 @@ public class DetailActivity extends BaseActivity {
 
     }
 
-//    @OnClick(R.id.avatar)
+    //    @OnClick(R.id.avatar)
     public void gotoPlayerActivity(View v) {
         if (result.getUser() != null) {
 //            Pair<View, String> p1 = Pair.create(avatar, getString(R.string.transition_avatar));
