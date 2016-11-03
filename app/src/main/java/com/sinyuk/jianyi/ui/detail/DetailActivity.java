@@ -99,6 +99,8 @@ public class DetailActivity extends BaseActivity {
     int itemInset;
     @BindColor(android.R.color.white)
     int dividerColor;
+
+
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.background)
@@ -109,18 +111,18 @@ public class DetailActivity extends BaseActivity {
     BaselineGridTextView pubDateTv;
 //    @BindView(R.id.header)
 //    LinearLayout header;
-    @BindView(R.id.back_btn)
-    ImageView backBtn;
-    @BindView(R.id.toolbar_title_tv)
-    TextView toolbarTitleTv;
-    @BindView(R.id.search_btn)
-    ImageView searchBtn;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
+//    @BindView(R.id.back_btn)
+//    ImageView backBtn;
+//    @BindView(R.id.toolbar_title_tv)
+//    TextView toolbarTitleTv;
+//    @BindView(R.id.search_btn)
+//    ImageView searchBtn;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
+//    @BindView(R.id.collapsing_toolbar_layout)
+//    CollapsingToolbarLayout collapsingToolbarLayout;
+//    @BindView(R.id.app_bar_layout)
+//    AppBarLayout appBarLayout;
     @BindView(R.id.like_iv)
     ImageView likeIv;
     @BindView(R.id.like_count)
@@ -215,7 +217,7 @@ public class DetailActivity extends BaseActivity {
 
         binding.setGoods(result);
 
-        setupAppBarLayout();
+//        setupAppBarLayout();
 
         setupViewPager();
 
@@ -229,22 +231,22 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void setupAppBarLayout() {
-        int minHeight = collapsingToolbarLayout.getMinimumHeight();
-        addSubscription(RxAppBarLayout.offsetChanges(appBarLayout)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .map(dy -> Math.abs(dy / (appBarLayout.getTotalScrollRange() * 1.f - minHeight)))
-                .map(fraction -> MathUtils.constrain(0, 1, fraction))
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(fraction -> {
-                    if (fraction < 0.8) {
-                        toolbar.setAlpha(0);
-                    } else {
-                        toolbar.setAlpha(fraction);
-                    }
-                    searchBtn.setClickable(fraction == 1);
-                    backBtn.setClickable(fraction == 1);
-                }));
+//        int minHeight = collapsingToolbarLayout.getMinimumHeight();
+//        addSubscription(RxAppBarLayout.offsetChanges(appBarLayout)
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .map(dy -> Math.abs(dy / (appBarLayout.getTotalScrollRange() * 1.f - minHeight)))
+//                .map(fraction -> MathUtils.constrain(0, 1, fraction))
+//                .subscribeOn(Schedulers.computation())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(fraction -> {
+//                    if (fraction < 0.8) {
+//                        toolbar.setAlpha(0);
+//                    } else {
+//                        toolbar.setAlpha(fraction);
+//                    }
+//                    searchBtn.setClickable(fraction == 1);
+//                    backBtn.setClickable(fraction == 1);
+//                }));
     }
 
     private void addCommentFooter() {
@@ -404,13 +406,13 @@ public class DetailActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.avatar)
+//    @OnClick(R.id.avatar)
     public void gotoPlayerActivity(View v) {
         if (result.getUser() != null) {
 //            Pair<View, String> p1 = Pair.create(avatar, getString(R.string.transition_avatar));
-            Pair<View, String> p2 = Pair.create(background, getString(R.string.transition_reveal_view));
+//            Pair<View, String> p2 = Pair.create(background, getString(R.string.transition_reveal_view));
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, /*p1,*/ p2);
+//            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, /*p1,*/ p2);
             Intent starter = new Intent(this, PlayerActivity.class);
             starter.putExtra(PlayerActivity.KEY_PLAYER, result.getUser());
             startActivity(starter/*, options.toBundle()*/);
