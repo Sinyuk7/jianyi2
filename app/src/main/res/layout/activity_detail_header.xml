@@ -1,66 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/header"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ui.detail.DetailActivity"
+        tools:showIn="@layout/activity_detail">
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:transitionName="@string/transition_avatar"
-        tools:src="@drawable/ic_add"/>
+    <data>
+
+        <variable
+            name="goods"
+            type="com.sinyuk.jianyi.data.goods.Goods"/>
+
+        <import type="android.view.View"/>
+    </data>
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/content_space_8"
-        android:layout_marginRight="@dimen/content_space_8"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <com.sinyuk.jianyi.widgets.BaselineGridTextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:lineSpacingExtra="1sp"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            tools:text="Material Design Todo List"/>
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:transitionName="@string/transition_avatar"
+            bind:avatar="@{goods.user.avatar}"
+            bind:name="@{goods.user.name}"
+            tools:src="@drawable/ic_add"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:orientation="horizontal">
+            android:layout_marginLeft="@dimen/content_space_8"
+            android:layout_marginRight="@dimen/content_space_8"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <com.sinyuk.jianyi.widgets.BaselineGridTextView
-                android:id="@+id/user_name_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="1sp"
+                android:text="@{goods.name}"
                 android:textColor="@color/text_primary_dark"
-                android:textSize="12sp"
-                tools:text="波哥"/>
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:text="Material Design Todo List"/>
 
-            <com.sinyuk.jianyi.widgets.BaselineGridTextView
-                android:id="@+id/pub_date_tv"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/content_space_4"
-                android:textColor="@color/colorAccentDark"
-                android:textSize="11sp"
-                android:textStyle="italic"
-                tools:text="几天前"/>
+                android:gravity="top"
+                android:orientation="horizontal">
+
+                <com.sinyuk.jianyi.widgets.BaselineGridTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{goods.user.name}"
+                    android:textColor="@color/text_primary_dark"
+                    android:textSize="12sp"
+                    tools:text="波哥"/>
+
+                <com.sinyuk.jianyi.widgets.BaselineGridTextView
+                    android:id="@+id/pub_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/content_space_4"
+                    android:textColor="@color/colorAccentDark"
+                    android:textSize="11sp"
+                    android:textStyle="italic"
+                    tools:text="几天前"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
+
     </LinearLayout>
-
-
-</LinearLayout>
+</layout>

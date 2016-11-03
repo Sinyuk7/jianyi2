@@ -6,7 +6,7 @@ ext {
     ]
     android = [
             compileSdkVersion: 24,
-            buildToolsVersion: "24.0.2",
+            buildToolsVersion: "24.0.3",
             applicationId    : "com.sinyuk.jianyi",
             minSdkVersion    : 16,
             targetSdkVersion : 24,
@@ -23,7 +23,7 @@ ext {
 
     rxBindingVersion = '0.4.0'
 
-    daggerVersion = '2.5'
+    daggerVersion = '2.7'
 
     butterknifeVersion = '8.2.1'
 

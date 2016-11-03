@@ -2,8 +2,10 @@ package com.sinyuk.jianyi.ui.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
@@ -43,6 +45,7 @@ import com.sinyuk.jianyi.data.comment.Comment;
 import com.sinyuk.jianyi.data.goods.Goods;
 import com.sinyuk.jianyi.data.goods.Pic;
 import com.sinyuk.jianyi.data.player.Player;
+import com.sinyuk.jianyi.databinding.ActivityDetailBinding;
 import com.sinyuk.jianyi.ui.BaseActivity;
 import com.sinyuk.jianyi.ui.player.PlayerActivity;
 import com.sinyuk.jianyi.utils.AvatarHelper;
@@ -100,16 +103,12 @@ public class DetailActivity extends BaseActivity {
     ViewPager viewPager;
     @BindView(R.id.background)
     FrameLayout background;
-    @BindView(R.id.avatar)
-    ImageView avatar;
-    @BindView(R.id.title)
-    BaselineGridTextView title;
-    @BindView(R.id.user_name_tv)
-    BaselineGridTextView userNameTv;
+//    @BindView(R.id.avatar)
+//    ImageView avatar;
     @BindView(R.id.pub_date_tv)
     BaselineGridTextView pubDateTv;
-    @BindView(R.id.header)
-    LinearLayout header;
+//    @BindView(R.id.header)
+//    LinearLayout header;
     @BindView(R.id.back_btn)
     ImageView backBtn;
     @BindView(R.id.toolbar_title_tv)
@@ -193,11 +192,40 @@ public class DetailActivity extends BaseActivity {
             }
         }
     };
+    private ActivityDetailBinding binding;
 
     public static void start(Context context, Goods goods) {
         Intent starter = new Intent(context, DetailActivity.class);
         starter.putExtra(KEY_GOODS, goods);
         context.startActivity(starter);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        App.get(this).getAppComponent().plus(new OauthModule()).inject(this);
+
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
+
+        ButterKnife.bind(this);
+
+        result = getIntent().getParcelableExtra(KEY_GOODS);
+
+        binding.setGoods(result);
+
+        setupAppBarLayout();
+
+        setupViewPager();
+
+        setupActionButtons();
+
+        handleResult();
+
+        initCommentList();
+
+        addCommentFooter();
     }
 
     private void setupAppBarLayout() {
@@ -238,7 +266,7 @@ public class DetailActivity extends BaseActivity {
             commentAvatar.setOnClickListener(null);
 
             addSubscription(accountManger.getCurrentUser().subscribe(player -> {
-                if (player == null) return;
+                if (player == null) { return; }
                 final int placeholder = player.getSex() == 0 ? R.drawable.boy : R.drawable.girl;
                 Glide.with(DetailActivity.this).load(player.getAvatar()).bitmapTransform(new CropCircleTransformation(DetailActivity.this)).error(placeholder).into(commentAvatar);
             }));
@@ -311,11 +339,11 @@ public class DetailActivity extends BaseActivity {
 
     private void handleResult() {
         // 标题
-        TextViewHelper.setText(title, result.getName(), null);
+//        TextViewHelper.setText(title, result.getName(), null);
 
-        TextViewHelper.setText(toolbarTitleTv, result.getName(), null);
-        //
-        TextViewHelper.setText(descriptionTv, result.getDetail(), null);
+//        TextViewHelper.setText(toolbarTitleTv, result.getName(), null);
+//        //
+//        TextViewHelper.setText(descriptionTv, result.getDetail(), null);
 
         NumberFormat nf = NumberFormat.getInstance();
         final int viewCount = result.getViewCount();
@@ -342,23 +370,23 @@ public class DetailActivity extends BaseActivity {
 
         if (result.getUser() != null) {
             final TextDrawable placeHolder = AvatarHelper.createTextDrawable(result.getUser().getName(), this);
-            Glide.with(this).load(result.getUser().getAvatar())
-                    .priority(Priority.IMMEDIATE)
-                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                    .placeholder(android.R.color.white)
-                    .error(placeHolder)
-                    .bitmapTransform(new CropCircleTransformation(this))
-                    .into(avatar);
+//            Glide.with(this).load(result.getUser().getAvatar())
+//                    .priority(Priority.IMMEDIATE)
+//                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+//                    .placeholder(android.R.color.white)
+//                    .error(placeHolder)
+//                    .bitmapTransform(new CropCircleTransformation(this))
+//                    .into(avatar);
 
 
-            TextViewHelper.setText(userNameTv, result.getUser().getName(), null);
+//            TextViewHelper.setText(userNameTv, result.getUser().getName(), null);
         }
 
         loadShots();
     }
 
     private void shareTo() {
-        if (result == null) return;
+        if (result == null) { return; }
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_intent_prefix)
@@ -379,10 +407,10 @@ public class DetailActivity extends BaseActivity {
     @OnClick(R.id.avatar)
     public void gotoPlayerActivity(View v) {
         if (result.getUser() != null) {
-            Pair<View, String> p1 = Pair.create(avatar, getString(R.string.transition_avatar));
+//            Pair<View, String> p1 = Pair.create(avatar, getString(R.string.transition_avatar));
             Pair<View, String> p2 = Pair.create(background, getString(R.string.transition_reveal_view));
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2);
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, /*p1,*/ p2);
             Intent starter = new Intent(this, PlayerActivity.class);
             starter.putExtra(PlayerActivity.KEY_PLAYER, result.getUser());
             startActivity(starter/*, options.toBundle()*/);
@@ -430,32 +458,17 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected int getContentViewID() {
-        return R.layout.activity_detail;
+        return 0;
     }
 
     @Override
     protected void beforeInflating() {
-        App.get(this).getAppComponent().plus(new OauthModule()).inject(this);
-        result = getIntent().getParcelableExtra(KEY_GOODS);
+        // no-op
     }
 
     @Override
     protected void finishInflating(Bundle savedInstanceState) {
 
-        setupAppBarLayout();
-
-        setupViewPager();
-
-        setupActionButtons();
-
-        // optional
-        if (result != null) {
-            handleResult();
-        }
-
-        initCommentList();
-
-        addCommentFooter();
     }
 
     private class ShotAdapter extends PagerAdapter {
@@ -464,7 +477,7 @@ public class DetailActivity extends BaseActivity {
 
         public ShotAdapter() {
             requestBuilder = Glide.with(DetailActivity.this).fromString()
-                    .crossFade(2000)
+                    .crossFade(300)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT);
         }
 
@@ -576,7 +589,7 @@ public class DetailActivity extends BaseActivity {
         @Override
         protected void onBindMyItemViewHolder(CommentViewHolder holder, int position, List<Comment> payloads) {
 
-            if (mDataSet.get(position) == null) return;
+            if (mDataSet.get(position) == null) { return; }
 
             final Comment data = mDataSet.get(position);
 
@@ -603,7 +616,7 @@ public class DetailActivity extends BaseActivity {
 
             holder.mReplyIv.setOnClickListener(v -> {
                 final int position1 = holder.getAdapterPosition();
-                if (position1 == RecyclerView.NO_POSITION) return;
+                if (position1 == RecyclerView.NO_POSITION) { return; }
 
                 enterComment.setText("@" + data.getPlayer().getName() + " ");
                 enterComment.setSelection(enterComment.getText().length());
