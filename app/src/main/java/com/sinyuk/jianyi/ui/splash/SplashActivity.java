@@ -20,7 +20,7 @@ import com.f2prateek.rx.preferences.Preference;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.sinyuk.jianyi.App;
 import com.sinyuk.jianyi.R;
-import com.sinyuk.jianyi.XBaseActivity;
+import com.sinyuk.jianyi.ui.XBaseActivity;
 import com.sinyuk.jianyi.api.JianyiApi;
 import com.sinyuk.jianyi.api.service.JianyiService;
 import com.sinyuk.jianyi.data.school.SchoolManager;

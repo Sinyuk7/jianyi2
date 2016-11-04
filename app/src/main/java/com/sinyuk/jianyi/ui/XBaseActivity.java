@@ -1,4 +1,4 @@
-package com.sinyuk.jianyi;
+package com.sinyuk.jianyi.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
