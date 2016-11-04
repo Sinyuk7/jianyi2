@@ -114,7 +114,10 @@ public class HomeActivity extends BaseActivity {
         setupDrawerLayout();
 
         //  第三种写法:优化的DelayLoad
-        getWindow().getDecorView().post(() -> myHandler.post(mLoadingGoodsRunnable));
+        getWindow().getDecorView().post(() -> myHandler.postDelayed(() -> {
+            EventBus.getDefault().post(new FilterUpdateEvent("all", accountMangerLazy.get().getSchoolReduceOne(), null));
+            showFab();
+        }, 500));
     }
 
     @Override

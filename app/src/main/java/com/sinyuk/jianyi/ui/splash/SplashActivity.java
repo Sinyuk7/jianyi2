@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -56,6 +57,8 @@ public class SplashActivity extends XBaseActivity {
     private View footer;
 
     private Preference<String> path;
+    private int sWidth;
+    private int sHeight;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,23 +68,50 @@ public class SplashActivity extends XBaseActivity {
 
         setContentView(R.layout.activity_splash);
 
+//        load();
+
         App.get(this).getAppComponent().plus(new SplashModule(this)).inject(this);
 
         footer = findViewById(R.id.footer);
 
-
         path = rxSharedPreferences.getString(PrefsKeySet.KEY_SPLASH_BACKDROP_PATH);
 
 
-        if (!TextUtils.isEmpty(path.get())) {
-            Log.d(TAG, "onCreate: loadFromCache");
-            loadFromCache();
-        } else {
-            Log.d(TAG, "onCreate: downloadAndCache");
-            downloadAndCache();
-        }
+        animateIn();
 
         prepare();
+    }
+
+    private void load() {
+
+        sWidth = ScreenUtils.getScreenWidth(this);
+        sHeight = ScreenUtils.getScreenHeight(this);
+
+        Glide.with(this).load(R.drawable.cover1)
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<Integer, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, Integer model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        e.printStackTrace();
+                        if (!TextUtils.isEmpty(path.get())) {
+                            Log.d(TAG, "onCreate: loadFromCache");
+                            loadFromCache();
+                        } else {
+                            Log.d(TAG, "onCreate: downloadAndCache");
+                            downloadAndCache();
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, Integer model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        getWindow().setBackgroundDrawable(resource);
+                        loadSucceed();
+                        return false;
+                    }
+                })
+                .preload(sWidth, sHeight);
     }
 
     private void prepare() {
@@ -142,11 +172,10 @@ public class SplashActivity extends XBaseActivity {
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         getWindow().setBackgroundDrawable(resource);
-                        loadSucceed();
                         return false;
                     }
                 })
-                .preload();
+                .preload(sWidth, sHeight);
     }
 
 
@@ -171,16 +200,14 @@ public class SplashActivity extends XBaseActivity {
     // 标题动画
     private void animateIn() {
         if (footer == null) { return; }
-        footer.setTranslationY(getResources().getDimensionPixelOffset(R.dimen.toolbar_height));
-        footer.setAlpha(0);
+        footer.setAlpha(0f);
         footer.setVisibility(View.VISIBLE);
-        footer.animate().translationY(0)
+        footer.animate()
                 .alpha(1)
                 .setInterpolator(new FastOutSlowInInterpolator())
-                .setDuration(800)
-                .setStartDelay(600)  // avoid flash
+                .setDuration(500)
                 .withLayer()
-                .withEndAction(() -> footer.postDelayed(this::startMainActivity, 1000))
+                .withEndAction(() -> footer.postDelayed(this::startMainActivity, 500))
                 .start();
     }
 
@@ -188,7 +215,7 @@ public class SplashActivity extends XBaseActivity {
     private File downloadOnly() throws ExecutionException, InterruptedException {
         return Glide.with(this)
                 .load(JianyiApi.SPLASH_BACKDROP_URL)
-                .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).get();
+                .downloadOnly(sWidth, sHeight).get();
     }
 
     private void updateCache(String path) {
@@ -209,4 +236,8 @@ public class SplashActivity extends XBaseActivity {
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

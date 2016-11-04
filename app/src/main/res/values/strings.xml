@@ -38,4 +38,5 @@
     <string name="action_cancel">取消</string>
     <string name="hint_empty_content">说点什么啊</string>
     <string name="hint_permission_denied">操作未被允许</string>
+    <string name="jianyi">简易</string>
 </resources>

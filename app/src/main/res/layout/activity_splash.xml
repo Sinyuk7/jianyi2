@@ -10,25 +10,32 @@
 
     <LinearLayout
         android:id="@+id/footer"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:padding="@dimen/content_space_16"
-        android:visibility="gone">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:alpha="0"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/content_space_16"/>
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="没想好名字"
-            android:textColor="#fff"
-            android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:shadowColor="@color/window_scrim"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:text="@string/jianyi"
+            android:textColor="#212121"
+            android:textSize="14sp"/>
     </LinearLayout>
 </FrameLayout>
 
