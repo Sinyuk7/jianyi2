@@ -4,19 +4,21 @@
 
     <objectAnimator
         android:propertyName="alpha"
-        android:valueType="floatType"
         android:valueFrom="0.5"
-        android:valueTo="1.0"/>
+        android:valueTo="1.0"
+        android:valueType="floatType" />
 
     <objectAnimator
+        android:interpolator="@android:interpolator/overshoot"
         android:propertyName="scaleX"
-        android:valueType="floatType"
         android:valueFrom="1.0"
-        android:valueTo="1.8"/>
+        android:valueTo="1.0"
+        android:valueType="floatType" />
 
     <objectAnimator
+        android:interpolator="@android:interpolator/overshoot"
         android:propertyName="scaleY"
-        android:valueType="floatType"
         android:valueFrom="1.0"
-        android:valueTo="1.8"/>
+        android:valueTo="1.0"
+        android:valueType="floatType" />
 </set>
