@@ -150,6 +150,7 @@ public class DetailActivity extends BaseActivity {
                                     mCommentAdapter.addNew(comment);
 //                                  loadComments();
                                     enterComment.getText().clear();
+                                    commentsList.requestLayout();
                                 }
 
                                 @Override
@@ -284,7 +285,7 @@ public class DetailActivity extends BaseActivity {
 
         commentsList.setAdapter(mCommentAdapter);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 3; i++) {
             Comment fake = new Comment();
             Player player = new Player();
             player.setName(NameGenerator.generateName());
@@ -315,7 +316,7 @@ public class DetailActivity extends BaseActivity {
 //        TextViewHelper.setText(descriptionTv, result.getDetail(), null);
 
         NumberFormat nf = NumberFormat.getInstance();
-        final int viewCount = result.getViewCount();
+        final int viewCount = result.getViewCount() + 20;
         viewCountTv.setText(getResources().getQuantityString(R.plurals.views, viewCount, nf.format(viewCount)));
 
         // fake
