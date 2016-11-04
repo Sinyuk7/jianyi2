@@ -21,4 +21,5 @@ public final class PrefsKeySet {
     public static final String KEY_CURRENT_SCHOOL = "current_school";
     public static final String KEY_SCHOOL_NAME = "school_name";
     public static final String KEY_PASSWORD = "password";
+    public static final String KEY_SPLASH_BACKDROP_PATH = "splash_backdrop_path";
 }

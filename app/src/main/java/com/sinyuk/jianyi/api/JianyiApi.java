@@ -20,6 +20,7 @@ public class JianyiApi {
     public static final String PARAM_ORDER = "order";
 
     public static final String PARAM_PAGE = "page";
+    public static final String SPLASH_BACKDROP_URL = "https://github.com/80998062/jianyi2/raw/master/pic/cover.webp";
 
     public static String buildShareIntentUrl(int id) {
             return "http://wx.i-jianyi.com/goods/detail/id=" + id;

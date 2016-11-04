@@ -2,8 +2,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android"
             android:opacity="opaque">
     <item>
-        <bitmap
-            android:gravity="fill"
-            android:src="@drawable/splash_backdrop_9_16"/>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white"/>
+        </shape>
     </item>
 </layer-list>

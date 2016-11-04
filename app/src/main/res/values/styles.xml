@@ -12,10 +12,13 @@
         <item name="android:activityCloseExitAnimation">@null</item>
         <item name="android:activityOpenExitAnimation">@null</item>
     </style>
-
     <style name="AppTheme.Splash">
         <item name="android:windowBackground">@drawable/splash_backdrop</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
 
