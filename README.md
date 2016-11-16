@@ -9,29 +9,29 @@ link:[http://fir.im/Sinyuk](http://fir.im/Sinyuk "下载地址")
 > 之前写的代码太乱了...
 
 
-所以重新设计了一下代码和界面(其实是华为有一个创业比赛...临时😢)
+所以重新设计了....废弃中😅
 
 - 截图
- - 首页(Homepage
- ![image](https://github.com/80998062/jianyi2/raw/master/pic/home.jpg)
+- 首页(Homepage
+   ![image](https://github.com/80998062/jianyi2/raw/master/pic/home.jpg)
 
- - 需求(need
- ![image](https://github.com/80998062/jianyi2/raw/master/pic/need.jpg)
+- 需求(need
+   ![image](https://github.com/80998062/jianyi2/raw/master/pic/need.jpg)
 
- - 闲置(goods
- ![image](https://github.com/80998062/jianyi2/raw/master/pic/good.jpg)
- 
- - 用户(Account
- ![image](https://github.com/80998062/jianyi2/raw/master/pic/user.jpg)
+- 闲置(goods
+   ![image](https://github.com/80998062/jianyi2/raw/master/pic/good.jpg)
 
-
-- 主要的改动有(Changes
-
- - 放弃了MVP (感觉对这么简单的东西用处不大...反而多了一大堆代码
-
- - 改了很多界面和动画 (感觉比之前的好多了
+- 用户(Account
+   ![image](https://github.com/80998062/jianyi2/raw/master/pic/user.jpg)
 
 
- - 使用了Rxjava+Dagger2 (依赖注入真的好方便
 
- - 把drawable全部换成了svg (减小了apk体积不说 关键是avd动画很酷炫)
+
+技术实现:
+
+- 界面风格遵循Material Design
+- 使用MVP架构和Dagger2依赖注入
+- 加入了Rxjava+Databinding
+- 使用Retrofit+Okhttp作为网络框架
+- 使用Glide作为图片加载框架
+- 使用SVG替代PNG
